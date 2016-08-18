@@ -9,27 +9,6 @@ networks:
 
 services:
 
-  redis:
-    container_name: redis
-    image: 192.168.1.88:5000/redis
-    volumes:
-      - /Users/Gavin/Developer/storage/redis:/data
-    networks:
-      - gavin-net
-    ports:
-      - 6379:6379
-
-  rabbitmq:
-    container_name: rabbitmq
-    image: 192.168.1.88:5000/rabbitmq
-    volumes:
-      - /Users/Gavin/Developer/storage/rabbitmq:/var/lib/rabbitmq
-    networks:
-      - gavin-net
-    ports:
-      - 5672:5672
-      - 15672:15672
-
   eureka-server:
     container_name: server-eureka
     image: 192.168.1.88:5000/server-eureka
@@ -47,10 +26,9 @@ services:
     ports:
       - 8888:8888
     environment:
-      - EUREKA_HOST=eureka-server
-      - RABBITMQ_HOST=rabbitmq
+      - EUREKA_HOST=192.168.1.88
+      - RABBITMQ_HOST=192.168.1.88
     depends_on:
-      - rabbitmq
       - eureka-server
     restart: always
 
@@ -62,7 +40,7 @@ services:
     ports:
       - 8000:8000
     environment:
-      - EUREKA_HOST=eureka-server
+      - EUREKA_HOST=192.168.1.88
     depends_on:
       - eureka-server
       - account-service
@@ -76,13 +54,11 @@ services:
     ports:
       - 10110:10110
     environment:
-      - EUREKA_HOST=eureka-server
-      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_HOST=192.168.1.88
       - MYSQL_HOST=192.168.1.88
-      - REDIS_HOST=redis
+      - REDIS_HOST=192.168.1.88
+      - EUREKA_HOST=eureka-server
     depends_on:
-      - rabbitmq
-      - redis
       - config-server
       - eureka-server
     restart: always
@@ -95,13 +71,11 @@ services:
       ports:
         - 10120:10120
       environment:
-        - EUREKA_HOST=eureka-server
-        - RABBITMQ_HOST=rabbitmq
+        - RABBITMQ_HOST=192.168.1.88
         - MYSQL_HOST=192.168.1.88
-        - REDIS_HOST=redis
+        - REDIS_HOST=192.168.1.88
+        - EUREKA_HOST=eureka-server
       depends_on:
-        - rabbitmq
-        - redis
         - config-server
         - eureka-server
       restart: always
@@ -114,13 +88,11 @@ services:
       ports:
         - 10130:10130
       environment:
-        - EUREKA_HOST=eureka-server
-        - RABBITMQ_HOST=rabbitmq
+        - RABBITMQ_HOST=192.168.1.88
         - MYSQL_HOST=192.168.1.88
-        - REDIS_HOST=redis
+        - REDIS_HOST=192.168.1.88
+        - EUREKA_HOST=eureka-server
       depends_on:
-        - rabbitmq
-        - redis
         - config-server
         - eureka-server
         - account-service
