@@ -20,6 +20,8 @@ public class Account implements Serializable {
 
     private String email;
 
+    private BigDecimal balance;
+
     @JsonFormat(pattern = "yyyy/MM/dd hh:mm:ss")
     private Date createdTime;
 
@@ -64,6 +66,14 @@ public class Account implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 
     public Date getCreatedTime() {
