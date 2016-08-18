@@ -41,19 +41,19 @@
             balance       AS balance,
             created_time  AS createdTime,
             modified_time AS modifiedTime
-        FROM demo_account.account
+        FROM account
         WHERE account.id = ${accountId}
     </select>
 
     <update id="increaseBalance">
-        UPDATE demo_account.account
+        UPDATE account
         SET balance       = balance + ${amount},
             modified_time = now()
         WHERE id = ${accountId}
     </update>
 
     <update id="decreaseBalance">
-        UPDATE demo_account.account
+        UPDATE account
         SET balance       = balance - ${amount},
             modified_time = now()
         WHERE id = ${accountId}
