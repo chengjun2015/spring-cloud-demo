@@ -9,21 +9,6 @@ networks:
 
 services:
 
-  mysql:
-    container_name: mysql
-    image: 192.168.1.88:5000/mysql
-    volumes:
-      - /Users/Gavin/Developer/storage/mysql:/var/lib/mysql
-    networks:
-      - gavin-net
-    ports:
-      - 3306:3306
-    environment:
-      - MYSQL_USER=mysql
-      - MYSQL_PASSWORD=mysql
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_HOST=mysql
-
   redis:
     container_name: redis
     image: 192.168.1.88:5000/redis
@@ -93,12 +78,11 @@ services:
     environment:
       - EUREKA_HOST=eureka-server
       - RABBITMQ_HOST=rabbitmq
-      - MYSQL_HOST=mysql
+      - MYSQL_HOST=192.168.1.88
       - REDIS_HOST=redis
     depends_on:
       - rabbitmq
       - redis
-      - mysql
       - config-server
       - eureka-server
     restart: always
@@ -113,12 +97,11 @@ services:
       environment:
         - EUREKA_HOST=eureka-server
         - RABBITMQ_HOST=rabbitmq
-        - MYSQL_HOST=mysql
+        - MYSQL_HOST=192.168.1.88
         - REDIS_HOST=redis
       depends_on:
         - rabbitmq
         - redis
-        - mysql
         - config-server
         - eureka-server
       restart: always
@@ -133,12 +116,11 @@ services:
       environment:
         - EUREKA_HOST=eureka-server
         - RABBITMQ_HOST=rabbitmq
-        - MYSQL_HOST=mysql
+        - MYSQL_HOST=192.168.1.88
         - REDIS_HOST=redis
       depends_on:
         - rabbitmq
         - redis
-        - mysql
         - config-server
         - eureka-server
         - account-service
