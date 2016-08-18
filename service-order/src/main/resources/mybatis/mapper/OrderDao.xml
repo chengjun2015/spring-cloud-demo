@@ -7,7 +7,7 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
 
-        INSERT INTO demo_order.`order` (
+        INSERT INTO `order` (
             account_id,
             total_price,
             status,
