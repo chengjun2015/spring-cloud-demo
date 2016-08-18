@@ -10,8 +10,8 @@ networks:
 services:
 
   mysql:
-    container_name: mysql
-    image: 192.168.1.88:5000/mysql
+    container_name: 192.168.1.88:5000/mysql
+    image: mysql
     volumes:
       - /Users/Gavin/Developer/storage/mysql:/var/lib/mysql
     networks:
