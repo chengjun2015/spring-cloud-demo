@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gavin.dao.ProductDao">
+
+    <insert id="create" parameterType="com.gavin.domain.product.Product">
+        <selectKey resultType="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+
+        INSERT INTO product (
+            title,
+            category_id,
+            price,
+            stock,
+            comment,
+            created_time,
+            modified_time)
+        VALUES (
+            "${title}",
+            ${categoryId},
+            ${price},
+            ${stock},
+            "${comment}",
+            now(),
+            now()
+        )
+    </insert>
+
+    <select id="searchById" parameterType="java.lang.Long" resultType="com.gavin.domain.product.Product">
+        SELECT
+            id            AS id,
+            title         AS title,
+            price         AS price,
+            stock         AS stock,
+            comment       AS comment,
+            created_time  AS createdTime,
+            modified_time AS modifiedTime
+        FROM demo_product.product
+        WHERE id = ${productId}
+    </select>
+
+    <update id="decreaseStock">
+        UPDATE demo_product.product
+        SET stock         = stock - ${quantity},
+            modified_time = now()
+        WHERE id = ${productId}
+    </update>
+
+</mapper>
