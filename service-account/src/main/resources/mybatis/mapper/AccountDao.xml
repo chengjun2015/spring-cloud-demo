@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gavin.dao.AccountDao">
+
+    <insert id="create" parameterType="com.gavin.domain.account.Account">
+        <selectKey resultType="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+
+        INSERT INTO account (
+            nick_name,
+            password,
+            mobile_phone,
+            email,
+            balance,
+            created_time,
+            modified_time)
+        VALUES (
+            "${nickName}",
+            "${password}",
+            "${mobilePhone}",
+            "${email}",
+            0,
+            now(),
+            now()
+        )
+    </insert>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM cloud_demo.account
+        WHERE id = ${accountId}
+    </delete>
+
+    <select id="searchById" parameterType="java.lang.Long" resultType="com.gavin.domain.account.Account">
+        SELECT
+            id            AS id,
+            nick_name     AS nickName,
+            password      AS password,
+            mobile_phone  AS mobilePhone,
+            email         AS email,
+            balance       AS balance,
+            created_time  AS createdTime,
+            modified_time AS modifiedTime
+        FROM demo_account.account
+        WHERE account.id = ${accountId}
+    </select>
+
+    <update id="increaseBalance">
+        UPDATE demo_account.account
+        SET balance       = balance + ${amount},
+            modified_time = now()
+        WHERE id = ${accountId}
+    </update>
+
+    <update id="decreaseBalance">
+        UPDATE demo_account.account
+        SET balance       = balance - ${amount},
+            modified_time = now()
+        WHERE id = ${accountId}
+    </update>
+
+</mapper>
