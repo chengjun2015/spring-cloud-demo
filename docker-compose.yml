@@ -1,0 +1,146 @@
+version: '2'
+
+networks:
+
+  gavin-net:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "false"
+
+services:
+
+  mysql:
+    container_name: mysql
+    image: 192.168.1.88:5000/mysql
+    volumes:
+      - /Users/Gavin/Developer/storage/mysql:/var/lib/mysql
+    networks:
+      - gavin-net
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=mysql
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_HOST=mysql
+
+  redis:
+    container_name: redis
+    image: 192.168.1.88:5000/redis
+    volumes:
+      - /Users/Gavin/Developer/storage/redis:/data
+    networks:
+      - gavin-net
+    ports:
+      - 6379:6379
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: 192.168.1.88:5000/rabbitmq
+    volumes:
+      - /Users/Gavin/Developer/storage/rabbitmq:/var/lib/rabbitmq
+    networks:
+      - gavin-net
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  eureka-server:
+    container_name: server-eureka
+    image: 192.168.1.88:5000/server-eureka
+    networks:
+      - gavin-net
+    ports:
+      - 8761:8761
+    restart: always
+
+  config-server:
+    container_name: server-config
+    image: 192.168.1.88:5000/server-config
+    networks:
+      - gavin-net
+    ports:
+      - 8888:8888
+    environment:
+      - EUREKA_HOST=eureka-server
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - rabbitmq
+      - eureka-server
+    restart: always
+
+  zuul-server:
+    container_name: server-zuul
+    image: 192.168.1.88:5000/server-zuul
+    networks:
+      - gavin-net
+    ports:
+      - 8000:8000
+    environment:
+      - EUREKA_HOST=eureka-server
+    depends_on:
+      - eureka-server
+      - account-service
+    restart: always
+
+  account-service:
+    container_name: service-account
+    image: 192.168.1.88:5000/service-account
+    networks:
+      - gavin-net
+    ports:
+      - 10110:10110
+    environment:
+      - EUREKA_HOST=eureka-server
+      - RABBITMQ_HOST=rabbitmq
+      - MYSQL_HOST=mysql
+      - REDIS_HOST=redis
+    depends_on:
+      - rabbitmq
+      - redis
+      - mysql
+      - config-server
+      - eureka-server
+    restart: always
+
+  product-service:
+      container_name: service-product
+      image: 192.168.1.88:5000/service-product
+      networks:
+        - gavin-net
+      ports:
+        - 10120:10120
+      environment:
+        - EUREKA_HOST=eureka-server
+        - RABBITMQ_HOST=rabbitmq
+        - MYSQL_HOST=mysql
+        - REDIS_HOST=redis
+      depends_on:
+        - rabbitmq
+        - redis
+        - mysql
+        - config-server
+        - eureka-server
+      restart: always
+
+  order-service:
+      container_name: service-order
+      image: 192.168.1.88:5000/service-order
+      networks:
+        - gavin-net
+      ports:
+        - 10130:10130
+      environment:
+        - EUREKA_HOST=eureka-server
+        - RABBITMQ_HOST=rabbitmq
+        - MYSQL_HOST=mysql
+        - REDIS_HOST=redis
+      depends_on:
+        - rabbitmq
+        - redis
+        - mysql
+        - config-server
+        - eureka-server
+        - account-service
+        - product-service
+      restart: always
