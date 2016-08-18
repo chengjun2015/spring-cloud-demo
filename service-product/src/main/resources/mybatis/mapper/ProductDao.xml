@@ -35,12 +35,12 @@
             comment       AS comment,
             created_time  AS createdTime,
             modified_time AS modifiedTime
-        FROM demo_product.product
+        FROM product
         WHERE id = ${productId}
     </select>
 
     <update id="decreaseStock">
-        UPDATE demo_product.product
+        UPDATE product
         SET stock         = stock - ${quantity},
             modified_time = now()
         WHERE id = ${productId}

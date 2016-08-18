@@ -11,16 +11,9 @@ spring:
   datasource:
     type: org.apache.commons.dbcp2.BasicDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/demo_product
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/schema_product
     username: root
     password: root
-    max-active: 150
-    min-idle: 5
-    max-idle: 20
-    initial-size: 200
-    max-wait: 1000
-    test-on-borrow: true
-    validation-query: SELECT NOW() FROM DUAL
 
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
