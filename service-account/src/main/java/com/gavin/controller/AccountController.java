@@ -46,21 +46,4 @@ public class AccountController {
     public Account searchAccountById(@PathVariable("account_id") Long accountId) {
         return accountService.searchAccountById(accountId);
     }
-
-    @RequestMapping(value = "/accounts/{account_id}/deposit", method = RequestMethod.PUT)
-    public Boolean deposit(@PathVariable("account_id") Long accountId, @RequestParam("amount") Float amount) {
-        accountService.increaseBalance(accountId, amount);
-        Account account = accountService.searchAccountById(accountId);
-        // return "此次充值" + amount + "元,您的余额为" + account.getBalance() + "元";
-        return true;
-    }
-
-    @RequestMapping(value = "/accounts/{account_id}/pay", method = RequestMethod.PUT)
-    public Boolean pay(@PathVariable("account_id") Long accountId, @RequestParam("amount") Float amount) {
-        accountService.decreaseBalance(accountId, amount);
-        Account account = accountService.searchAccountById(accountId);
-        // return "此次消费" + amount + "元,您的余额为" + account.getBalance() + "元";
-        return true;
-    }
-
 }

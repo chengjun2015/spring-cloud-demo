@@ -12,7 +12,6 @@
             password,
             mobile_phone,
             email,
-            balance,
             created_time,
             modified_time)
         VALUES (
@@ -20,14 +19,13 @@
             "${password}",
             "${mobilePhone}",
             "${email}",
-            0,
             now(),
             now()
         )
     </insert>
 
     <delete id="delete" parameterType="java.lang.Long">
-        DELETE FROM cloud_demo.account
+        DELETE FROM account
         WHERE id = ${accountId}
     </delete>
 
@@ -38,25 +36,10 @@
             password      AS password,
             mobile_phone  AS mobilePhone,
             email         AS email,
-            balance       AS balance,
             created_time  AS createdTime,
             modified_time AS modifiedTime
         FROM account
         WHERE account.id = ${accountId}
     </select>
-
-    <update id="increaseBalance">
-        UPDATE account
-        SET balance       = balance + ${amount},
-            modified_time = now()
-        WHERE id = ${accountId}
-    </update>
-
-    <update id="decreaseBalance">
-        UPDATE account
-        SET balance       = balance - ${amount},
-            modified_time = now()
-        WHERE id = ${accountId}
-    </update>
 
 </mapper>

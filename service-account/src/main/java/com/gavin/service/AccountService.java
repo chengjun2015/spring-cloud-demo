@@ -9,8 +9,4 @@ public interface AccountService {
     int deleteAccount(Long accountId);
 
     Account searchAccountById(Long accountId);
-
-    void increaseBalance(Long accountId, Float amount);
-
-    void decreaseBalance(Long accountId, Float amount);
 }

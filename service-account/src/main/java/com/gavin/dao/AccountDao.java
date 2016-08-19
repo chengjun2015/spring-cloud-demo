@@ -13,8 +13,4 @@ public interface AccountDao {
     int delete(@Param("accountId") Long accountId);
 
     Account searchById(@Param("accountId") Long accountId);
-
-    int increaseBalance(@Param("accountId") Long accountId, @Param("amount") Float amount);
-
-    int decreaseBalance(@Param("accountId") Long accountId, @Param("amount") Float amount);
 }

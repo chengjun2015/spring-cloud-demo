@@ -28,14 +28,4 @@ public class AccountServiceImpl implements AccountService {
     public Account searchAccountById(Long accountId) {
         return accountDao.searchById(accountId);
     }
-
-    @Override
-    public void increaseBalance(Long accountId, Float amount) {
-        accountDao.increaseBalance(accountId, amount);
-    }
-
-    @Override
-    public void decreaseBalance(Long accountId, Float amount) {
-        accountDao.decreaseBalance(accountId, amount);
-    }
 }
