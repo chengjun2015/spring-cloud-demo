@@ -34,7 +34,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/products/list", method = RequestMethod.GET)
-    public List<Product> searchProductsByIds(@RequestBody Long[] productIds) {
+    public List<Product> searchProductsByIds(@RequestParam("product_id") Long[] productIds) {
         return productService.searchProductsByIds(productIds);
     }
 
