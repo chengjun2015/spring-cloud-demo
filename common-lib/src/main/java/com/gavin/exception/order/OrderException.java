@@ -6,6 +6,10 @@ public class OrderException extends RuntimeException {
 
     private Throwable cause;
 
+    public OrderException(String message) {
+        this.message = message;
+    }
+
     public OrderException(String message, Throwable cause) {
         this.message = message;
         this.cause = cause;
