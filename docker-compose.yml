@@ -2,8 +2,8 @@ version: '2'
 
 networks:
 
-  gavin-net:
-    driver: bridge
+  gavin-ol-net:
+    driver: overlay
     driver_opts:
       com.docker.network.enable_ipv6: "false"
 
@@ -13,7 +13,7 @@ services:
     container_name: server-eureka
     image: 192.168.1.88:5000/server-eureka
     networks:
-      - gavin-net
+      - gavin-ol-net
     ports:
       - 8761:8761
     restart: always
@@ -22,7 +22,7 @@ services:
     container_name: server-config
     image: 192.168.1.88:5000/server-config
     networks:
-      - gavin-net
+      - gavin-ol-net
     ports:
       - 8888:8888
     environment:
@@ -36,7 +36,7 @@ services:
     container_name: server-zuul
     image: 192.168.1.88:5000/server-zuul
     networks:
-      - gavin-net
+      - gavin-ol-net
     ports:
       - 8000:8000
     environment:
@@ -50,7 +50,7 @@ services:
     container_name: service-account
     image: 192.168.1.88:5000/service-account
     networks:
-      - gavin-net
+      - gavin-ol-net
     ports:
       - 10110:10110
     environment:
@@ -67,7 +67,7 @@ services:
       container_name: service-product
       image: 192.168.1.88:5000/service-product
       networks:
-        - gavin-net
+        - gavin-ol-net
       ports:
         - 10120:10120
       environment:
@@ -84,7 +84,7 @@ services:
       container_name: service-order
       image: 192.168.1.88:5000/service-order
       networks:
-        - gavin-net
+        - gavin-ol-net
       ports:
         - 10130:10130
       environment:
