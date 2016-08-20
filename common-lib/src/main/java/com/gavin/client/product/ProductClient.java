@@ -13,7 +13,7 @@ public interface ProductClient {
     Product searchProductById(@PathVariable("product_id") Long productId);
 
     @RequestMapping(value = "/products/list", method = RequestMethod.GET)
-    List<Product> searchProductsByIds(@RequestBody Long[] productIds);
+    List<Product> searchProductsByIds(@RequestParam("product_id") Long[] productIds);
 
     @RequestMapping(value = "/products/{product_id}/reserve", method = RequestMethod.PUT)
     Boolean reserve(@PathVariable("product_id") Long productId, @RequestParam("quantity") Integer quantity);
