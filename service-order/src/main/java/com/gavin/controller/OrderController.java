@@ -1,10 +1,8 @@
 package com.gavin.controller;
 
-
 import com.gavin.client.product.ProductClient;
 import com.gavin.domain.order.Item;
 import com.gavin.domain.order.Order;
-import com.gavin.domain.product.Product;
 import com.gavin.model.order.OrderModel;
 import com.gavin.service.OrderService;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -29,23 +27,14 @@ public class OrderController {
     @RequestMapping(value = "/{account_id}/orders", method = RequestMethod.POST)
     public String createOrder(@PathVariable("account_id") Long accountId, @RequestBody Item[] items) {
 
-        BigDecimal totalPrice = new BigDecimal(0);
-        for (Item item : items) {
-            int quantity = item.getQuantity();
-            Product product = productClient.searchProductById(item.getProductId());
-
-            if (product.getStock().compareTo(quantity) < 0) {
-                return "您选择的商品" + product.getTitle() + "库存不足";
-            }
-
-            totalPrice = totalPrice.add(new BigDecimal(product.getPrice()).multiply(new BigDecimal(quantity)));
-        }
+        // 调用product微服务查询库存,预先锁定库存,计算总金额。
+        BigDecimal totalPrice = productClient.reserve(items);
 
         Order order = new Order();
         order.setAccountId(accountId);
         order.setTotalPrice(totalPrice);
 
-        List<Item> itemList = new ArrayList<Item>();
+        List<Item> itemList = new ArrayList<>();
         Collections.addAll(itemList, items);
 
         OrderModel orderModel = new OrderModel();
