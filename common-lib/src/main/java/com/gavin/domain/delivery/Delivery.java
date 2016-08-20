@@ -3,10 +3,11 @@ package com.gavin.domain.delivery;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Delivery {
+public class Delivery implements Serializable {
 
     private Long id;
 
