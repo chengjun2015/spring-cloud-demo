@@ -16,4 +16,6 @@ public interface ProductDao {
     List<Product> searchByIds(@Param("productIds") Long[] productIds);
 
     int decreaseStock(@Param("productId") Long productId, @Param("quantity") Integer quantity);
+
+    int increaseStock(@Param("productId") Long productId, @Param("quantity") Integer quantity);
 }

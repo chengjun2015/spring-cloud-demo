@@ -1,7 +1,10 @@
 package com.gavin.service;
 
+import com.gavin.domain.order.Item;
 import com.gavin.domain.product.Product;
+import com.gavin.exception.order.OrderException;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface ProductService {
@@ -10,7 +13,7 @@ public interface ProductService {
 
     Product searchProductById(Long productId);
 
-    List<Product> searchProductsByIds(Long[] productIds);
+    BigDecimal reserve(Item[] items) throws OrderException;
 
-    void decreaseStock(Long productId, Integer quantity);
+    void restore(Item[] items);
 }

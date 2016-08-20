@@ -6,7 +6,6 @@
         <selectKey resultType="java.lang.Long" keyProperty="id">
             SELECT LAST_INSERT_ID()
         </selectKey>
-
         INSERT INTO product (
             title,
             category_id,
@@ -39,9 +38,32 @@
         WHERE id = ${productId}
     </select>
 
-    <update id="decreaseStock">
+    <select id="searchByIds" resultType="com.gavin.domain.product.Product">
+        SELECT
+            id            AS id,
+            title         AS title,
+            price         AS price,
+            stock         AS stock,
+            comment       AS comment,
+            created_time  AS createdTime,
+            modified_time AS modifiedTime
+        FROM product
+        WHERE id IN
+        <foreach collection="productIds" item="productId" index="idx" open="(" separator="," close=")">
+            ${productId}
+        </foreach>
+    </select>
+
+    <update id="decreaseStock" parameterType="com.gavin.domain.product.Product">
         UPDATE product
         SET stock         = stock - ${quantity},
+            modified_time = now()
+        WHERE id = ${productId}
+    </update>
+
+    <update id="increaseStock" parameterType="com.gavin.domain.product.Product">
+        UPDATE product
+        SET stock         = stock + ${quantity},
             modified_time = now()
         WHERE id = ${productId}
     </update>
