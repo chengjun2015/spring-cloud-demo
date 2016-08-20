@@ -2,7 +2,7 @@ version: '2'
 
 networks:
 
-  gavin-ol-net:
+  overlay-net:
     driver: overlay
     driver_opts:
       com.docker.network.enable_ipv6: "false"
@@ -10,47 +10,47 @@ networks:
 services:
 
   eureka-server:
-    container_name: server-eureka
+    #container_name: server-eureka
     image: 192.168.1.88:5000/server-eureka
     networks:
-      - gavin-ol-net
+      - overlay-net
     ports:
       - 8761:8761
     restart: always
 
   config-server:
-    container_name: server-config
+    #container_name: server-config
     image: 192.168.1.88:5000/server-config
     networks:
-      - gavin-ol-net
+      - overlay-net
     ports:
       - 8888:8888
     environment:
-      - EUREKA_HOST=192.168.1.88
       - RABBITMQ_HOST=192.168.1.88
+      - EUREKA_HOST=eureka-server
     depends_on:
       - eureka-server
     restart: always
 
   zuul-server:
-    container_name: server-zuul
+    #container_name: server-zuul
     image: 192.168.1.88:5000/server-zuul
     networks:
-      - gavin-ol-net
+      - overlay-net
     ports:
       - 8000:8000
     environment:
-      - EUREKA_HOST=192.168.1.88
+      - EUREKA_HOST=eureka-server
     depends_on:
       - eureka-server
       - account-service
     restart: always
 
   account-service:
-    container_name: service-account
+    #container_name: service-account
     image: 192.168.1.88:5000/service-account
     networks:
-      - gavin-ol-net
+      - overlay-net
     ports:
       - 10110:10110
     environment:
@@ -64,37 +64,37 @@ services:
     restart: always
 
   product-service:
-      container_name: service-product
-      image: 192.168.1.88:5000/service-product
-      networks:
-        - gavin-ol-net
-      ports:
-        - 10120:10120
-      environment:
-        - RABBITMQ_HOST=192.168.1.88
-        - MYSQL_HOST=192.168.1.88
-        - REDIS_HOST=192.168.1.88
-        - EUREKA_HOST=eureka-server
-      depends_on:
-        - config-server
-        - eureka-server
-      restart: always
+    #container_name: service-product
+    image: 192.168.1.88:5000/service-product
+    networks:
+      - overlay-net
+    ports:
+      - 10120:10120
+    environment:
+      - RABBITMQ_HOST=192.168.1.88
+      - MYSQL_HOST=192.168.1.88
+      - REDIS_HOST=192.168.1.88
+      - EUREKA_HOST=eureka-server
+    depends_on:
+      - config-server
+      - eureka-server
+    restart: always
 
   order-service:
-      container_name: service-order
-      image: 192.168.1.88:5000/service-order
-      networks:
-        - gavin-ol-net
-      ports:
-        - 10130:10130
-      environment:
-        - RABBITMQ_HOST=192.168.1.88
-        - MYSQL_HOST=192.168.1.88
-        - REDIS_HOST=192.168.1.88
-        - EUREKA_HOST=eureka-server
-      depends_on:
-        - config-server
-        - eureka-server
-        - account-service
-        - product-service
-      restart: always
+    #container_name: service-order
+    image: 192.168.1.88:5000/service-order
+    networks:
+      - overlay-net
+    ports:
+      - 10130:10130
+    environment:
+      - RABBITMQ_HOST=192.168.1.88
+      - MYSQL_HOST=192.168.1.88
+      - REDIS_HOST=192.168.1.88
+      - EUREKA_HOST=eureka-server
+    depends_on:
+      - config-server
+      - eureka-server
+      - account-service
+      - product-service
+    restart: always
