@@ -6,6 +6,7 @@ import com.gavin.service.ProductService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service("productService")
 public class ProductServiceImpl implements ProductService {
@@ -22,6 +23,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product searchProductById(Long productId) {
         return productDao.searchById(productId);
+    }
+
+    @Override
+    public List<Product> searchProductsByIds(Long[] productIds) {
+        return productDao.searchByIds(productIds);
     }
 
     @Override

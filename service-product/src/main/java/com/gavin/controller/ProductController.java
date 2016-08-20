@@ -5,6 +5,7 @@ import com.gavin.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 public class ProductController {
@@ -32,11 +33,14 @@ public class ProductController {
         return productService.searchProductById(productId);
     }
 
+    @RequestMapping(value = "/products/list", method = RequestMethod.GET)
+    public List<Product> searchProductsByIds(@RequestBody Long[] productIds) {
+        return productService.searchProductsByIds(productIds);
+    }
+
     @RequestMapping(value = "/products/{product_id}/reserve", method = RequestMethod.PUT)
     public Boolean reserve(@PathVariable("product_id") Long productId, @RequestParam("quantity") Integer quantity) {
         productService.decreaseStock(productId, quantity);
-        Product product = productService.searchProductById(productId);
-        // return "已经锁定" + quantity + "件, 库存剩余" + product.getProduct().getStock() + "件";
         return true;
     }
 
