@@ -5,16 +5,16 @@ import java.io.Serializable;
 
 public class PaidMessage implements Serializable {
 
-    private Long paymentId;
+    private Long orderId;
 
     private Boolean paidFlag;
 
-    public Long getPaymentId() {
-        return paymentId;
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setPaymentId(Long paymentId) {
-        this.paymentId = paymentId;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
     public Boolean getPaidFlag() {
