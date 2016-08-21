@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gavin.dao.PaymentDao">
+    <insert id="create" parameterType="com.gavin.domain.payment.Payment">
+        <selectKey resultType="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+
+        INSERT INTO payment (
+            order_id,
+            account_id,
+            amount,
+            payment_method,
+            paid,
+            created_time,
+            modified_time)
+        VALUES (
+            ${orderId},
+            ${accountId},
+            ${amount},
+            ${paymentMethod},
+            1,
+            now(),
+            now()
+        )
+
+
+
+
+
+    </insert>
+</mapper>
