@@ -12,16 +12,11 @@ import javax.annotation.Resource;
 @RefreshScope
 public class AccountController {
 
-    @Value("${account.service.admin}")
-    private String adminUser;
+//    @Value("${account.service.admin}")
+//    private String adminUser;
 
     @Resource
     private AccountService accountService;
-
-    @RequestMapping(path = "/admin", method = RequestMethod.GET)
-    public String getAdminUserName() {
-        return adminUser;
-    }
 
     @RequestMapping(value = "/accounts", method = RequestMethod.POST)
     public Long createAccount(@RequestParam("nick_name") String nickName,
