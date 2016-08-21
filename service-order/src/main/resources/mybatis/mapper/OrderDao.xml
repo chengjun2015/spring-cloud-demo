@@ -67,4 +67,12 @@
         WHERE `order`.account_id = ${accountId}
     </select>
 
+    <update id="updateStatus" parameterType="com.gavin.domain.order.Order">
+        UPDATE `order`
+        SET status        = ${status},
+            modified_time = now()
+        WHERE
+            id = ${id}
+    </update>
+
 </mapper>

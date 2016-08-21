@@ -15,4 +15,6 @@ public interface OrderDao {
     OrderModel searchById(@Param("orderId") Long orderId);
 
     List<OrderModel> searchByAccountId(@Param("accountId") Long accountId);
+
+    void updateStatus(Order order);
 }
