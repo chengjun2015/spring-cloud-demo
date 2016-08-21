@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -15,6 +16,8 @@ public class Payment implements Serializable {
     private Long orderId;
 
     private Long accountId;
+
+    private BigDecimal amount;
 
     private Integer paymentMethod;
 
@@ -51,6 +54,14 @@ public class Payment implements Serializable {
 
     public void setAccountId(Long accountId) {
         this.accountId = accountId;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
     public Integer getPaymentMethod() {
