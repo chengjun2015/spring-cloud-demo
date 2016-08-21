@@ -15,7 +15,7 @@
             modified_time
         ) VALUES (${accountId},
                   ${totalPrice},
-                  1,
+                  ${status},
                   now(),
                   now()
         )
