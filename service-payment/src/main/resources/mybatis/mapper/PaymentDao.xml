@@ -19,14 +19,24 @@
             ${accountId},
             ${amount},
             ${paymentMethod},
-            1,
+            0,
             now(),
             now()
         )
-
-
-
-
-
     </insert>
+
+    <select id="searchById" resultType="com.gavin.domain.payment.Payment">
+        SELECT
+            order_id       AS orderId,
+            account_id     AS accountId,
+            amount         AS amount,
+            payment_method AS paymentMethod,
+            paid           AS paid,
+            created_time   AS createdTime,
+            modified_time  AS modifiedTime,
+            paid_time      AS paidTime
+        FROM payment
+        WHERE id = ${paymentId}
+    </select>
+
 </mapper>
