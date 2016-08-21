@@ -92,3 +92,15 @@ services:
 #      - account-service
 #      - product-service
 #    restart: always
+
+  payment-service:
+    image: 192.168.1.88:5000/service-payment
+    networks:
+      - overlay-net
+    ports:
+      - 10140:10140
+    environment:
+      - RABBITMQ_HOST=192.168.1.88
+      - MYSQL_HOST=192.168.1.88
+      - REDIS_HOST=192.168.1.88
+      - EUREKA_HOST=eureka-server
