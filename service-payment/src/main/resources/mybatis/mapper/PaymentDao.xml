@@ -11,7 +11,7 @@
             account_id,
             amount,
             payment_method,
-            paid,
+            paid_flag,
             created_time,
             modified_time)
         VALUES (
@@ -25,13 +25,21 @@
         )
     </insert>
 
+    <update id="updatePaidFlag">
+        UPDATE payment
+        SET paid_flag     = 1,
+            paid_time     = now(),
+            modified_time = now()
+        WHERE id = ${paymentId}
+    </update>
+
     <select id="searchById" resultType="com.gavin.domain.payment.Payment">
         SELECT
             order_id       AS orderId,
             account_id     AS accountId,
             amount         AS amount,
             payment_method AS paymentMethod,
-            paid           AS paid,
+            paid_flag      AS paidFlag,
             created_time   AS createdTime,
             modified_time  AS modifiedTime,
             paid_time      AS paidTime
