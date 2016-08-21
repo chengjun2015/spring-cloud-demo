@@ -21,7 +21,7 @@ public class Payment implements Serializable {
 
     private Integer paymentMethod;
 
-    private Boolean paid;
+    private Boolean paidFlag;
 
     @JsonFormat(pattern = "yyyy/MM/dd hh:mm:ss")
     private Date createdTime;
@@ -72,12 +72,12 @@ public class Payment implements Serializable {
         this.paymentMethod = paymentMethod;
     }
 
-    public Boolean getPaid() {
-        return paid;
+    public Boolean getPaidFlag() {
+        return paidFlag;
     }
 
-    public void setPaid(Boolean paid) {
-        this.paid = paid;
+    public void setPaidFlag(Boolean paidFlag) {
+        this.paidFlag = paidFlag;
     }
 
     public Date getCreatedTime() {
