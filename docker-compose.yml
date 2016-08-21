@@ -10,16 +10,14 @@ networks:
 services:
 
   eureka-server:
-    #container_name: server-eureka
     image: 192.168.1.88:5000/server-eureka
     networks:
       - overlay-net
     ports:
       - 8761:8761
-    restart: always
+    #restart: always
 
   config-server:
-    #container_name: server-config
     image: 192.168.1.88:5000/server-config
     networks:
       - overlay-net
@@ -28,12 +26,11 @@ services:
     environment:
       - RABBITMQ_HOST=192.168.1.88
       - EUREKA_HOST=eureka-server
-    depends_on:
-      - eureka-server
-    restart: always
+#    depends_on:
+#      - eureka-server
+#    restart: always
 
   zuul-server:
-    #container_name: server-zuul
     image: 192.168.1.88:5000/server-zuul
     networks:
       - overlay-net
@@ -41,13 +38,12 @@ services:
       - 8000:8000
     environment:
       - EUREKA_HOST=eureka-server
-    depends_on:
-      - eureka-server
-      - account-service
-    restart: always
+#    depends_on:
+#      - eureka-server
+#      - account-service
+#    restart: always
 
   account-service:
-    #container_name: service-account
     image: 192.168.1.88:5000/service-account
     networks:
       - overlay-net
@@ -58,13 +54,12 @@ services:
       - MYSQL_HOST=192.168.1.88
       - REDIS_HOST=192.168.1.88
       - EUREKA_HOST=eureka-server
-    depends_on:
-      - config-server
-      - eureka-server
-    restart: always
+#    depends_on:
+#      - config-server
+#      - eureka-server
+#    restart: always
 
   product-service:
-    #container_name: service-product
     image: 192.168.1.88:5000/service-product
     networks:
       - overlay-net
@@ -75,13 +70,12 @@ services:
       - MYSQL_HOST=192.168.1.88
       - REDIS_HOST=192.168.1.88
       - EUREKA_HOST=eureka-server
-    depends_on:
-      - config-server
-      - eureka-server
-    restart: always
+#    depends_on:
+#      - config-server
+#      - eureka-server
+#    restart: always
 
   order-service:
-    #container_name: service-order
     image: 192.168.1.88:5000/service-order
     networks:
       - overlay-net
@@ -92,9 +86,9 @@ services:
       - MYSQL_HOST=192.168.1.88
       - REDIS_HOST=192.168.1.88
       - EUREKA_HOST=eureka-server
-    depends_on:
-      - config-server
-      - eureka-server
-      - account-service
-      - product-service
-    restart: always
+#    depends_on:
+#      - config-server
+#      - eureka-server
+#      - account-service
+#      - product-service
+#    restart: always
