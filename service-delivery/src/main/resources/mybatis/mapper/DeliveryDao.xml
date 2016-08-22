@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gavin.dao.DeliveryDao">
+
+    <insert id="create" parameterType="com.gavin.domain.delivery.Delivery">
+        <selectKey resultType="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+
+        INSERT INTO delivery (
+            order_id,
+            address_id,
+            created_time,
+            modified_time)
+        VALUES (
+            ${orderId},
+            ${accountId},
+            now(),
+            now()
+        )
+    </insert>
+</mapper>
