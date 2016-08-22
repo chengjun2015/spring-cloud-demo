@@ -25,13 +25,15 @@ public class OrderController {
     private OrderService orderService;
 
     @RequestMapping(value = "/{account_id}/orders", method = RequestMethod.POST)
-    public String createOrder(@PathVariable("account_id") Long accountId, @RequestBody Item[] items) {
-
+    public String createOrder(@PathVariable("account_id") Long accountId,
+                              @RequestParam("address_id") Long addressId,
+                              @RequestBody Item[] items) {
         // 调用product微服务查询库存,预先锁定库存,计算总金额。
         BigDecimal totalPrice = productClient.reserve(items);
 
         Order order = new Order();
         order.setAccountId(accountId);
+        order.setAddressId(addressId);
         order.setTotalPrice(totalPrice);
 
         List<Item> itemList = new ArrayList<>();
