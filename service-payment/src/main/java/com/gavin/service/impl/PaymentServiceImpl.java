@@ -42,6 +42,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         PaidMessage paidMessage = new PaidMessage();
         paidMessage.setOrderId(payment.getOrderId());
+        paidMessage.setAccountId(payment.getAccountId());
 
         rabbitTemplate.convertAndSend(ExchangeNameConsts.EXCH_PAYMENT_PAID, RoutingKeyConsts.KEY_PAYMENT_PAID, paidMessage);
     }
