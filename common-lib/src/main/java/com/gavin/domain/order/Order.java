@@ -15,6 +15,8 @@ public class Order implements Serializable {
 
     private Long accountId;
 
+    private Long addressId;
+
     private BigDecimal totalPrice;
 
     private Integer status;
@@ -39,6 +41,14 @@ public class Order implements Serializable {
 
     public void setAccountId(Long accountId) {
         this.accountId = accountId;
+    }
+
+    public Long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
     }
 
     public BigDecimal getTotalPrice() {
