@@ -22,7 +22,7 @@ public class OrderListener {
     @Transactional
     @RabbitListener(queues = QueueNameConsts.QUEUE_ORDER_PAID)
     public void processPaidMessage(@Payload PaidMessage paidMessage) {
-        System.out.println("DeliveryListener - processPaidMessage");
+        System.out.println("-------------- OrderListener - processPaidMessage");
 
         Delivery delivery = new Delivery();
         delivery.setOrderId(paidMessage.getOrderId());

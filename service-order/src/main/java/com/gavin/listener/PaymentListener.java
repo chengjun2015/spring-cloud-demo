@@ -23,6 +23,8 @@ public class PaymentListener {
     @RabbitListener(queues = QueueNameConsts.QUEUE_PAYMENT_PAID)
     @SendTo(ExchangeNameConsts.EXCH_ORDER_PAID + "/" + RoutingKeyConsts.KEY_ORDER_PAID)
     public PaidMessage processPaidMessage(@Payload PaidMessage paidMessage) {
+        System.out.println("-------------- PaymentListener - processPaidMessage");
+
         Order order = new Order();
         order.setId(paidMessage.getOrderId());
         order.setStatus(OrderStatusEnums.ORDER_STATUS_PAID.getValue());

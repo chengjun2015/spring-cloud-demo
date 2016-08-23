@@ -21,16 +21,16 @@ public class MessageQueueConfiguration {
     @Bean
     public List<Exchange> declareExchanges() {
         return Arrays.asList(
-                new DirectExchange(ExchangeNameConsts.EXCH_PAYMENT_PAID, false, true),
-                new DirectExchange(ExchangeNameConsts.EXCH_ORDER_PAID, false, true)
+                new DirectExchange(ExchangeNameConsts.EXCH_PAYMENT_PAID, true, false),
+                new DirectExchange(ExchangeNameConsts.EXCH_ORDER_PAID, true, false)
         );
     }
 
     @Bean
     public List<Queue> declareQueues() {
         return Arrays.asList(
-                new Queue(QueueNameConsts.QUEUE_PAYMENT_PAID, false, false, true),
-                new Queue(QueueNameConsts.QUEUE_ORDER_PAID, false, false, true)
+                new Queue(QueueNameConsts.QUEUE_PAYMENT_PAID),
+                new Queue(QueueNameConsts.QUEUE_ORDER_PAID)
         );
     }
 
