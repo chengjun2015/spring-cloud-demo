@@ -9,11 +9,13 @@ import java.util.Date;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Delivery implements Serializable {
 
-    private Long id;
-
     private Long orderId;
 
     private Long accountId;
+
+    private Long addressId;
+
+    private Integer status;
 
     private Long carrierId;
 
@@ -27,14 +29,6 @@ public class Delivery implements Serializable {
 
     @JsonFormat(pattern = "yyyy/MM/dd hh:mm:ss")
     private Date receiptTime;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getOrderId() {
         return orderId;
@@ -50,6 +44,22 @@ public class Delivery implements Serializable {
 
     public void setAccountId(Long accountId) {
         this.accountId = accountId;
+    }
+
+    public Long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public Long getCarrierId() {

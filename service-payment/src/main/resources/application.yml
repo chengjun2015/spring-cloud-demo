@@ -2,18 +2,22 @@ server:
   port: 10140
 
 spring:
+  datasource:
+    type: org.apache.commons.dbcp2.BasicDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/schema_product
+    username: root
+    password: root
   rabbitmq:
     host: ${RABBITMQ_HOST:localhost}
     port: 5672
     username: guest
     password: guest
-
-  datasource:
-    type: org.apache.commons.dbcp2.BasicDataSource
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/schema_payment
-    username: root
-    password: root
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: 6379
+  cache:
+    type: redis
 
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml

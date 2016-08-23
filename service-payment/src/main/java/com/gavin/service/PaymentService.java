@@ -9,5 +9,7 @@ public interface PaymentService {
 
     Payment searchPaymentById(Long paymentId);
 
+    void updatePaidFlag(Long paymentId);
+
     void succeedInPayment(Long paymentId);
 }

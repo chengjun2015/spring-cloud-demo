@@ -1,8 +1,11 @@
 package com.gavin.service.impl;
 
+import com.gavin.constant.CacheNameConsts;
 import com.gavin.dao.AccountDao;
 import com.gavin.domain.account.Account;
 import com.gavin.service.AccountService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,12 +23,15 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @CacheEvict(cacheNames = CacheNameConsts.CACHE_ACCOUNTS_BY_ID, key = "#accountId")
     public int deleteAccount(Long accountId) {
         return accountDao.delete(accountId);
     }
 
     @Override
+    @Cacheable(cacheNames = CacheNameConsts.CACHE_ACCOUNTS_BY_ID, key = "#accountId")
     public Account searchAccountById(Long accountId) {
+        System.out.println("--- dao method is called.");
         return accountDao.searchById(accountId);
     }
 }

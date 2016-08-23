@@ -1,5 +1,6 @@
 package com.gavin.service.impl;
 
+import com.gavin.constant.CacheNameConsts;
 import com.gavin.dao.ItemDao;
 import com.gavin.dao.OrderDao;
 import com.gavin.domain.order.Item;
@@ -7,6 +8,8 @@ import com.gavin.domain.order.Order;
 import com.gavin.enums.OrderStatusEnums;
 import com.gavin.model.order.OrderModel;
 import com.gavin.service.OrderService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -38,18 +41,20 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Cacheable(cacheNames = CacheNameConsts.CACHE_ORDERS_BY_ID, key = "#orderId")
     public OrderModel searchOrderById(Long orderId) {
         return orderDao.searchById(orderId);
     }
 
     @Override
+    @Cacheable(cacheNames = CacheNameConsts.CACHE_ORDERS_BY_ACCOUNTID, key = "#accountId")
     public List<OrderModel> searchOrdersByAccountId(Long accountId) {
         return orderDao.searchByAccountId(accountId);
     }
 
     @Override
+    @CacheEvict(cacheNames = CacheNameConsts.CACHE_ORDERS_BY_ID, key = "#order.id")
     public void updateStatus(Order order) {
         orderDao.updateStatus(order);
     }
-
 }

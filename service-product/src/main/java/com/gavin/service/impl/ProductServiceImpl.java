@@ -1,10 +1,12 @@
 package com.gavin.service.impl;
 
+import com.gavin.constant.CacheNameConsts;
 import com.gavin.dao.ProductDao;
 import com.gavin.domain.order.Item;
 import com.gavin.domain.product.Product;
 import com.gavin.exception.order.OrderException;
 import com.gavin.service.ProductService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

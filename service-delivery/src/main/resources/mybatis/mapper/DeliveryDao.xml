@@ -3,20 +3,51 @@
 <mapper namespace="com.gavin.dao.DeliveryDao">
 
     <insert id="create" parameterType="com.gavin.domain.delivery.Delivery">
-        <selectKey resultType="java.lang.Long" keyProperty="id">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
-
         INSERT INTO delivery (
             order_id,
             address_id,
+            status,
             created_time,
             modified_time)
         VALUES (
             ${orderId},
             ${accountId},
+            ${status},
             now(),
             now()
         )
     </insert>
+
+    <select id="searchByOrderId" resultType="com.gavin.domain.delivery.Delivery">
+        SELECT
+            order_id        AS orderId,
+            address_id      AS addressId,
+            carrier_id      AS carrierId,
+            tracking_number AS trackingNumber,
+            created_time    AS createdTime,
+            modified_time   AS modifiedTime,
+            receipt_time    AS receiptTime
+        FROM delivery
+        WHERE order_id = ${orderId}
+    </select>
+
+    <update id="updateCarrierInfo" parameterType="com.gavin.domain.delivery.Delivery">
+        UPDATE delivery
+        SET carrier_id      = ${carrierId},
+            tracking_number = ${trackingNumber},
+            status          = ${status},
+            modified_time   = now()
+        WHERE order_id = ${orderId}
+    </update>
+
+    <update id="updateStatus" parameterType="com.gavin.domain.delivery.Delivery">
+        UPDATE delivery
+        SET status = ${status},
+        <if test="status == 3">
+            receipt_time = now(),
+        </if>
+            modified_time = now()
+        WHERE order_id = ${orderId}
+    </update>
+
 </mapper>
