@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 
 @Component
-public class DeliveryListener {
+public class OrderListener {
 
     @Resource
     private DeliveryService deliveryService;
@@ -22,6 +22,8 @@ public class DeliveryListener {
     @Transactional
     @RabbitListener(queues = QueueNameConsts.QUEUE_ORDER_PAID)
     public void processPaidMessage(@Payload PaidMessage paidMessage) {
+        System.out.println("DeliveryListener - processPaidMessage");
+
         Delivery delivery = new Delivery();
         delivery.setOrderId(paidMessage.getOrderId());
         delivery.setAccountId(paidMessage.getAccountId());
