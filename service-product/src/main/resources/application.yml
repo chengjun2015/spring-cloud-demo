@@ -18,11 +18,9 @@ spring:
     port: 6379
   cache:
     type: redis
+  sleuth:
+    sampler:
+      percentage: 1
 
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
-
-logging:
-  config: classpath:logback.xml
-  level:
-    com.gavin: DEBUG
