@@ -2,6 +2,8 @@ package com.gavin.controller;
 
 import com.gavin.domain.account.Account;
 import com.gavin.service.AccountService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +13,8 @@ import javax.annotation.Resource;
 @RestController
 @RefreshScope
 public class AccountController {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 //    @Value("${account.service.admin}")
 //    private String adminUser;
@@ -39,6 +43,11 @@ public class AccountController {
 
     @RequestMapping(value = "/accounts/{account_id}", method = RequestMethod.GET)
     public Account searchAccountById(@PathVariable("account_id") Long accountId) {
+        logger.debug("This is a debug message");
+        logger.info("This is an info message");
+        logger.warn("This is a warn message");
+        logger.error("This is an error message");
+
         return accountService.searchAccountById(accountId);
     }
 }

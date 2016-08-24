@@ -4,6 +4,8 @@ import com.gavin.domain.order.Item;
 import com.gavin.domain.product.Product;
 import com.gavin.exception.order.OrderException;
 import com.gavin.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -12,6 +14,8 @@ import java.util.List;
 
 @RestController
 public class ProductController {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Resource
     private ProductService productService;
@@ -41,7 +45,7 @@ public class ProductController {
         try {
             return productService.reserve(items);
         } catch (OrderException exception) {
-            System.out.println(exception.getMessage());
+            logger.error(exception.getMessage());
             return new BigDecimal(0);
         }
     }
