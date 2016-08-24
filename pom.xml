@@ -20,6 +20,7 @@
         <module>server-eureka</module>
         <module>server-config</module>
         <module>server-zuul</module>
+        <module>server-zipkin</module>
         <module>server-queue</module>
         <module>service-account</module>
         <module>service-product</module>
@@ -55,7 +56,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Brixton.SR4</version>
+                <version>Brixton.SR5</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
