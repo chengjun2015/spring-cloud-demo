@@ -6,6 +6,8 @@ import com.gavin.dao.DeliveryDao;
 import com.gavin.domain.delivery.Delivery;
 import com.gavin.enums.DeliveryStatusEnums;
 import com.gavin.service.DeliveryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ import javax.annotation.Resource;
 
 @Service("deliveryService")
 public class DeliveryServiceImpl implements DeliveryService {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Resource
     private DeliveryDao deliveryDao;

@@ -8,6 +8,8 @@ import com.gavin.dao.PaymentDao;
 import com.gavin.domain.payment.Payment;
 import com.gavin.payload.PaidMessage;
 import com.gavin.service.PaymentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -19,6 +21,8 @@ import javax.annotation.Resource;
 
 @Service("paymentService")
 public class PaymentServiceImpl implements PaymentService {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Resource
     private PaymentDao paymentDao;
@@ -33,7 +37,6 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
     @Cacheable(cacheNames = CacheNameConsts.CACHE_PAYMENTS_BY_ID, key = "#paymentId")
     public Payment searchPaymentById(Long paymentId) {
         return paymentDao.searchById(paymentId);
@@ -56,6 +59,7 @@ public class PaymentServiceImpl implements PaymentService {
         paidMessage.setAccountId(payment.getAccountId());
 
         rabbitTemplate.convertAndSend(ExchangeNameConsts.EXCH_PAYMENT_PAID, RoutingKeyConsts.KEY_PAYMENT_PAID, paidMessage);
+        logger.info("Message Queue已发送, 订单编号: " + payment.getOrderId());
     }
 
 }

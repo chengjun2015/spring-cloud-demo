@@ -6,6 +6,8 @@ import com.gavin.domain.order.Order;
 import com.gavin.enums.OrderStatusEnums;
 import com.gavin.payload.PaidMessage;
 import com.gavin.service.DeliveryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
@@ -16,13 +18,15 @@ import javax.annotation.Resource;
 @Component
 public class OrderListener {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Resource
     private DeliveryService deliveryService;
 
     @Transactional
     @RabbitListener(queues = QueueNameConsts.QUEUE_ORDER_PAID)
     public void processPaidMessage(@Payload PaidMessage paidMessage) {
-        System.out.println("-------------- OrderListener - processPaidMessage");
+        logger.info("收到支付确认, 订单号: " + paidMessage.getOrderId() + "。");
 
         Delivery delivery = new Delivery();
         delivery.setOrderId(paidMessage.getOrderId());

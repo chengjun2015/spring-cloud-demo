@@ -43,16 +43,19 @@ public class ProductController {
     @RequestMapping(value = "/products/reserve", method = RequestMethod.PUT)
     public BigDecimal reserve(@RequestBody Item[] items) {
         try {
-            return productService.reserve(items);
+            BigDecimal totalPrice = productService.reserve(items);
+            logger.info("依据订单相应的库存数已锁定。");
+            return totalPrice;
         } catch (OrderException exception) {
-            logger.error(exception.getMessage());
-            return new BigDecimal(0);
+            logger.info(exception.getMessage());
+            throw exception;
         }
     }
 
     @RequestMapping(value = "/products/restore", method = RequestMethod.PUT)
     public Boolean restore(@RequestBody Item[] items) {
         productService.restore(items);
+        logger.info("由于订单取消或者过期, 锁定的库存数已复原。");
         return true;
     }
 

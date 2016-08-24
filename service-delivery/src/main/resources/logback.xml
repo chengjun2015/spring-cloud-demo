@@ -11,22 +11,22 @@
     </appender>
 
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/Users/Gavin/Developer/log/account.log</file>
+        <file>/var/log/cloud-demo/delivery.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/Users/Gavin/Developer/log/delivery.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <fileNamePattern>/var/log/cloud-demo/bak/delivery.log.%d{yyyy-MM-dd}</fileNamePattern>
         </rollingPolicy>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
         </encoder>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+        <!--<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
-        </filter>
+        </filter>-->
     </appender>
 
     <appender name="file-error" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/Users/Gavin/Developer/log/account-error.log</file>
+        <file>/var/log/cloud-demo/delivery-error.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/Users/Gavin/Developer/log/delivery-error.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <fileNamePattern>/var/log/cloud-demo/bak/delivery-error.log.%d{yyyy-MM-dd}</fileNamePattern>
         </rollingPolicy>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>

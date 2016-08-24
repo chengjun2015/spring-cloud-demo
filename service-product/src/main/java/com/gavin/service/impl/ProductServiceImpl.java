@@ -6,6 +6,8 @@ import com.gavin.domain.order.Item;
 import com.gavin.domain.product.Product;
 import com.gavin.exception.order.OrderException;
 import com.gavin.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,8 @@ import java.util.Map;
 
 @Service("productService")
 public class ProductServiceImpl implements ProductService {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Resource
     private ProductDao productDao;
@@ -54,6 +58,9 @@ public class ProductServiceImpl implements ProductService {
 
             // 订单中此商品的数量大于库存
             if (item.getQuantity() > product.getStock()) {
+                logger.debug("商品: " + product.getTitle());
+                logger.debug("库存数: " + product.getStock());
+                logger.debug("订购数: " + item.getQuantity());
                 throw new OrderException("商品" + product.getTitle() + "库存不足");
             }
 

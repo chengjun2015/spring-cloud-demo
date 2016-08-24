@@ -2,6 +2,8 @@ package com.gavin.controller;
 
 import com.gavin.domain.payment.Payment;
 import com.gavin.service.PaymentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +14,10 @@ import java.math.BigDecimal;
 @RefreshScope
 public class PaymentController {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Resource
     private PaymentService paymentService;
-
 
     @RequestMapping(value = "/payments", method = RequestMethod.POST)
     public Long createAccount(@RequestParam("order_id") Long orderId,
@@ -28,6 +31,8 @@ public class PaymentController {
         payment.setPaymentMethod(paymentMethod);
 
         paymentService.createPayment(payment);
+
+        logger.info("账单已创建, 编号:" + payment.getId() + "。");
         return payment.getId();
     }
 
@@ -38,9 +43,10 @@ public class PaymentController {
 
     @RequestMapping(value = "/payments/{payment_id}/paid", method = RequestMethod.PUT)
     public void feedbackFromThirdParty(@PathVariable("payment_id") Long paymentId,
-                                       @RequestParam("flag") Integer flag) {
+                                       @RequestParam("result") Integer result) {
+        logger.info("收到第三方支付平台的反馈信息。编号 = " + paymentId + ", 支付结果 = " + result + "。");
         // 支付成功
-        if (flag == 1) {
+        if (result == 1) {
             paymentService.succeedInPayment(paymentId);
         }
     }

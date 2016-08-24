@@ -47,14 +47,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Cacheable(cacheNames = CacheNameConsts.CACHE_ORDERS_BY_ID, key = "#orderId")
     public OrderModel searchOrderById(Long orderId) {
-        logger.debug("DAO方法OrderDao->searchById被调用。");
         return orderDao.searchById(orderId);
     }
 
     @Override
     @Cacheable(cacheNames = CacheNameConsts.CACHE_ORDERS_BY_ACCOUNTID, key = "#accountId")
     public List<OrderModel> searchOrdersByAccountId(Long accountId) {
-        logger.debug("DAO方法OrderDao->searchOrdersByAccountId被调用。");
         return orderDao.searchByAccountId(accountId);
     }
 

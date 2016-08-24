@@ -4,9 +4,10 @@ package com.gavin.model.order;
 import com.gavin.domain.order.Item;
 import com.gavin.domain.order.Order;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class OrderModel {
+public class OrderModel implements Serializable {
 
     private Order order;
 
