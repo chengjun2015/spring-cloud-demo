@@ -46,6 +46,7 @@ public class AccountController {
 
     @RequestMapping(value = "/accounts/{account_id}", method = RequestMethod.GET)
     public Account searchAccountById(@PathVariable("account_id") Long accountId) {
+        logger.info("查询订单, 订单号: " + accountId);
         return accountService.searchAccountById(accountId);
     }
 }
