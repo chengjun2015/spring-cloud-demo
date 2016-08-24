@@ -4,6 +4,8 @@ import com.gavin.constant.CacheNameConsts;
 import com.gavin.dao.AccountDao;
 import com.gavin.domain.account.Account;
 import com.gavin.service.AccountService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,8 @@ import javax.annotation.Resource;
 
 @Service("accountService")
 public class AccountServiceImpl implements AccountService {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Resource
     private AccountDao accountDao;
@@ -31,7 +35,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Cacheable(cacheNames = CacheNameConsts.CACHE_ACCOUNTS_BY_ID, key = "#accountId")
     public Account searchAccountById(Long accountId) {
-        System.out.println("--- dao method is called.");
+        logger.info("accountDao.searchById方法被调用");
         return accountDao.searchById(accountId);
     }
 }

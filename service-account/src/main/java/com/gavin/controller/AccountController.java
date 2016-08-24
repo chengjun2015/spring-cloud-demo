@@ -33,21 +33,19 @@ public class AccountController {
         account.setMobilePhone(mobilePhone);
         account.setEmail(email);
 
-        return accountService.createAccount(account);
+        Long accountId = accountService.createAccount(account);
+        logger.info("已创建订单, 订单号: " + accountId);
+        return accountId;
     }
 
     @RequestMapping(value = "/accounts/{account_id}", method = RequestMethod.DELETE)
     public void deleteAccount(@PathVariable("account_id") Long accountId) {
         accountService.deleteAccount(accountId);
+        logger.info("已删除订单, 订单号: " + accountId);
     }
 
     @RequestMapping(value = "/accounts/{account_id}", method = RequestMethod.GET)
     public Account searchAccountById(@PathVariable("account_id") Long accountId) {
-        logger.debug("This is a debug message");
-        logger.info("This is an info message");
-        logger.warn("This is a warn message");
-        logger.error("This is an error message");
-
         return accountService.searchAccountById(accountId);
     }
 }

@@ -48,6 +48,8 @@ public class AddressController {
 
         addressService.createAddress(address);
 
+        logger.info("新地址信息登录成功: " + address.getAddressLine1() + " " + addressLine2);
+
         return address.getId();
     }
 }
