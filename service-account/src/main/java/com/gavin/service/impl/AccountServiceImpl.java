@@ -35,7 +35,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Cacheable(cacheNames = CacheNameConsts.CACHE_ACCOUNTS_BY_ID, key = "#accountId")
     public Account searchAccountById(Long accountId) {
-        logger.debug("DAO方法AccountDao->searchById方法被调用");
+        logger.debug("DAO方法AccountDao->searchById方法被调用。");
         return accountDao.searchById(accountId);
     }
 }
