@@ -135,7 +135,7 @@ services:
       - config-server
       - queue-server
     restart: always
-    
+
   delivery-service:
     image: 192.168.1.88:5000/service-delivery
     networks:

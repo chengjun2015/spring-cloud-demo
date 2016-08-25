@@ -1,0 +1,40 @@
+version: '2'
+
+services:
+
+  mysql:
+    image: mysql:5.6
+    container_name: mysql
+    volumes:
+      - /Users/Gavin/Developer/storage/mysql:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=mysql
+      - MYSQL_ROOT_PASSWORD=root
+
+  rabbitmq:
+    image: rabbitmq:3.6.5-management
+    container_name: rabbitmq
+    volumes:
+      - /Users/Gavin/Developer/storage/rabbitmq:/var/lib/rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  redis:
+    image: redis
+    container_name: redis
+    volumes:
+      - /Users/Gavin/Developer/storage/redis:/data
+    ports:
+      - 6379:6379
+
+  registry:
+    image: registry
+    container_name: registry
+    volumes:
+      - /Users/Gavin/Developer/storage/registry:/var/lib/registry
+    ports:
+      - 5000:5000
