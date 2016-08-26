@@ -5,6 +5,7 @@ import com.gavin.domain.order.Item;
 import com.gavin.domain.order.Order;
 import com.gavin.model.order.OrderModel;
 import com.gavin.service.OrderService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -28,6 +29,7 @@ public class OrderController {
     @Resource
     private OrderService orderService;
 
+    @HystrixCommand(fallbackMethod = "reserveFallback")
     @RequestMapping(value = "/{account_id}/orders", method = RequestMethod.POST)
     public Long createOrder(@PathVariable("account_id") Long accountId,
                             @RequestParam("address_id") Long addressId,
@@ -53,6 +55,13 @@ public class OrderController {
         logger.info("订单已创建, 订单号: " + orderModel.getOrder().getId());
 
         return orderModel.getOrder().getId();
+    }
+
+    public Long reserveFallback(Long accountId,
+                                Long addressId,
+                                Item[] items) {
+        logger.warn("断路器工作中。");
+        return -1L;
     }
 
     @RequestMapping(value = "/orders/{order_id}", method = RequestMethod.GET)
