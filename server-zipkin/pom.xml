@@ -42,7 +42,7 @@
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>0.4.11</version>
+                <version>${spotify.version}</version>
                 <executions>
                     <execution>
                         <id>build-image</id>
@@ -51,7 +51,7 @@
                             <goal>build</goal>
                         </goals>
                         <configuration>
-                            <imageName>192.168.1.88:5000/${project.artifactId}</imageName>
+                            <imageName>${registry.host}:${registry.port}/${project.artifactId}</imageName>
                             <dockerDirectory>${project.basedir}/docker</dockerDirectory>
                             <resources>
                                 <resource>
