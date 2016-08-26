@@ -30,33 +30,6 @@
         </encoder>
     </appender>
 
-    <!--<appender name="stash" class="net.logstash.logback.appender.LogstashAccessTcpSocketAppender">
-        <destination>${logstashHost}:${logstashPort}</destination>
-        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
-            <providers>
-                <timestamp>
-                    <timeZone>UTC</timeZone>
-                </timestamp>
-                <pattern>
-                    <pattern>
-                        {
-                        "timestamp": "%d{yyyy-MM-dd HH:mm:ss.SSS}",
-                        "level": "%level",
-                        "service": "${serviceName:-}",
-                        "trace": "%X{X-B3-TraceId:-}",
-                        "span": "%X{X-B3-SpanId:-}",
-                        "exportable": "%X{X-Span-Export:-}",
-                        "pid": "${PID:-}",
-                        "thread": "%thread",
-                        "class": "%logger{40}",
-                        "message": "%message"
-                        }
-                    </pattern>
-                </pattern>
-            </providers>
-        </encoder>
-    </appender>-->
-
     <appender name="socket" class="net.logstash.logback.appender.LogstashSocketAppender">
         <host>${logstashHost}</host>
         <port>${logstashPort}</port>
@@ -66,9 +39,8 @@
         <appender-ref ref="console"/>
     </root>
 
-    <logger name="com.gavin" level="debug">
+    <logger name="com.gavin" level="DEBUG">
         <appender-ref ref="file"/>
-        <!--<appender-ref ref="stash"/>-->
         <appender-ref ref="socket"/>
     </logger>
 

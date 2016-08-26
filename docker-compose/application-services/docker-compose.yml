@@ -78,6 +78,7 @@ services:
       - RABBITMQ_HOST=192.168.1.88
       - MYSQL_HOST=192.168.1.88
       - REDIS_HOST=192.168.1.88
+      - LOGSTASH_HOST=192.168.1.88
       - EUREKA_HOST=eureka-server
     depends_on:
       - eureka-server
@@ -95,6 +96,7 @@ services:
       - RABBITMQ_HOST=192.168.1.88
       - MYSQL_HOST=192.168.1.88
       - REDIS_HOST=192.168.1.88
+      - LOGSTASH_HOST=192.168.1.88
       - EUREKA_HOST=eureka-server
     depends_on:
       - eureka-server
@@ -112,6 +114,7 @@ services:
       - RABBITMQ_HOST=192.168.1.88
       - MYSQL_HOST=192.168.1.88
       - REDIS_HOST=192.168.1.88
+      - LOGSTASH_HOST=192.168.1.88
       - EUREKA_HOST=eureka-server
     depends_on:
       - eureka-server
@@ -129,6 +132,7 @@ services:
       - RABBITMQ_HOST=192.168.1.88
       - MYSQL_HOST=192.168.1.88
       - REDIS_HOST=192.168.1.88
+      - LOGSTASH_HOST=192.168.1.88
       - EUREKA_HOST=eureka-server
     depends_on:
       - eureka-server
@@ -146,6 +150,7 @@ services:
       - RABBITMQ_HOST=192.168.1.88
       - MYSQL_HOST=192.168.1.88
       - REDIS_HOST=192.168.1.88
+      - LOGSTASH_HOST=192.168.1.88
       - EUREKA_HOST=eureka-server
     depends_on:
       - eureka-server

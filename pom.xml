@@ -32,7 +32,14 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
         <java.version>1.8</java.version>
+        <mybatis.version>1.1.1</mybatis.version>
+        <logstash.version>4.7</logstash.version>
+        <spotify.version>0.4.11</spotify.version>
+
+        <registry.host>192.168.1.88</registry.host>
+        <registry.port>5000</registry.port>
     </properties>
 
     <repositories>
