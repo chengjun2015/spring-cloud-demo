@@ -2,9 +2,11 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     ​
-    <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+    <springProperty scope="context" name="serviceName" source="spring.application.name"/>
+    <springProperty scope="context" name="logstashHost" source="gavin.logstash.host"/>
+    <springProperty scope="context" name="logstashPort" source="gavin.logstash.port"/>
 
-    <property name="LOG_FILE" value="/var/log/cloud-demo/${springAppName}"/>​
+    <property name="LOG_FILE" value="/var/log/cloud-demo/${serviceName}"/>​
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
@@ -12,7 +14,7 @@
         </filter>
         <encoder>
             <pattern>%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}</pattern>
-            <charset>utf8</charset>
+            <charset>UTF-8</charset>
         </encoder>
     </appender>
 
@@ -24,7 +26,7 @@
         </rollingPolicy>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
-            <charset>utf8</charset>
+            <charset>UTF-8</charset>
         </encoder>
     </appender>
 
@@ -45,7 +47,7 @@
                         {
                         "timestamp": "%d{yyyy-MM-dd HH:mm:ss.SSS}",
                         "level": "%level",
-                        "service": "${springAppName:-}",
+                        "service": "${serviceName:-}",
                         "trace": "%X{X-B3-TraceId:-}",
                         "span": "%X{X-B3-SpanId:-}",
                         "exportable": "%X{X-Span-Export:-}",
@@ -60,10 +62,10 @@
         </encoder>-->
     </appender>
 
-    <!--<appender name="socket" class="net.logstash.logback.appender.LogstashSocketAppender">
-        <host>192.168.1.88</host>
-        <port>5000</port>
-    </appender>-->
+    <appender name="socket" class="net.logstash.logback.appender.LogstashSocketAppender">
+        <host>${logstashHost}</host>
+        <port>${logstashPort}</port>
+    </appender>
     ​
     <root level="INFO">
         <appender-ref ref="console"/>
@@ -72,6 +74,7 @@
     <logger name="com.gavin" level="debug">
         <appender-ref ref="log_file"/>
         <appender-ref ref="json_file"/>
+        <appender-ref ref="socket"/>
     </logger>
 
 </configuration>
