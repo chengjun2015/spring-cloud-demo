@@ -9,8 +9,6 @@ import java.util.Date;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Point implements Serializable {
 
-    private Long id;
-
     private Long accountId;
 
     private Long amount;
@@ -20,14 +18,6 @@ public class Point implements Serializable {
 
     @JsonFormat(pattern = "yyyy/MM/dd hh:mm:ss")
     private Date modifiedTime;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getAccountId() {
         return accountId;
