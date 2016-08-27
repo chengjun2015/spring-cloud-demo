@@ -1,4 +1,4 @@
-package com.gavin.domain.point;
+package com.gavin.domain.account;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
