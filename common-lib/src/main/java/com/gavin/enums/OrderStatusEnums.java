@@ -1,6 +1,5 @@
 package com.gavin.enums;
 
-
 public enum OrderStatusEnums {
 
     ORDER_STATUS_EXPIRED(-1),

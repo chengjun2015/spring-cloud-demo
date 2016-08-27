@@ -13,9 +13,6 @@ import java.math.BigDecimal;
 @FeignClient("product-service")
 public interface ProductClient {
 
-    @RequestMapping(value = "/products/{product_id}", method = RequestMethod.GET)
-    Product searchProductById(@PathVariable("product_id") Long productId);
-
     @RequestMapping(value = "/products/reserve", method = RequestMethod.PUT)
     BigDecimal reserve(@RequestBody Item[] items);
 
