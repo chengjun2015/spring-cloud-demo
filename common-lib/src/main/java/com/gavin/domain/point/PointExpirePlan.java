@@ -1,5 +1,4 @@
-package com.gavin.domain.account;
-
+package com.gavin.domain.point;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -8,18 +7,21 @@ import java.io.Serializable;
 import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PointHistory implements Serializable {
+public class PointExpirePlan implements Serializable {
 
     private Long id;
 
     private Long accountId;
 
-    private Long orderId;
+    private Long amount;
 
-    private Integer detailFlag;
+    private String expire_date;
 
     @JsonFormat(pattern = "yyyy/MM/dd hh:mm:ss")
     private Date createdTime;
+
+    @JsonFormat(pattern = "yyyy/MM/dd hh:mm:ss")
+    private Date modifiedTime;
 
     public Long getId() {
         return id;
@@ -37,20 +39,20 @@ public class PointHistory implements Serializable {
         this.accountId = accountId;
     }
 
-    public Long getOrderId() {
-        return orderId;
+    public Long getAmount() {
+        return amount;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setAmount(Long amount) {
+        this.amount = amount;
     }
 
-    public Integer getDetailFlag() {
-        return detailFlag;
+    public String getExpire_date() {
+        return expire_date;
     }
 
-    public void setDetailFlag(Integer detailFlag) {
-        this.detailFlag = detailFlag;
+    public void setExpire_date(String expire_date) {
+        this.expire_date = expire_date;
     }
 
     public Date getCreatedTime() {
@@ -59,5 +61,13 @@ public class PointHistory implements Serializable {
 
     public void setCreatedTime(Date createdTime) {
         this.createdTime = createdTime;
+    }
+
+    public Date getModifiedTime() {
+        return modifiedTime;
+    }
+
+    public void setModifiedTime(Date modifiedTime) {
+        this.modifiedTime = modifiedTime;
     }
 }
