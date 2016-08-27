@@ -6,6 +6,8 @@ import com.gavin.domain.account.Point;
 import com.gavin.domain.account.PointHistory;
 import com.gavin.enums.PointActionEnums;
 import com.gavin.service.PointService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,8 @@ import java.util.List;
 @Service("pointService")
 public class PointServiceImpl implements PointService {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Resource
     private PointDao pointDao;
 
@@ -29,8 +33,8 @@ public class PointServiceImpl implements PointService {
 
     @Override
     @Transactional
-    public BigDecimal calcAvailablePointsSum(Long accountId) {
-        List<Point> points = pointDao.searchAvailableByAccountId(accountId);
+    public BigDecimal calculateUsablePoints(Long accountId) {
+        List<Point> points = pointDao.searchUsableByAccountId(accountId);
 
         BigDecimal sum = new BigDecimal(0);
 
@@ -46,28 +50,25 @@ public class PointServiceImpl implements PointService {
 
     @Override
     @Transactional
-    public boolean rewardPoints(Long accountId, Long orderId, Integer amount) {
+    public void rewardPoints(Long accountId, Long orderId, Integer amount) {
         pointDao.create(accountId, amount, period);
 
         // 记录到积分明细表。
         PointHistory pointHistory = new PointHistory();
         pointHistory.setAccountId(accountId);
         pointHistory.setOrderId(orderId);
-        pointHistory.setAmount(amount);
+        pointHistory.setAmount(new BigDecimal(amount));
         pointHistory.setAction(PointActionEnums.POINT_ACTION_REWARD.getValue());
         pointHistoryDao.create(pointHistory);
-
-        return true;
     }
 
     @Override
     @Transactional
-    public boolean reservePoints(Long accountId, Long orderId, Integer amount) {
-        List<Point> points = pointDao.searchAvailableByAccountId(accountId);
+    public void reservePoints(Long accountId, Long orderId, Integer amount) {
+        List<Point> points = pointDao.searchUsableByAccountId(accountId);
 
         List<Long> ids = new ArrayList<>();
         int remaining = amount;
-
         for (Point point : points) {
             if (point.getAmount() < remaining) {
                 ids.add(point.getId());
@@ -88,53 +89,53 @@ public class PointServiceImpl implements PointService {
         }
         // 设置这些记录的锁定标志。这样这些积分就无法被其它订单使用,即使过期也不会被清除。
         pointDao.lockWithOrderId(ids, orderId);
-
-        return true;
     }
 
     @Override
     @Transactional
-    public boolean restorePoints(Long orderId) {
+    public void restorePoints(Long orderId) {
         // 解除积分记录的锁定标志。
         pointDao.releaseByOrderId(orderId);
-        return true;
     }
 
     @Override
     @Transactional
-    public boolean finalizeReservation(Long accountId, Long orderId, Integer amount) {
-
+    public void consumePoints(Long accountId, Long orderId, Integer amount) {
         pointDao.deleteByOrderId(orderId);
 
         // 记录到积分明细表。
         PointHistory pointHistory = new PointHistory();
         pointHistory.setAccountId(accountId);
         pointHistory.setOrderId(orderId);
-        pointHistory.setAmount(amount);
+        pointHistory.setAmount(new BigDecimal(amount));
         pointHistory.setAction(PointActionEnums.POINT_ACTION_CONSUME.getValue());
         pointHistoryDao.create(pointHistory);
-
-        return true;
     }
 
     @Override
     @Transactional
-    public boolean clearExpiredPoints(Long accountId) {
+    public void clearExpiredPoints(Long accountId) {
+        List<Point> expiredPoints = pointDao.searchExpiredByAccountId(accountId);
+
+        if (expiredPoints.isEmpty()) {
+            logger.info("账户" + accountId + "内此次没有过期失效的积分。");
+            return;
+        }
+
         pointDao.deleteExpiredByAccountId(accountId);
 
-        List<Point> points = pointDao.searchExpiredByAccountId(accountId);
-        BigDecimal sum = new BigDecimal(0);
-        for (Point point : points) {
-            sum = sum.add(new BigDecimal(point.getAmount()));
+        BigDecimal expiredSum = new BigDecimal(0);
+        for (Point point : expiredPoints) {
+            expiredSum = expiredSum.add(new BigDecimal(point.getAmount()));
         }
+        logger.info("账户" + accountId + "内此次过期失效的积分数: " + expiredSum + "。");
 
         // 记录到积分明细表。
         PointHistory pointHistory = new PointHistory();
         pointHistory.setAccountId(accountId);
-        pointHistory.setAmount(sum.intValue());
+        pointHistory.setAmount(expiredSum);
         pointHistory.setAction(PointActionEnums.POINT_ACTION_EXPIRE.getValue());
         pointHistoryDao.create(pointHistory);
-        return false;
     }
 
 }

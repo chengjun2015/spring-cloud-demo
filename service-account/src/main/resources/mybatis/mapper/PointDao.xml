@@ -37,7 +37,7 @@
         )
     </insert>
 
-    <select id="searchAvailableByAccountId" resultType="com.gavin.domain.account.Point">
+    <select id="searchUsableByAccountId" resultType="com.gavin.domain.account.Point">
         SELECT
             id            AS id,
             account_id    AS accountId,

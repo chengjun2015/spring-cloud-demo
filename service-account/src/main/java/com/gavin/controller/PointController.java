@@ -16,44 +16,69 @@ public class PointController {
     @Resource
     private PointService pointService;
 
-    @RequestMapping(value = "/{account_id}/points/calculate", method = RequestMethod.GET)
-    public BigDecimal calculatePointsSum(@PathVariable("account_id") Long accountId) {
-        logger.info("计算账户内积分总数, 账户号: " + accountId);
-        return pointService.calcAvailablePointsSum(accountId);
-    }
-
-    @RequestMapping(value = "/{account_id}/points/reward", method = RequestMethod.PUT)
-    public Boolean rewardPoints(@PathVariable("account_id") Long accountId,
+    @RequestMapping(value = "/{account_id}/points", method = RequestMethod.POST)
+    public Boolean createPoints(@PathVariable("account_id") Long accountId,
                                 @RequestParam("order_id") Long orderId,
                                 @RequestParam("amount") Integer amount) {
-        boolean result = pointService.rewardPoints(accountId, orderId, amount);
-        logger.info("积分已入账, 账户号" + accountId);
+        boolean result = false;
+        try {
+            pointService.rewardPoints(accountId, orderId, amount);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        logger.info("账户" + accountId + "内由于订单" + orderId + "完成产生的积分: " + amount + "。");
         return result;
+    }
+
+    @RequestMapping(value = "/{account_id}/points/query", method = RequestMethod.GET)
+    public BigDecimal queryUsablePoints(@PathVariable("account_id") Long accountId) {
+        BigDecimal pointsSum = pointService.calculateUsablePoints(accountId);
+        logger.info("账户" + accountId + "内目前可用积分: " + pointsSum);
+        return pointsSum;
     }
 
     @RequestMapping(value = "/{account_id}/points/reserve", method = RequestMethod.PUT)
     public Boolean reservePoints(@PathVariable("account_id") Long accountId,
                                  @RequestParam("order_id") Long orderId,
                                  @RequestParam("amount") Integer amount) {
-        boolean result = pointService.reservePoints(accountId, orderId, amount);
-        logger.info("积分已冻结, 账户号" + accountId);
+        boolean result = false;
+        try {
+            pointService.reservePoints(accountId, orderId, amount);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        logger.info("账户" + accountId + "内此次冻结积分: " + amount);
         return result;
     }
 
     @RequestMapping(value = "/{account_id}/points/restore", method = RequestMethod.PUT)
     public Boolean restorePoints(@PathVariable("account_id") Long accountId,
                                  @RequestParam("order_id") Long orderId) {
-        boolean result = pointService.restorePoints(orderId);
-        logger.info("积分已解冻, 账户号" + accountId);
+        boolean result = false;
+        try {
+            pointService.restorePoints(orderId);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        logger.info("账户" + accountId + "内由订单" + orderId + "冻结的积分已解冻。");
         return result;
     }
 
-    @RequestMapping(value = "/{account_id}/points/deduct", method = RequestMethod.PUT)
-    public Boolean finalizeReservation(@PathVariable("account_id") Long accountId,
-                                       @RequestParam("order_id") Long orderId,
-                                       @RequestParam("amount") Integer amount) {
-        boolean result = pointService.finalizeReservation(accountId, orderId, amount);
-        logger.info("积分已永久扣除, 账户号" + accountId);
+    @RequestMapping(value = "/{account_id}/points/consume", method = RequestMethod.PUT)
+    public Boolean consumePoints(@PathVariable("account_id") Long accountId,
+                                 @RequestParam("order_id") Long orderId,
+                                 @RequestParam("amount") Integer amount) {
+        boolean result = false;
+        try {
+            pointService.consumePoints(accountId, orderId, amount);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        logger.info("账户" + accountId + "内在订单" + orderId + "中使用积分: " + amount + "。");
         return result;
     }
 }

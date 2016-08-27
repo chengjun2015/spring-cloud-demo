@@ -13,7 +13,7 @@ public interface PointDao {
 
     int replicate(Point point);
 
-    List<Point> searchAvailableByAccountId(@Param("accountId") Long accountId);
+    List<Point> searchUsableByAccountId(@Param("accountId") Long accountId);
 
     List<Point> searchExpiredByAccountId(@Param("accountId") Long accountId);
 

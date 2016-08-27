@@ -28,6 +28,8 @@ mybatis:
 logging:
   config: classpath:logback-spring.xml
 
+
 gavin:
   point:
+    # 积分有效期限,单位:日
     period: 60
