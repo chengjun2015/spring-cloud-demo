@@ -29,7 +29,13 @@ public class PointServiceImpl implements PointService {
     @Override
     public BigDecimal calcAvailablePointsSum(Long accountId) {
         List<Point> points = pointDao.searchAvailableByAccountId(accountId);
+
         BigDecimal sum = new BigDecimal(0);
+        
+        if (points.isEmpty()) {
+            return sum;
+        }
+
         for (Point point : points) {
             sum = sum.add(new BigDecimal(point.getAmount()));
         }
