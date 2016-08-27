@@ -1,6 +1,5 @@
 package com.gavin.controller;
 
-import com.gavin.domain.account.Account;
 import com.gavin.service.PointService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
