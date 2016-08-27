@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -16,7 +17,7 @@ public class PointHistory implements Serializable {
 
     private Long orderId;
 
-    private Integer amount;
+    private BigDecimal amount;
 
     private Integer action;
 
@@ -55,11 +56,11 @@ public class PointHistory implements Serializable {
         this.action = action;
     }
 
-    public Integer getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
