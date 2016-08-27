@@ -15,8 +15,6 @@ public class Point implements Serializable {
 
     private Long amount;
 
-    private String expire_date;
-
     @JsonFormat(pattern = "yyyy/MM/dd hh:mm:ss")
     private Date createdTime;
 
@@ -45,14 +43,6 @@ public class Point implements Serializable {
 
     public void setAmount(Long amount) {
         this.amount = amount;
-    }
-
-    public String getExpire_date() {
-        return expire_date;
-    }
-
-    public void setExpire_date(String expire_date) {
-        this.expire_date = expire_date;
     }
 
     public Date getCreatedTime() {
