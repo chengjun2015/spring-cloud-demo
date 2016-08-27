@@ -20,8 +20,8 @@
             ${price},
             ${stock},
             "${comment}",
-            now(),
-            now()
+            NOW(),
+            NOW()
         )
     </insert>
 
@@ -57,14 +57,14 @@
     <update id="decreaseStock" parameterType="com.gavin.domain.product.Product">
         UPDATE product
         SET stock         = stock - ${quantity},
-            modified_time = now()
+            modified_time = NOW()
         WHERE id = ${productId}
     </update>
 
     <update id="increaseStock" parameterType="com.gavin.domain.product.Product">
         UPDATE product
         SET stock         = stock + ${quantity},
-            modified_time = now()
+            modified_time = NOW()
         WHERE id = ${productId}
     </update>
 
