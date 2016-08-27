@@ -5,7 +5,6 @@
         <selectKey resultType="java.lang.Long" keyProperty="id">
             SELECT LAST_INSERT_ID()
         </selectKey>
-
         INSERT INTO address (
             account_id,
             consignee,

@@ -6,7 +6,6 @@
         <selectKey resultType="java.lang.Long" keyProperty="id">
             SELECT LAST_INSERT_ID()
         </selectKey>
-
         INSERT INTO account (
             nick_name,
             password,
@@ -19,8 +18,8 @@
             "${password}",
             "${mobilePhone}",
             "${email}",
-            now(),
-            now()
+            NOW(),
+            NOW()
         )
     </insert>
 
