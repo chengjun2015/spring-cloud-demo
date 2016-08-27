@@ -53,11 +53,4 @@ public class PointHistory implements Serializable {
         this.detailFlag = detailFlag;
     }
 
-    public Date getCreatedTime() {
-        return createdTime;
-    }
 
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
-    }
-}
