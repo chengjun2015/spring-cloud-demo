@@ -16,6 +16,8 @@ public class PointHistory implements Serializable {
 
     private Long orderId;
 
+    private Integer amount;
+
     private Integer action;
 
     @JsonFormat(pattern = "yyyy/MM/dd hh:mm:ss")
@@ -51,6 +53,14 @@ public class PointHistory implements Serializable {
 
     public void setAction(Integer action) {
         this.action = action;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 
     public Date getCreatedTime() {
