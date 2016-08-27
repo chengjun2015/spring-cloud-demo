@@ -11,7 +11,7 @@ public class PointExpirePlan implements Serializable {
 
     private Long id;
 
-    private Long pointId;
+    private Long accountId;
 
     private Long amount;
 
@@ -31,12 +31,12 @@ public class PointExpirePlan implements Serializable {
         this.id = id;
     }
 
-    public Long getPointId() {
-        return pointId;
+    public Long getAccountId() {
+        return accountId;
     }
 
-    public void setPointId(Long pointId) {
-        this.pointId = pointId;
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
     }
 
     public Long getAmount() {
