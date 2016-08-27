@@ -17,9 +17,15 @@ public class Order implements Serializable {
 
     private Long addressId;
 
+    private Integer status;
+
     private BigDecimal totalPrice;
 
-    private Integer status;
+    private Integer redeemPoints;
+
+    private BigDecimal remaining;
+
+    private Integer rewardPoints;
 
     @JsonFormat(pattern = "yyyy/MM/dd hh:mm:ss")
     private Date createdTime;
@@ -51,6 +57,14 @@ public class Order implements Serializable {
         this.addressId = addressId;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public BigDecimal getTotalPrice() {
         return totalPrice;
     }
@@ -59,12 +73,28 @@ public class Order implements Serializable {
         this.totalPrice = totalPrice;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getRedeemPoints() {
+        return redeemPoints;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setRedeemPoints(Integer redeemPoints) {
+        this.redeemPoints = redeemPoints;
+    }
+
+    public BigDecimal getRemaining() {
+        return remaining;
+    }
+
+    public void setRemaining(BigDecimal remaining) {
+        this.remaining = remaining;
+    }
+
+    public Integer getRewardPoints() {
+        return rewardPoints;
+    }
+
+    public void setRewardPoints(Integer rewardPoints) {
+        this.rewardPoints = rewardPoints;
     }
 
     public Date getCreatedTime() {
