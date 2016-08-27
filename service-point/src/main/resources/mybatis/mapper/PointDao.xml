@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gavin.dao.PointDao">
+
+    <insert id="create" parameterType="com.gavin.domain.point.Point">
+        INSERT INTO point (
+            account_id,
+            amount,
+            created_time,
+            modified_time)
+        VALUES (
+            ${accountId},
+            0,
+            NOW(),
+            NOW()
+        )
+    </insert>
+
+    <select id="searchByAccountId" resultType="com.gavin.domain.point.Point">
+        SELECT
+            account_id    AS accountId,
+            amount        AS amount,
+            created_time  AS createdTime,
+            modified_time AS modifiedTime
+        FROM point
+        WHERE account_id = ${accountId}
+    </select>
+
+    <update id="decrease">
+        UPDATE point
+        SET amount        = amount - ${amount},
+            modified_time = NOW()
+        WHERE account_id = ${accountId}
+    </update>
+
+    <update id="increase">
+        UPDATE point
+        SET amount        = amount + ${amount},
+            modified_time = NOW()
+        WHERE account_id = ${accountId}
+    </update>
+
+</mapper>
