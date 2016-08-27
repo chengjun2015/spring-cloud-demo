@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RebatePlan implements Serializable {
+public class PointRewardPlan implements Serializable {
 
     private Long id;
 
