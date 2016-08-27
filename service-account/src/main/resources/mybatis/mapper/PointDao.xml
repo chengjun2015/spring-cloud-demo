@@ -3,9 +3,6 @@
 <mapper namespace="com.gavin.dao.PointDao">
 
     <insert id="create" parameterType="com.gavin.domain.account.Point">
-        <selectKey resultType="java.lang.Long" keyProperty="id">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
         INSERT INTO point (
             account_id,
             amount,
@@ -34,7 +31,7 @@
         VALUES (
             ${accountId},
             ${amount},
-            ${expireDate},
+            "${expireDate}",
             NOW(),
             NOW()
         )
@@ -43,6 +40,7 @@
     <select id="searchAvailableByAccountId" resultType="com.gavin.domain.account.Point">
         SELECT
             id            AS id,
+            account_id    AS accountId,
             amount        AS amount,
             expire_date   AS expireDate,
             created_time  AS createdTime,
@@ -70,7 +68,8 @@
     <update id="lockWithOrderId">
         UPDATE point
         SET
-        lock_for_order_id = ${orderId}
+        lock_for_order_id = ${orderId},
+        modified_time = NOW()
         WHERE id IN
         <foreach collection="ids" item="id" index="idx" open="(" separator="," close=")">
             ${id}
@@ -80,7 +79,8 @@
     <update id="releaseByOrderId">
         UPDATE point
         SET
-            lock_for_order_id = NULL
+            lock_for_order_id = NULL,
+            modified_time     = NOW()
         WHERE lock_for_order_id = ${orderId}
     </update>
 

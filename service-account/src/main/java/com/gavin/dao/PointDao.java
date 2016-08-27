@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface PointDao {
 
-    int create(Point point, @Param("period") int period);
+    int create(@Param("accountId") Long accountId, @Param("amount") Integer amount, @Param("period") int period);
 
     int replicate(Point point);
 

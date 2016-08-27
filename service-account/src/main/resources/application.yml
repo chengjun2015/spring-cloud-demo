@@ -27,3 +27,7 @@ mybatis:
 
 logging:
   config: classpath:logback-spring.xml
+
+gavin:
+  point:
+    period: 60

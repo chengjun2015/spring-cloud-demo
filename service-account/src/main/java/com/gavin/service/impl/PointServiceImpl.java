@@ -8,6 +8,7 @@ import com.gavin.enums.PointActionEnums;
 import com.gavin.service.PointService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -27,11 +28,12 @@ public class PointServiceImpl implements PointService {
     private Integer period;
 
     @Override
+    @Transactional
     public BigDecimal calcAvailablePointsSum(Long accountId) {
         List<Point> points = pointDao.searchAvailableByAccountId(accountId);
 
         BigDecimal sum = new BigDecimal(0);
-        
+
         if (points.isEmpty()) {
             return sum;
         }
@@ -43,11 +45,9 @@ public class PointServiceImpl implements PointService {
     }
 
     @Override
+    @Transactional
     public boolean rewardPoints(Long accountId, Long orderId, Integer amount) {
-        Point point = new Point();
-        point.setAccountId(accountId);
-        point.setAmount(amount);
-        pointDao.create(point, period);
+        pointDao.create(accountId, amount, period);
 
         // 记录到积分明细表。
         PointHistory pointHistory = new PointHistory();
@@ -61,6 +61,7 @@ public class PointServiceImpl implements PointService {
     }
 
     @Override
+    @Transactional
     public boolean reservePoints(Long accountId, Long orderId, Integer amount) {
         List<Point> points = pointDao.searchAvailableByAccountId(accountId);
 
@@ -73,11 +74,11 @@ public class PointServiceImpl implements PointService {
                 remaining = remaining - point.getAmount();
             } else {
                 // 把一次用不完的积分记录拆分成两条记录。
-                int balance = point.getAmount() - remaining;
                 Point newPoint = new Point();
                 newPoint.setAccountId(point.getAccountId());
-                newPoint.setAmount(balance);
+                newPoint.setAmount(point.getAmount() - remaining);
                 newPoint.setExpireDate(point.getExpireDate());
+
                 pointDao.replicate(newPoint);
 
                 pointDao.updateAmount(point.getId(), remaining);
@@ -92,6 +93,7 @@ public class PointServiceImpl implements PointService {
     }
 
     @Override
+    @Transactional
     public boolean restorePoints(Long orderId) {
         // 解除积分记录的锁定标志。
         pointDao.releaseByOrderId(orderId);
@@ -99,6 +101,7 @@ public class PointServiceImpl implements PointService {
     }
 
     @Override
+    @Transactional
     public boolean finalizeReservation(Long accountId, Long orderId, Integer amount) {
 
         pointDao.deleteByOrderId(orderId);
@@ -115,6 +118,7 @@ public class PointServiceImpl implements PointService {
     }
 
     @Override
+    @Transactional
     public boolean clearExpiredPoints(Long accountId) {
         pointDao.deleteExpiredByAccountId(accountId);
 

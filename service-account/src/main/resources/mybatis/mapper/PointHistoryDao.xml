@@ -9,12 +9,14 @@
         INSERT INTO point_history (
             account_id,
             order_id,
+            amount,
             action,
             created_time)
         VALUES (
             ${accountId},
             ${orderId},
-            ${detailFlag},
+            ${amount},
+            ${action},
             NOW()
         )
     </insert>
@@ -23,6 +25,7 @@
         SELECT
             account_id   AS accountId,
             order_id     AS orderId,
+            amount       AS amount,
             action       AS action,
             created_time AS createdTime
         FROM point_history
