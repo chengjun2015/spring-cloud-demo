@@ -13,7 +13,7 @@ public class PointRewardPlan implements Serializable {
 
     private Long productId;
 
-    private Integer percentage;
+    private Float ratio;
 
     private String start_date;
 
@@ -38,12 +38,12 @@ public class PointRewardPlan implements Serializable {
         this.productId = productId;
     }
 
-    public Integer getPercentage() {
-        return percentage;
+    public Float getRatio() {
+        return ratio;
     }
 
-    public void setPercentage(Integer percentage) {
-        this.percentage = percentage;
+    public void setRatio(Float ratio) {
+        this.ratio = ratio;
     }
 
     public String getStart_date() {
