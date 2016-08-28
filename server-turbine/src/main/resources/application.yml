@@ -1,0 +1,14 @@
+server:
+  port: 8989
+
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: 5672
+    username: guest
+    password: guest
+
+turbine:
+  app-config: order-service
+  clusterNameExpression: new String("default")
+  # clusterNameExpression: 'default'
