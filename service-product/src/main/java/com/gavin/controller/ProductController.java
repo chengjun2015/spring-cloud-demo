@@ -48,7 +48,7 @@ public class ProductController {
             orderDetail = productService.reserve(items);
             logger.info("订购商品的库存已暂时确保。");
         } catch (OrderException exception) {
-            logger.info(exception.getMessage());
+            logger.warn(exception.getMessage());
         }
         return orderDetail;
     }
