@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface ProductDao {
 
-    Long create(Product product);
+    int create(Product product);
 
     Product searchById(@Param("productId") Long productId);
 

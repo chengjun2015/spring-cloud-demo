@@ -3,6 +3,7 @@ package com.gavin.controller;
 import com.gavin.domain.order.Item;
 import com.gavin.domain.product.Product;
 import com.gavin.exception.order.OrderException;
+import com.gavin.model.order.OrderDetailModel;
 import com.gavin.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,22 +42,28 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/products/reserve", method = RequestMethod.PUT)
-    public BigDecimal reserve(@RequestBody Item[] items) {
+    public OrderDetailModel reserve(@RequestBody Item[] items) {
+        OrderDetailModel orderDetail = null;
         try {
-            BigDecimal totalPrice = productService.reserve(items);
-            logger.info("依据订单相应的库存数已锁定。");
-            return totalPrice;
+            orderDetail = productService.reserve(items);
+            logger.info("订购商品的库存已暂时确保。");
         } catch (OrderException exception) {
             logger.info(exception.getMessage());
-            throw exception;
         }
+        return orderDetail;
     }
 
     @RequestMapping(value = "/products/restore", method = RequestMethod.PUT)
     public Boolean restore(@RequestBody Item[] items) {
-        productService.restore(items);
-        logger.info("由于订单取消或者过期, 锁定的库存数已复原。");
-        return true;
+        boolean result = false;
+        try {
+            productService.restore(items);
+            result = true;
+            logger.info("订购商品锁定的库存数已复原。");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 }
