@@ -12,6 +12,8 @@ public class OrderDetailModel implements Serializable {
 
     private BigDecimal totalPrice;
 
+    private String message;
+
     public List<ItemDetailModel> getItemDetailModels() {
         return itemDetailModels;
     }
@@ -34,5 +36,13 @@ public class OrderDetailModel implements Serializable {
 
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

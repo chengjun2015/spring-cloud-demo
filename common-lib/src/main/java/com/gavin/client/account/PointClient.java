@@ -14,7 +14,7 @@ public interface PointClient {
     @RequestMapping(value = "/{account_id}/points", method = RequestMethod.POST)
     Boolean createPoints(@PathVariable("account_id") Long accountId,
                          @RequestParam("order_id") Long orderId,
-                         @RequestParam("amount") Integer amount);
+                         @RequestParam("amount") BigDecimal amount);
 
     @RequestMapping(value = "/{account_id}/points/query", method = RequestMethod.GET)
     BigDecimal queryUsablePoints(@PathVariable("account_id") Long accountId);
@@ -22,7 +22,7 @@ public interface PointClient {
     @RequestMapping(value = "/{account_id}/points/reserve", method = RequestMethod.PUT)
     Boolean reservePoints(@PathVariable("account_id") Long accountId,
                           @RequestParam("order_id") Long orderId,
-                          @RequestParam("amount") Integer amount);
+                          @RequestParam("amount") BigDecimal amount);
 
     @RequestMapping(value = "/{account_id}/points/restore", method = RequestMethod.PUT)
     Boolean restorePoints(@PathVariable("account_id") Long accountId,
@@ -31,6 +31,6 @@ public interface PointClient {
     @RequestMapping(value = "/{account_id}/points/consume", method = RequestMethod.PUT)
     Boolean consumePoints(@PathVariable("account_id") Long accountId,
                           @RequestParam("order_id") Long orderId,
-                          @RequestParam("amount") Integer amount);
+                          @RequestParam("amount") BigDecimal amount);
 
 }

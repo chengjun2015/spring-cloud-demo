@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -13,7 +14,7 @@ public class Point implements Serializable {
 
     private Long accountId;
 
-    private Integer amount;
+    private BigDecimal amount;
 
     private Long lockForOrderId;
 
@@ -41,11 +42,11 @@ public class Point implements Serializable {
         this.accountId = accountId;
     }
 
-    public Integer getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
