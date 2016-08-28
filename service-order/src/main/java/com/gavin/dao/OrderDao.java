@@ -10,11 +10,13 @@ import java.util.List;
 @Repository
 public interface OrderDao {
 
-    Long create(Order order);
+    int create(Order order);
 
     OrderModel searchById(@Param("orderId") Long orderId);
 
     List<OrderModel> searchByAccountId(@Param("accountId") Long accountId);
 
-    void updateStatus(Order order);
+    int update(Order order);
+
+    int updateStatus(Order order);
 }

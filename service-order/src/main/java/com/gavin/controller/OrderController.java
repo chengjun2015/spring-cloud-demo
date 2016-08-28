@@ -1,11 +1,11 @@
 package com.gavin.controller;
 
-import com.gavin.client.product.ProductClient;
 import com.gavin.domain.order.Item;
 import com.gavin.domain.order.Order;
+import com.gavin.model.order.OrderDetailModel;
 import com.gavin.model.order.OrderModel;
 import com.gavin.service.OrderService;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -24,24 +24,32 @@ public class OrderController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Resource
-    private ProductClient productClient;
-
-    @Resource
     private OrderService orderService;
 
-    @HystrixCommand(fallbackMethod = "reserveFallback")
     @RequestMapping(value = "/{account_id}/orders", method = RequestMethod.POST)
     public Long createOrder(@PathVariable("account_id") Long accountId,
                             @RequestParam("address_id") Long addressId,
                             @RequestBody Item[] items) {
-        // 调用product微服务查询库存,预先锁定库存,计算总金额。
-        BigDecimal totalPrice = productClient.reserve(items);
-        logger.debug("订单总金额: " + totalPrice + "。");
+
+        OrderDetailModel orderDetail = orderService.reserveProducts(items);
+        // 调用product服务失败。
+        if (orderDetail == null) {
+            logger.warn("服务暂不可用。");
+            return -1L;
+        }
+
+        if (!StringUtils.isBlank(orderDetail.getMessage())) {
+            logger.warn(orderDetail.getMessage());
+            return -1L;
+        }
+
+        logger.info("订购的商品全部预约成功。总金额: " + orderDetail.getTotalPrice() + "。");
 
         Order order = new Order();
         order.setAccountId(accountId);
         order.setAddressId(addressId);
-        order.setTotalPrice(totalPrice);
+        order.setTotalPrice(orderDetail.getTotalPrice());
+        order.setRewardPoints(orderDetail.getRewardPoints());
 
         List<Item> itemList = new ArrayList<>();
         Collections.addAll(itemList, items);
@@ -52,21 +60,52 @@ public class OrderController {
 
         orderService.createOrder(orderModel);
 
-        logger.info("订单已创建, 订单号: " + orderModel.getOrder().getId());
+        logger.info("订单" + orderModel.getOrder().getId() + "已创建成功。");
 
         return orderModel.getOrder().getId();
     }
 
-    public Long reserveFallback(Long accountId,
-                                Long addressId,
-                                Item[] items) {
-        logger.warn("断路器工作中。");
-        return -1L;
+    @RequestMapping(value = "/orders/{order_id}/pay", method = RequestMethod.PUT)
+    public Boolean payForOrder(@PathVariable("order_id") Long orderId,
+                               @RequestParam("payment_method") Integer paymentMethod,
+                               @RequestParam(value = "redeem_points", required = false) BigDecimal redeemPoints) {
+        OrderModel orderModel = searchOrderByOrderId(orderId);
+        Long accountId = orderModel.getOrder().getAccountId();
+        BigDecimal totalPrice = orderModel.getOrder().getTotalPrice();
+
+        if (redeemPoints != null & redeemPoints.intValue() > 0) {
+            Boolean result = orderService.reservePoints(accountId, orderId, redeemPoints);
+            if (result != null && result) {
+                logger.info("积分抵扣成功,此次抵扣的积分数:" + redeemPoints + "。");
+            } else {
+                // 无法用积分支付,将进行全额付款。
+                redeemPoints = new BigDecimal("0");
+            }
+        }
+
+        BigDecimal remaining = totalPrice.subtract(redeemPoints);
+
+        Order order = orderModel.getOrder();
+        order.setRedeemPoints(redeemPoints);
+        order.setRemaining(remaining);
+        orderService.updateOrder(order);
+
+        if (remaining.intValue() <= 0) {
+            logger.info("此订单的费用已全部用积分抵扣,无需额外支付。");
+        } else {
+            Long paymentId = orderService.createPayment(accountId, orderId, remaining, paymentMethod);
+            if (paymentId != null) {
+                logger.info("账单生成成功,将跳转到第三方支付平台进行支付。");
+                // 调用第三方支付平台的接口。
+            }
+        }
+
+        return true;
     }
 
     @RequestMapping(value = "/orders/{order_id}", method = RequestMethod.GET)
     public OrderModel searchOrderByOrderId(@PathVariable("order_id") Long orderId) {
-        return orderService.searchOrderById(orderId);
+        return orderService.searchOrderByOrderId(orderId);
     }
 
     @RequestMapping(value = "/{account_id}/orders", method = RequestMethod.GET)
