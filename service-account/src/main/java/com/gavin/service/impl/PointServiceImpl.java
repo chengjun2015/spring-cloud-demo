@@ -5,6 +5,7 @@ import com.gavin.dao.PointHistoryDao;
 import com.gavin.domain.account.Point;
 import com.gavin.domain.account.PointHistory;
 import com.gavin.enums.PointActionEnums;
+import com.gavin.exception.account.PointException;
 import com.gavin.service.PointService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,23 +34,6 @@ public class PointServiceImpl implements PointService {
 
     @Override
     @Transactional
-    public BigDecimal calculateUsablePoints(Long accountId) {
-        List<Point> points = pointDao.searchUsableByAccountId(accountId);
-
-        BigDecimal sum = new BigDecimal(0);
-
-        if (points.isEmpty()) {
-            return sum;
-        }
-
-        for (Point point : points) {
-            sum = sum.add(point.getAmount());
-        }
-        return sum;
-    }
-
-    @Override
-    @Transactional
     public void createPoints(Long accountId, Long orderId, BigDecimal amount) {
         pointDao.create(accountId, amount, period);
 
@@ -64,7 +48,21 @@ public class PointServiceImpl implements PointService {
 
     @Override
     @Transactional
+    public BigDecimal calculateUsablePoints(Long accountId) {
+        return pointDao.searchUsableSumByAccountId(accountId);
+    }
+
+    @Override
+    @Transactional
     public void reservePoints(Long accountId, Long orderId, BigDecimal amount) {
+        BigDecimal newestAmount = pointDao.searchUsableSumByAccountId(accountId);
+        newestAmount = newestAmount == null ? new BigDecimal("0") : newestAmount;
+
+        // 账户内最新的可用积分数小与需求的积分数,既余额不足。
+        if (newestAmount.compareTo(amount) < 0) {
+            throw new PointException("账户" + accountId + "现存的积分数" + newestAmount + "小与需要的积分数" + amount);
+        }
+
         List<Point> points = pointDao.searchUsableByAccountId(accountId);
 
         List<Long> ids = new ArrayList<>();
@@ -87,8 +85,11 @@ public class PointServiceImpl implements PointService {
                 break;
             }
         }
-        // 设置这些记录的锁定标志。这样这些积分就无法被其它订单使用,即使过期也不会被清除。
-        pointDao.lockWithOrderId(ids, orderId);
+
+        if (!ids.isEmpty()) {
+            // 设置这些记录的锁定标志。这样这些积分就无法被其它订单使用,即使过期也不会被清除。
+            pointDao.lockWithOrderId(ids, orderId);
+        }
     }
 
     @Override

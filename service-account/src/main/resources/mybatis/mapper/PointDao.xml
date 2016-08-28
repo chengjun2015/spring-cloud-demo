@@ -52,6 +52,14 @@
         ORDER BY expire_date
     </select>
 
+    <select id="searchUsableSumByAccountId" resultType="java.math.BigDecimal">
+        SELECT SUM(amount)
+        FROM point
+        WHERE account_id = ${accountId}
+              AND STR_TO_DATE(expire_date, '%Y-%m-%d') &gt;= NOW()
+              AND lock_for_order_id IS NULL
+    </select>
+
     <select id="searchExpiredByAccountId" resultType="com.gavin.domain.account.Point">
         SELECT
             id            AS id,

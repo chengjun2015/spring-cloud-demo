@@ -16,6 +16,8 @@ public interface PointDao {
 
     List<Point> searchUsableByAccountId(@Param("accountId") Long accountId);
 
+    BigDecimal searchUsableSumByAccountId(@Param("accountId") Long accountId);
+
     List<Point> searchExpiredByAccountId(@Param("accountId") Long accountId);
 
     int lockWithOrderId(@Param("ids") List<Long> ids, @Param("orderId") Long orderId);
