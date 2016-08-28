@@ -31,9 +31,9 @@ public class PaymentServiceImpl implements PaymentService {
     private RabbitTemplate rabbitTemplate;
 
     @Override
-    public Long createPayment(Payment payment) {
+    @Transactional
+    public void createPayment(Payment payment) {
         paymentDao.create(payment);
-        return payment.getId();
     }
 
     @Override

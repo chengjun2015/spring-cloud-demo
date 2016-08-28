@@ -20,20 +20,27 @@ public class PaymentController {
     private PaymentService paymentService;
 
     @RequestMapping(value = "/payments", method = RequestMethod.POST)
-    public Long createAccount(@RequestParam("order_id") Long orderId,
-                              @RequestParam("account_id") Long accountId,
+    public Long createPayment(@RequestParam("account_id") Long accountId,
+                              @RequestParam("order_id") Long orderId,
                               @RequestParam("amount") BigDecimal amount,
                               @RequestParam("payment_method") Integer paymentMethod) {
+        Long paymentId = null;
+
         Payment payment = new Payment();
         payment.setOrderId(orderId);
         payment.setAccountId(accountId);
         payment.setAmount(amount);
         payment.setPaymentMethod(paymentMethod);
 
-        paymentService.createPayment(payment);
+        try {
+            paymentService.createPayment(payment);
+            paymentId = payment.getId();
+            logger.info("账单" + paymentId + "已创建成功。");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        logger.info("账单已创建, 编号:" + payment.getId() + "。");
-        return payment.getId();
+        return paymentId;
     }
 
     @RequestMapping(value = "/payments/{payment_id}", method = RequestMethod.GET)

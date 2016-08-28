@@ -5,7 +5,7 @@ import com.gavin.domain.payment.Payment;
 
 public interface PaymentService {
 
-    Long createPayment(Payment payment);
+    void createPayment(Payment payment);
 
     Payment searchPaymentById(Long paymentId);
 
