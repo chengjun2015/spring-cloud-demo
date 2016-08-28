@@ -12,12 +12,12 @@ public interface PointService {
     /**
      * 获得返点的积分,同时要记录到积分明细表中。
      */
-    void createPoints(Long accountId, Long orderId, Integer amount);
+    void createPoints(Long accountId, Long orderId, BigDecimal amount);
 
     /**
      * 预先扣除积分。如果订单取消,将调用restorePoints方法来恢复这些积分。
      */
-    void reservePoints(Long accountId, Long orderId, Integer amount);
+    void reservePoints(Long accountId, Long orderId, BigDecimal amount);
 
     /**
      * 订单中止时调用。恢复预先扣除的积分。
@@ -27,7 +27,7 @@ public interface PointService {
     /**
      * 订单最终完成时调用。
      */
-    void consumePoints(Long accountId, Long orderId, Integer amount);
+    void consumePoints(Long accountId, Long orderId, BigDecimal amount);
 
     /**
      * 被定时Job调用用来清理过期积分。

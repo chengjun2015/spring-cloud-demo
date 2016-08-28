@@ -4,12 +4,13 @@ import com.gavin.domain.account.Point;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
 public interface PointDao {
 
-    int create(@Param("accountId") Long accountId, @Param("amount") Integer amount, @Param("period") int period);
+    int create(@Param("accountId") Long accountId, @Param("amount") BigDecimal amount, @Param("period") int period);
 
     int replicate(Point point);
 
@@ -21,7 +22,7 @@ public interface PointDao {
 
     int releaseByOrderId(@Param("orderId") Long orderId);
 
-    int updateAmount(@Param("id") Long id, @Param("amount") Integer amount);
+    int updateAmount(@Param("id") Long id, @Param("amount") BigDecimal amount);
 
     int deleteByOrderId(@Param("orderId") Long orderId);
 

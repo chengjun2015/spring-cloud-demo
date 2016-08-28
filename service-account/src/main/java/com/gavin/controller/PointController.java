@@ -19,7 +19,7 @@ public class PointController {
     @RequestMapping(value = "/{account_id}/points", method = RequestMethod.POST)
     public Boolean createPoints(@PathVariable("account_id") Long accountId,
                                 @RequestParam("order_id") Long orderId,
-                                @RequestParam("amount") Integer amount) {
+                                @RequestParam("amount") BigDecimal amount) {
         boolean result = false;
         try {
             pointService.createPoints(accountId, orderId, amount);
@@ -41,7 +41,7 @@ public class PointController {
     @RequestMapping(value = "/{account_id}/points/reserve", method = RequestMethod.PUT)
     public Boolean reservePoints(@PathVariable("account_id") Long accountId,
                                  @RequestParam("order_id") Long orderId,
-                                 @RequestParam("amount") Integer amount) {
+                                 @RequestParam("amount") BigDecimal amount) {
         boolean result = false;
         try {
             pointService.reservePoints(accountId, orderId, amount);
@@ -70,7 +70,7 @@ public class PointController {
     @RequestMapping(value = "/{account_id}/points/consume", method = RequestMethod.PUT)
     public Boolean consumePoints(@PathVariable("account_id") Long accountId,
                                  @RequestParam("order_id") Long orderId,
-                                 @RequestParam("amount") Integer amount) {
+                                 @RequestParam("amount") BigDecimal amount) {
         boolean result = false;
         try {
             pointService.consumePoints(accountId, orderId, amount);

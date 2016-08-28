@@ -43,41 +43,41 @@ public class PointServiceImpl implements PointService {
         }
 
         for (Point point : points) {
-            sum = sum.add(new BigDecimal(point.getAmount()));
+            sum = sum.add(point.getAmount());
         }
         return sum;
     }
 
     @Override
     @Transactional
-    public void createPoints(Long accountId, Long orderId, Integer amount) {
+    public void createPoints(Long accountId, Long orderId, BigDecimal amount) {
         pointDao.create(accountId, amount, period);
 
         // 记录到积分明细表。
         PointHistory pointHistory = new PointHistory();
         pointHistory.setAccountId(accountId);
         pointHistory.setOrderId(orderId);
-        pointHistory.setAmount(new BigDecimal(amount));
+        pointHistory.setAmount(amount);
         pointHistory.setAction(PointActionEnums.POINT_ACTION_REWARD.getValue());
         pointHistoryDao.create(pointHistory);
     }
 
     @Override
     @Transactional
-    public void reservePoints(Long accountId, Long orderId, Integer amount) {
+    public void reservePoints(Long accountId, Long orderId, BigDecimal amount) {
         List<Point> points = pointDao.searchUsableByAccountId(accountId);
 
         List<Long> ids = new ArrayList<>();
-        int remaining = amount;
+        BigDecimal remaining = amount;
         for (Point point : points) {
-            if (point.getAmount() < remaining) {
+            if (point.getAmount().compareTo(remaining) < 0) {
                 ids.add(point.getId());
-                remaining = remaining - point.getAmount();
+                remaining = remaining.subtract(point.getAmount());
             } else {
                 // 把一次用不完的积分记录拆分成两条记录。
                 Point newPoint = new Point();
                 newPoint.setAccountId(point.getAccountId());
-                newPoint.setAmount(point.getAmount() - remaining);
+                newPoint.setAmount(point.getAmount().subtract(remaining));
                 newPoint.setExpireDate(point.getExpireDate());
 
                 pointDao.replicate(newPoint);
@@ -100,14 +100,14 @@ public class PointServiceImpl implements PointService {
 
     @Override
     @Transactional
-    public void consumePoints(Long accountId, Long orderId, Integer amount) {
+    public void consumePoints(Long accountId, Long orderId, BigDecimal amount) {
         pointDao.deleteByOrderId(orderId);
 
         // 记录到积分明细表。
         PointHistory pointHistory = new PointHistory();
         pointHistory.setAccountId(accountId);
         pointHistory.setOrderId(orderId);
-        pointHistory.setAmount(new BigDecimal(amount));
+        pointHistory.setAmount(amount);
         pointHistory.setAction(PointActionEnums.POINT_ACTION_CONSUME.getValue());
         pointHistoryDao.create(pointHistory);
     }
@@ -126,7 +126,7 @@ public class PointServiceImpl implements PointService {
 
         BigDecimal expiredSum = new BigDecimal(0);
         for (Point point : expiredPoints) {
-            expiredSum = expiredSum.add(new BigDecimal(point.getAmount()));
+            expiredSum = expiredSum.add(point.getAmount());
         }
         logger.info("账户" + accountId + "内此次过期失效的积分数: " + expiredSum + "。");
 
