@@ -12,7 +12,7 @@ public interface PointService {
     /**
      * 获得返点的积分,同时要记录到积分明细表中。
      */
-    void rewardPoints(Long accountId, Long orderId, Integer amount);
+    void createPoints(Long accountId, Long orderId, Integer amount);
 
     /**
      * 预先扣除积分。如果订单取消,将调用restorePoints方法来恢复这些积分。

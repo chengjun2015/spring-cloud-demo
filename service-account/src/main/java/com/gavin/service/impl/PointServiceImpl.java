@@ -50,7 +50,7 @@ public class PointServiceImpl implements PointService {
 
     @Override
     @Transactional
-    public void rewardPoints(Long accountId, Long orderId, Integer amount) {
+    public void createPoints(Long accountId, Long orderId, Integer amount) {
         pointDao.create(accountId, amount, period);
 
         // 记录到积分明细表。

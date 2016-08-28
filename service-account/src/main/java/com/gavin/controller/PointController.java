@@ -22,7 +22,7 @@ public class PointController {
                                 @RequestParam("amount") Integer amount) {
         boolean result = false;
         try {
-            pointService.rewardPoints(accountId, orderId, amount);
+            pointService.createPoints(accountId, orderId, amount);
             result = true;
         } catch (Exception e) {
             e.printStackTrace();
