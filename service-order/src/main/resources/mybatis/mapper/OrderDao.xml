@@ -13,12 +13,13 @@
             status,
             created_time,
             modified_time
-        ) VALUES (${accountId},
-                  ${addressId},
-                  ${totalPrice},
-                  ${status},
-                  now(),
-                  now()
+        ) VALUES (
+            ${accountId},
+            ${addressId},
+            ${totalPrice},
+            ${status},
+            NOW(),
+            NOW()
         )
     </insert>
 
@@ -28,6 +29,9 @@
         <result property="order.addressId" column="address_id"/>
         <result property="order.status" column="status"/>
         <result property="order.totalPrice" column="total_price"/>
+        <result property="order.redeemPoints" column="redeem_points"/>
+        <result property="order.remaining" column="remaining"/>
+        <result property="order.rewardPoints" column="reward_points"/>
         <result property="order.createdTime" column="created_time"/>
         <result property="order.modifiedTime" column="modified_time"/>
         <collection property="items" ofType="com.gavin.domain.order.Item" javaType="ArrayList">
@@ -44,6 +48,9 @@
             `order`.address_id    AS address_id,
             `order`.status        AS status,
             `order`.total_price   AS total_price,
+            `order`.redeem_points AS redeem_points,
+            `order`.remaining     AS remaining,
+            `order`.reward_points AS reward_points,
             `order`.created_time  AS created_time,
             `order`.modified_time AS modified_time,
             item.id               AS item_id,
@@ -61,6 +68,9 @@
             `order`.address_id    AS address_id,
             `order`.status        AS status,
             `order`.total_price   AS total_price,
+            `order`.redeem_points AS redeem_points,
+            `order`.remaining     AS remaining,
+            `order`.reward_points AS reward_points,
             `order`.created_time  AS created_time,
             `order`.modified_time AS modified_time,
             item.id               AS item_id,
@@ -71,10 +81,36 @@
         WHERE `order`.account_id = ${accountId}
     </select>
 
+    <update id="update" parameterType="com.gavin.domain.order.Order">
+        UPDATE `order`
+        <set>
+            <if test="addressId != null and addressId != '' ">
+                address_id = ${addressId},
+            </if>
+            <if test="status != null and status != '' ">
+                status = ${status},
+            </if>
+            <if test="totalPrice != null and totalPrice != '' ">
+                total_price = ${totalPrice},
+            </if>
+            <if test="redeemPoints != null and redeemPoints != '' ">
+                redeem_points = ${redeemPoints},
+            </if>
+            <if test="remaining != null and remaining != '' ">
+                remaining = ${remaining},
+            </if>
+            <if test="rewardPoints != null and rewardPoints != '' ">
+                reward_points = ${rewardPoints},
+            </if>
+            modified_time = NOW()
+        </set>
+        WHERE id = ${id}
+    </update>
+
     <update id="updateStatus" parameterType="com.gavin.domain.order.Order">
         UPDATE `order`
         SET status        = ${status},
-            modified_time = now()
+            modified_time = NOW()
         WHERE
             id = ${id}
     </update>
