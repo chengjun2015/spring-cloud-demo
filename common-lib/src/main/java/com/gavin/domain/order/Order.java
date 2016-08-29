@@ -23,7 +23,7 @@ public class Order implements Serializable {
 
     private BigDecimal redeemPoints;
 
-    private BigDecimal remaining;
+    private BigDecimal cash;
 
     private BigDecimal rewardPoints;
 
@@ -81,12 +81,12 @@ public class Order implements Serializable {
         this.redeemPoints = redeemPoints;
     }
 
-    public BigDecimal getRemaining() {
-        return remaining;
+    public BigDecimal getCash() {
+        return cash;
     }
 
-    public void setRemaining(BigDecimal remaining) {
-        this.remaining = remaining;
+    public void setCash(BigDecimal cash) {
+        this.cash = cash;
     }
 
     public BigDecimal getRewardPoints() {

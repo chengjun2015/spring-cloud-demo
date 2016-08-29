@@ -73,7 +73,7 @@ public class OrderController {
         Long accountId = orderModel.getOrder().getAccountId();
         BigDecimal totalPrice = orderModel.getOrder().getTotalPrice();
 
-        if (redeemPoints != null & redeemPoints.intValue() > 0) {
+        if (null != redeemPoints & redeemPoints.intValue() > 0) {
             Boolean result = orderService.reservePoints(accountId, orderId, redeemPoints);
             if (result != null && result) {
                 logger.info("积分抵扣成功,此次抵扣的积分数:" + redeemPoints + "。");
@@ -83,17 +83,17 @@ public class OrderController {
             }
         }
 
-        BigDecimal remaining = totalPrice.subtract(redeemPoints);
+        BigDecimal cash = totalPrice.subtract(redeemPoints);
 
         Order order = orderModel.getOrder();
         order.setRedeemPoints(redeemPoints);
-        order.setRemaining(remaining);
+        order.setCash(cash);
         orderService.updateOrder(order);
 
-        if (remaining.intValue() <= 0) {
+        if (cash.intValue() <= 0) {
             logger.info("此订单的费用已全部用积分抵扣,无需额外支付。");
         } else {
-            Long paymentId = orderService.createPayment(accountId, orderId, remaining, paymentMethod);
+            Long paymentId = orderService.createPayment(accountId, orderId, cash, paymentMethod);
             if (paymentId != null) {
                 logger.info("账单生成成功,将跳转到第三方支付平台进行支付。");
                 // 调用第三方支付平台的接口。

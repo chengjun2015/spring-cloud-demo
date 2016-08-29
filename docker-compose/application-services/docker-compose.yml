@@ -157,3 +157,11 @@ services:
       - config-server
       - queue-server
     restart: always
+
+  hystrix-dashboard-ui:
+    image: 192.168.1.88:5000/ui-hystrix-dashboard
+    networks:
+      - demo-net
+    ports:
+      - 11001:11001
+    restart: always

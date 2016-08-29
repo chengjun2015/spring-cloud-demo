@@ -79,7 +79,7 @@ public class OrderServiceImpl implements OrderService {
         return pointClient.reservePoints(accountId, orderId, amount);
     }
 
-    private Boolean reservePointsFallback(Long accountId, Long orderId, Integer amount) {
+    private Boolean reservePointsFallback(Long accountId, Long orderId, BigDecimal amount) {
         logger.warn("调用reservePoints方法时触发断路器。");
         return null;
     }
@@ -90,7 +90,7 @@ public class OrderServiceImpl implements OrderService {
         return paymentClient.createPayment(accountId, orderId, amount, paymentMethod);
     }
 
-    private Long createPaymentFallback(Long accountId, Long orderId, Integer amount, Integer paymentMethod) {
+    private Long createPaymentFallback(Long accountId, Long orderId, BigDecimal amount, Integer paymentMethod) {
         logger.warn("调用createPayment方法时触发断路器。");
         return null;
     }
