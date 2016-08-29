@@ -96,8 +96,8 @@
             <if test="redeemPoints != null and redeemPoints != '' ">
                 redeem_points = ${redeemPoints},
             </if>
-            <if test="remaining != null and remaining != '' ">
-                remaining = ${remaining},
+            <if test="cash != null and cash != '' ">
+                cash = ${cash},
             </if>
             <if test="rewardPoints != null and rewardPoints != '' ">
                 reward_points = ${rewardPoints},

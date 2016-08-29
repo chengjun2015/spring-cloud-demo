@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `item`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `item` (
-  `id` bigint(11) NOT NULL,
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
   `product_id` bigint(11) NOT NULL,
   `quantity` int(11) NOT NULL COMMENT '订购的同种商品数量。',
   `order_id` bigint(11) NOT NULL,
@@ -39,7 +39,7 @@ DROP TABLE IF EXISTS `order`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `order` (
-  `id` bigint(11) NOT NULL,
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
   `account_id` bigint(11) NOT NULL,
   `address_id` bigint(11) NOT NULL,
   `status` tinyint(1) NOT NULL COMMENT '-1：超时未支付\n0：用户取消\n1：订单创建\n2：完成支付\n3：已发货\n4：已收货\n9：订单完成',
@@ -62,4 +62,4 @@ CREATE TABLE `order` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-29 16:24:51
+-- Dump completed on 2016-08-29 18:20:49

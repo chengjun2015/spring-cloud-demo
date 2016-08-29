@@ -1,9 +1,10 @@
 package com.gavin.service.impl;
 
-import com.gavin.client.account.PointClient;
+import com.gavin.client.point.PointClient;
 import com.gavin.client.payment.PaymentClient;
 import com.gavin.client.product.ProductClient;
 import com.gavin.constant.CacheNameConsts;
+import com.gavin.constant.ResponseCodeConsts;
 import com.gavin.dao.ItemDao;
 import com.gavin.dao.OrderDao;
 import com.gavin.domain.order.Item;
@@ -12,6 +13,8 @@ import com.gavin.enums.OrderStatusEnums;
 import com.gavin.exception.order.OrderException;
 import com.gavin.model.order.OrderDetailModel;
 import com.gavin.model.order.OrderModel;
+import com.gavin.request.point.ReservePointReq;
+import com.gavin.response.Response;
 import com.gavin.service.OrderService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;
@@ -76,7 +79,17 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @HystrixCommand(fallbackMethod = "reservePointsFallback")
     public Boolean reservePoints(Long accountId, Long orderId, BigDecimal amount) {
-        return pointClient.reservePoints(accountId, orderId, amount);
+        ReservePointReq reservePointReq = new ReservePointReq();
+        reservePointReq.setOrderId(orderId);
+        reservePointReq.setAmount(amount);
+        Response response = pointClient.reservePoints(accountId, reservePointReq);
+        if (ResponseCodeConsts.CODE_POINT_NORMAL.equals(response.getCode())) {
+            logger.info("调用point微服务成功锁定" + amount + "积分。");
+            return true;
+        } else {
+            logger.error(response.getMessage());
+            return false;
+        }
     }
 
     private Boolean reservePointsFallback(Long accountId, Long orderId, BigDecimal amount) {

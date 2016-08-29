@@ -27,7 +27,7 @@ CREATE TABLE `category` (
   `name` varchar(45) NOT NULL,
   `parent_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ DROP TABLE IF EXISTS `point_reward_plan`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `point_reward_plan` (
-  `id` bigint(11) NOT NULL,
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
   `product_id` bigint(11) NOT NULL,
   `ratio` float NOT NULL COMMENT '返点的百分比，例如0.3',
   `start_date` varchar(10) NOT NULL COMMENT '返点计划开始日期。',
@@ -56,7 +56,7 @@ DROP TABLE IF EXISTS `product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `product` (
-  `id` bigint(11) NOT NULL,
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(45) NOT NULL,
   `category_id` bigint(11) NOT NULL,
   `price` float NOT NULL,
@@ -64,8 +64,7 @@ CREATE TABLE `product` (
   `comment` varchar(45) DEFAULT NULL,
   `created_time` datetime NOT NULL,
   `modified_time` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `category_id_fk_idx` (`category_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -78,4 +77,4 @@ CREATE TABLE `product` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-29 16:26:05
+-- Dump completed on 2016-08-29 18:41:38

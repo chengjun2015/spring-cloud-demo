@@ -31,7 +31,7 @@ CREATE TABLE `account` (
   `created_time` datetime NOT NULL,
   `modified_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ DROP TABLE IF EXISTS `address`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `address` (
-  `id` bigint(11) NOT NULL,
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
   `account_id` bigint(11) NOT NULL,
   `consignee` varchar(45) NOT NULL COMMENT '收货人姓名。',
   `phone_number` varchar(20) NOT NULL,
@@ -66,7 +66,7 @@ DROP TABLE IF EXISTS `point`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `point` (
-  `id` bigint(11) NOT NULL,
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
   `account_id` bigint(11) NOT NULL,
   `amount` decimal(10,0) NOT NULL,
   `lock_for_order_id` bigint(11) DEFAULT NULL COMMENT '为了哪个订单而暂时保持这些积分过期了也不清零。',
@@ -85,7 +85,7 @@ DROP TABLE IF EXISTS `point_history`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `point_history` (
-  `id` bigint(11) NOT NULL,
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
   `account_id` bigint(11) NOT NULL,
   `order_id` bigint(11) DEFAULT NULL,
   `amount` decimal(10,0) NOT NULL,
@@ -105,4 +105,4 @@ CREATE TABLE `point_history` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-29 16:23:54
+-- Dump completed on 2016-08-29 18:38:52

@@ -49,7 +49,8 @@ public class PointServiceImpl implements PointService {
     @Override
     @Transactional
     public BigDecimal calculateUsablePoints(Long accountId) {
-        return pointDao.searchUsableSumByAccountId(accountId);
+        BigDecimal amount = pointDao.searchUsableSumByAccountId(accountId);
+        return amount == null ? new BigDecimal("0") : amount;
     }
 
     @Override
@@ -60,7 +61,7 @@ public class PointServiceImpl implements PointService {
 
         // 账户内最新的可用积分数小与需求的积分数,既余额不足。
         if (newestAmount.compareTo(amount) < 0) {
-            throw new PointException("账户" + accountId + "现存的积分数" + newestAmount + "小与需要的积分数" + amount);
+            throw new PointException("账户" + accountId + "内现存的积分数为" + newestAmount + ",小与想要使用的积分数" + amount);
         }
 
         List<Point> points = pointDao.searchUsableByAccountId(accountId);
@@ -129,7 +130,7 @@ public class PointServiceImpl implements PointService {
         for (Point point : expiredPoints) {
             expiredSum = expiredSum.add(point.getAmount());
         }
-        logger.info("账户" + accountId + "内此次过期失效的积分数: " + expiredSum + "。");
+        logger.info("账户" + accountId + "内此次过期失效的积分数为" + expiredSum + "。");
 
         // 记录到积分明细表。
         PointHistory pointHistory = new PointHistory();

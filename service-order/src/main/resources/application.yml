@@ -18,6 +18,7 @@ spring:
     port: 6379
   cache:
     type: redis
+
   sleuth:
     sampler:
       percentage: 1

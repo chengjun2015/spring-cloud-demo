@@ -1,11 +1,20 @@
 package com.gavin.controller;
 
+import com.gavin.constant.ResponseCodeConsts;
+import com.gavin.exception.account.PointException;
+
+import com.gavin.request.point.ConsumePointReq;
+import com.gavin.request.point.CreatePointReq;
+import com.gavin.request.point.ReservePointReq;
+import com.gavin.request.point.RestorePointReq;
+import com.gavin.response.Response;
 import com.gavin.service.PointService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.math.BigDecimal;
 
 @RestController
@@ -16,69 +25,67 @@ public class PointController {
     @Resource
     private PointService pointService;
 
-    @RequestMapping(value = "/{account_id}/points", method = RequestMethod.POST)
-    public Boolean createPoints(@PathVariable("account_id") Long accountId,
-                                @RequestParam("order_id") Long orderId,
-                                @RequestParam("amount") BigDecimal amount) {
-        boolean result = false;
-        try {
-            pointService.createPoints(accountId, orderId, amount);
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        logger.info("账户" + accountId + "内由于订单" + orderId + "完成产生的积分: " + amount + "。");
-        return result;
-    }
-
     @RequestMapping(value = "/{account_id}/points/query", method = RequestMethod.GET)
-    public BigDecimal queryUsablePoints(@PathVariable("account_id") Long accountId) {
+    public Response queryUsablePoints(@PathVariable("account_id") Long accountId) {
         BigDecimal pointsSum = pointService.calculateUsablePoints(accountId);
         logger.info("账户" + accountId + "内目前可用积分: " + pointsSum);
-        return pointsSum;
+
+        Response response = new Response(ResponseCodeConsts.CODE_POINT_NORMAL);
+        response.setData(pointsSum);
+        return response;
+    }
+
+    @RequestMapping(value = "/{account_id}/points", method = RequestMethod.POST)
+    public Response createPoints(@PathVariable("account_id") Long accountId,
+                                 @Valid @RequestBody CreatePointReq createPointReq) {
+        Long orderId = createPointReq.getOrderId();
+        BigDecimal amount = createPointReq.getAmount();
+
+        pointService.createPoints(accountId, orderId, amount);
+        logger.info("账户" + accountId + "内由于订单" + orderId + "完成所产生的积分: " + amount + "。");
+        return new Response(ResponseCodeConsts.CODE_POINT_NORMAL);
     }
 
     @RequestMapping(value = "/{account_id}/points/reserve", method = RequestMethod.PUT)
-    public Boolean reservePoints(@PathVariable("account_id") Long accountId,
-                                 @RequestParam("order_id") Long orderId,
-                                 @RequestParam("amount") BigDecimal amount) {
-        boolean result = false;
+    public Response reservePoints(@PathVariable("account_id") Long accountId,
+                                  @Valid @RequestBody ReservePointReq reservePointReq) {
+        Long orderId = reservePointReq.getOrderId();
+        BigDecimal amount = reservePointReq.getAmount();
+
+        Response response = null;
         try {
             pointService.reservePoints(accountId, orderId, amount);
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
+            logger.info("账户" + accountId + "内此次冻结积分: " + amount);
+
+            response = new Response(ResponseCodeConsts.CODE_POINT_NORMAL);
+            response.setMessage("积分扣除成功,此次扣除" + amount + "。");
+        } catch (PointException e) {
+            logger.warn(e.getMessage());
+            response = new Response(ResponseCodeConsts.CODE_POINT_INSUFFICIENT_BALANCE);
+            response.setMessage(e.getMessage());
         }
-        logger.info("账户" + accountId + "内此次冻结积分: " + amount);
-        return result;
+
+        return response;
     }
 
     @RequestMapping(value = "/{account_id}/points/restore", method = RequestMethod.PUT)
-    public Boolean restorePoints(@PathVariable("account_id") Long accountId,
-                                 @RequestParam("order_id") Long orderId) {
-        boolean result = false;
-        try {
-            pointService.restorePoints(orderId);
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        logger.info("账户" + accountId + "内由订单" + orderId + "冻结的积分已解冻。");
-        return result;
+    public Response restorePoints(@PathVariable("account_id") Long accountId,
+                                  @Valid @RequestBody RestorePointReq restorePointReq) {
+        Long orderId = restorePointReq.getOrderId();
+
+        pointService.restorePoints(orderId);
+        logger.info("账户" + accountId + "内由于订单" + orderId + "而冻结的积分已全部解冻。");
+        return new Response(ResponseCodeConsts.CODE_POINT_NORMAL);
     }
 
     @RequestMapping(value = "/{account_id}/points/consume", method = RequestMethod.PUT)
-    public Boolean consumePoints(@PathVariable("account_id") Long accountId,
-                                 @RequestParam("order_id") Long orderId,
-                                 @RequestParam("amount") BigDecimal amount) {
-        boolean result = false;
-        try {
-            pointService.consumePoints(accountId, orderId, amount);
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public Response consumePoints(@PathVariable("account_id") Long accountId,
+                                  @Valid @RequestBody ConsumePointReq consumePointReq) {
+        Long orderId = consumePointReq.getOrderId();
+        BigDecimal amount = consumePointReq.getAmount();
+
+        pointService.consumePoints(accountId, orderId, amount);
         logger.info("账户" + accountId + "内在订单" + orderId + "中使用积分: " + amount + "。");
-        return result;
+        return new Response(ResponseCodeConsts.CODE_POINT_NORMAL);
     }
 }

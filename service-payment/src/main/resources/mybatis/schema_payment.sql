@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `payment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `payment` (
-  `id` bigint(11) NOT NULL,
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
   `order_id` bigint(11) NOT NULL COMMENT '关联的订单号',
   `account_id` bigint(11) NOT NULL COMMENT '关联的账号',
   `amount` decimal(10,0) NOT NULL,
@@ -45,4 +45,4 @@ CREATE TABLE `payment` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-29 16:25:14
+-- Dump completed on 2016-08-29 18:40:35
