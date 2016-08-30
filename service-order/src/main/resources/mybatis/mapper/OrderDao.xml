@@ -23,7 +23,7 @@
         )
     </insert>
 
-    <resultMap id="orderModelMap" type="com.gavin.model.order.OrderModel">
+    <resultMap id="orderModelMap" type="com.gavin.model.response.order.OrderModel">
         <id property="order.id" column="order_id"/>
         <result property="order.accountId" column="account_id"/>
         <result property="order.addressId" column="address_id"/>

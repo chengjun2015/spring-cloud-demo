@@ -3,11 +3,11 @@ package com.gavin.controller;
 import com.gavin.constant.ResponseCodeConsts;
 import com.gavin.exception.account.PointException;
 
-import com.gavin.request.point.ConsumePointReq;
-import com.gavin.request.point.CreatePointReq;
-import com.gavin.request.point.ReservePointReq;
-import com.gavin.request.point.RestorePointReq;
-import com.gavin.response.Response;
+import com.gavin.model.request.point.ConsumePointModel;
+import com.gavin.model.request.point.CreatePointModel;
+import com.gavin.model.request.point.ReservePointModel;
+import com.gavin.model.request.point.RestorePointModel;
+import com.gavin.model.response.Response;
 import com.gavin.service.PointService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,9 +37,9 @@ public class PointController {
 
     @RequestMapping(value = "/{account_id}/points", method = RequestMethod.POST)
     public Response createPoints(@PathVariable("account_id") Long accountId,
-                                 @Valid @RequestBody CreatePointReq createPointReq) {
-        Long orderId = createPointReq.getOrderId();
-        BigDecimal amount = createPointReq.getAmount();
+                                 @Valid @RequestBody CreatePointModel createPointModel) {
+        Long orderId = createPointModel.getOrderId();
+        BigDecimal amount = createPointModel.getAmount();
 
         pointService.createPoints(accountId, orderId, amount);
         logger.info("账户" + accountId + "内由于订单" + orderId + "完成所产生的积分: " + amount + "。");
@@ -48,11 +48,11 @@ public class PointController {
 
     @RequestMapping(value = "/{account_id}/points/reserve", method = RequestMethod.PUT)
     public Response reservePoints(@PathVariable("account_id") Long accountId,
-                                  @Valid @RequestBody ReservePointReq reservePointReq) {
-        Long orderId = reservePointReq.getOrderId();
-        BigDecimal amount = reservePointReq.getAmount();
+                                  @Valid @RequestBody ReservePointModel reservePointModel) {
+        Long orderId = reservePointModel.getOrderId();
+        BigDecimal amount = reservePointModel.getAmount();
 
-        Response response = null;
+        Response response;
         try {
             pointService.reservePoints(accountId, orderId, amount);
             logger.info("账户" + accountId + "内此次冻结积分: " + amount);
@@ -70,8 +70,8 @@ public class PointController {
 
     @RequestMapping(value = "/{account_id}/points/restore", method = RequestMethod.PUT)
     public Response restorePoints(@PathVariable("account_id") Long accountId,
-                                  @Valid @RequestBody RestorePointReq restorePointReq) {
-        Long orderId = restorePointReq.getOrderId();
+                                  @Valid @RequestBody RestorePointModel restorePointModel) {
+        Long orderId = restorePointModel.getOrderId();
 
         pointService.restorePoints(orderId);
         logger.info("账户" + accountId + "内由于订单" + orderId + "而冻结的积分已全部解冻。");
@@ -80,9 +80,9 @@ public class PointController {
 
     @RequestMapping(value = "/{account_id}/points/consume", method = RequestMethod.PUT)
     public Response consumePoints(@PathVariable("account_id") Long accountId,
-                                  @Valid @RequestBody ConsumePointReq consumePointReq) {
-        Long orderId = consumePointReq.getOrderId();
-        BigDecimal amount = consumePointReq.getAmount();
+                                  @Valid @RequestBody ConsumePointModel consumePointModel) {
+        Long orderId = consumePointModel.getOrderId();
+        BigDecimal amount = consumePointModel.getAmount();
 
         pointService.consumePoints(accountId, orderId, amount);
         logger.info("账户" + accountId + "内在订单" + orderId + "中使用积分: " + amount + "。");

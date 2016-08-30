@@ -2,9 +2,7 @@ package com.gavin.listener;
 
 import com.gavin.constant.QueueNameConsts;
 import com.gavin.domain.delivery.Delivery;
-import com.gavin.domain.order.Order;
-import com.gavin.enums.OrderStatusEnums;
-import com.gavin.payload.PaidMessage;
+import com.gavin.model.payload.PaidMessage;
 import com.gavin.service.DeliveryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,7 +1,7 @@
 package com.gavin.dao;
 
 import com.gavin.domain.order.Order;
-import com.gavin.model.order.OrderModel;
+import com.gavin.model.response.order.OrderModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

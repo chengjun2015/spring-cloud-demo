@@ -1,4 +1,4 @@
-package com.gavin.payload;
+package com.gavin.model.payload;
 
 
 import java.io.Serializable;

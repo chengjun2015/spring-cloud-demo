@@ -3,15 +3,13 @@ package com.gavin.controller;
 import com.gavin.domain.order.Item;
 import com.gavin.domain.product.Product;
 import com.gavin.exception.order.OrderException;
-import com.gavin.model.order.OrderDetailModel;
+import com.gavin.model.response.order.OrderDetailModel;
 import com.gavin.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.math.BigDecimal;
-import java.util.List;
 
 @RestController
 public class ProductController {

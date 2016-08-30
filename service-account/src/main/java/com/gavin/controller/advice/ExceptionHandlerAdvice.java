@@ -1,7 +1,7 @@
 package com.gavin.controller.advice;
 
 import com.gavin.constant.ResponseCodeConsts;
-import com.gavin.response.Response;
+import com.gavin.model.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

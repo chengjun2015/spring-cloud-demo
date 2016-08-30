@@ -11,10 +11,10 @@ import com.gavin.domain.order.Item;
 import com.gavin.domain.order.Order;
 import com.gavin.enums.OrderStatusEnums;
 import com.gavin.exception.order.OrderException;
-import com.gavin.model.order.OrderDetailModel;
-import com.gavin.model.order.OrderModel;
-import com.gavin.request.point.ReservePointReq;
-import com.gavin.response.Response;
+import com.gavin.model.response.order.OrderDetailModel;
+import com.gavin.model.response.order.OrderModel;
+import com.gavin.model.request.point.ReservePointModel;
+import com.gavin.model.response.Response;
 import com.gavin.service.OrderService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;
@@ -79,10 +79,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @HystrixCommand(fallbackMethod = "reservePointsFallback")
     public Boolean reservePoints(Long accountId, Long orderId, BigDecimal amount) {
-        ReservePointReq reservePointReq = new ReservePointReq();
-        reservePointReq.setOrderId(orderId);
-        reservePointReq.setAmount(amount);
-        Response response = pointClient.reservePoints(accountId, reservePointReq);
+        ReservePointModel reservePointModel = new ReservePointModel();
+        reservePointModel.setOrderId(orderId);
+        reservePointModel.setAmount(amount);
+        Response response = pointClient.reservePoints(accountId, reservePointModel);
         if (ResponseCodeConsts.CODE_POINT_NORMAL.equals(response.getCode())) {
             logger.info("调用point微服务成功锁定" + amount + "积分。");
             return true;

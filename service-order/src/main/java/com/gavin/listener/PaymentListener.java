@@ -5,7 +5,7 @@ import com.gavin.constant.QueueNameConsts;
 import com.gavin.constant.RoutingKeyConsts;
 import com.gavin.domain.order.Order;
 import com.gavin.enums.OrderStatusEnums;
-import com.gavin.payload.PaidMessage;
+import com.gavin.model.payload.PaidMessage;
 import com.gavin.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

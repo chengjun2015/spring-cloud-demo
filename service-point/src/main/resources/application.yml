@@ -1,5 +1,5 @@
 server:
-  port: 10110
+  port: 10160
 
 spring:
   datasource:
@@ -27,3 +27,9 @@ mybatis:
 
 logging:
   config: classpath:logback-spring.xml
+
+
+gavin:
+  point:
+    # 积分有效期限,单位:日
+    period: 60

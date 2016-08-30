@@ -1,4 +1,4 @@
-package com.gavin.model.order;
+package com.gavin.model.response.order;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

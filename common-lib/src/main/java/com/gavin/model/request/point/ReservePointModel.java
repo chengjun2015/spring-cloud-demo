@@ -1,5 +1,4 @@
-package com.gavin.request.point;
-
+package com.gavin.model.request.point;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -7,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class ConsumePointReq implements Serializable {
+public class ReservePointModel implements Serializable {
 
     @JsonProperty("order_id")
     @NotNull(message = "order_id不能为空")

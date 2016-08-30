@@ -2,8 +2,8 @@ package com.gavin.controller;
 
 import com.gavin.domain.order.Item;
 import com.gavin.domain.order.Order;
-import com.gavin.model.order.OrderDetailModel;
-import com.gavin.model.order.OrderModel;
+import com.gavin.model.response.order.OrderDetailModel;
+import com.gavin.model.response.order.OrderModel;
 import com.gavin.service.OrderService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

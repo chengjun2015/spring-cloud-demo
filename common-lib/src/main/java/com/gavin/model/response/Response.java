@@ -1,4 +1,4 @@
-package com.gavin.response;
+package com.gavin.model.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

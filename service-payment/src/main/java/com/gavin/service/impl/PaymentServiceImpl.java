@@ -6,7 +6,7 @@ import com.gavin.constant.ExchangeNameConsts;
 import com.gavin.constant.RoutingKeyConsts;
 import com.gavin.dao.PaymentDao;
 import com.gavin.domain.payment.Payment;
-import com.gavin.payload.PaidMessage;
+import com.gavin.model.payload.PaidMessage;
 import com.gavin.service.PaymentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
