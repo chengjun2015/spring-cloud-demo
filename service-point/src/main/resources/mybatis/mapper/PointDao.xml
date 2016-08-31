@@ -2,7 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gavin.dao.PointDao">
 
-    <insert id="create" parameterType="com.gavin.domain.account.Point">
+    <insert id="create" parameterType="com.gavin.domain.point.Point">
+        <selectKey resultType="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
         INSERT INTO point (
             account_id,
             amount,
@@ -18,7 +21,7 @@
         )
     </insert>
 
-    <insert id="replicate" parameterType="com.gavin.domain.account.Point">
+    <insert id="replicate" parameterType="com.gavin.domain.point.Point">
         <selectKey resultType="java.lang.Long" keyProperty="id">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -37,7 +40,20 @@
         )
     </insert>
 
-    <select id="searchUsableByAccountId" resultType="com.gavin.domain.account.Point">
+    <select id="searchById" resultType="com.gavin.domain.point.Point">
+        SELECT
+            id                AS id,
+            account_id        AS accountId,
+            amount            AS amount,
+            expire_date       AS expireDate,
+            lock_for_order_id AS lockForOrderId,
+            created_time      AS createdTime,
+            modified_time     AS modifiedTime
+        FROM point
+        WHERE id = ${pointId}
+    </select>
+
+    <select id="searchUsableByAccountId" resultType="com.gavin.domain.point.Point">
         SELECT
             id            AS id,
             account_id    AS accountId,
@@ -60,7 +76,7 @@
               AND lock_for_order_id IS NULL
     </select>
 
-    <select id="searchExpiredByAccountId" resultType="com.gavin.domain.account.Point">
+    <select id="searchExpiredByAccountId" resultType="com.gavin.domain.point.Point">
         SELECT
             id            AS id,
             amount        AS amount,

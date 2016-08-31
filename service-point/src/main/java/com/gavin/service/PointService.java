@@ -1,8 +1,15 @@
 package com.gavin.service;
 
+import com.gavin.domain.point.Point;
+
 import java.math.BigDecimal;
 
 public interface PointService {
+
+    /**
+     * 查找一条积分记录。
+     */
+    Point searchPointByPointId(Long pointId);
 
     /**
      * 计算账户内可用的积分总额。
@@ -12,7 +19,7 @@ public interface PointService {
     /**
      * 获得返点的积分,同时要记录到积分明细表中。
      */
-    void createPoints(Long accountId, Long orderId, BigDecimal amount);
+    Point createPoint(Long accountId, Long orderId, BigDecimal amount);
 
     /**
      * 预先扣除积分。如果订单取消,将调用restorePoints方法来恢复这些积分。

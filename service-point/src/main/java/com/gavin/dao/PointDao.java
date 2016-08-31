@@ -1,6 +1,6 @@
 package com.gavin.dao;
 
-import com.gavin.domain.account.Point;
+import com.gavin.domain.point.Point;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -10,9 +10,11 @@ import java.util.List;
 @Repository
 public interface PointDao {
 
-    int create(@Param("accountId") Long accountId, @Param("amount") BigDecimal amount, @Param("period") int period);
+    int create(Point point);
 
     int replicate(Point point);
+
+    Point searchById(@Param("pointId") Long pointId);
 
     List<Point> searchUsableByAccountId(@Param("accountId") Long accountId);
 

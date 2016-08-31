@@ -2,8 +2,8 @@ package com.gavin.service.impl;
 
 import com.gavin.dao.PointDao;
 import com.gavin.dao.PointHistoryDao;
-import com.gavin.domain.account.Point;
-import com.gavin.domain.account.PointHistory;
+import com.gavin.domain.point.Point;
+import com.gavin.domain.point.PointHistory;
 import com.gavin.enums.PointActionEnums;
 import com.gavin.exception.account.PointException;
 import com.gavin.service.PointService;
@@ -33,9 +33,18 @@ public class PointServiceImpl implements PointService {
     private Integer period;
 
     @Override
+    public Point searchPointByPointId(Long pointId) {
+        return pointDao.searchById(pointId);
+    }
+
+    @Override
     @Transactional
-    public void createPoints(Long accountId, Long orderId, BigDecimal amount) {
-        pointDao.create(accountId, amount, period);
+    public Point createPoint(Long accountId, Long orderId, BigDecimal amount) {
+        Point point = new Point();
+        point.setAccountId(accountId);
+        point.setAmount(amount);
+        point.setPeriod(period);
+        pointDao.create(point);
 
         // 记录到积分明细表。
         PointHistory pointHistory = new PointHistory();
@@ -44,6 +53,8 @@ public class PointServiceImpl implements PointService {
         pointHistory.setAmount(amount);
         pointHistory.setAction(PointActionEnums.POINT_ACTION_REWARD.getValue());
         pointHistoryDao.create(pointHistory);
+
+        return point;
     }
 
     @Override
