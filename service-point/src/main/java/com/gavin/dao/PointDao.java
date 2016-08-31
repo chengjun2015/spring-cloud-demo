@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface PointDao {
 
-    int create(Point point);
+    int create(@Param("point") Point point, @Param("period") Integer period);
 
     int replicate(Point point);
 

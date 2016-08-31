@@ -7,11 +7,6 @@ import java.math.BigDecimal;
 public interface PointService {
 
     /**
-     * 查找一条积分记录。
-     */
-    Point searchPointByPointId(Long pointId);
-
-    /**
      * 计算账户内可用的积分总额。
      */
     BigDecimal calculateUsablePoints(Long accountId);

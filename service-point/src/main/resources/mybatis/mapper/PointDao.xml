@@ -3,7 +3,7 @@
 <mapper namespace="com.gavin.dao.PointDao">
 
     <insert id="create" parameterType="com.gavin.domain.point.Point">
-        <selectKey resultType="java.lang.Long" keyProperty="id">
+        <selectKey resultType="java.lang.Long" keyProperty="point.id">
             SELECT LAST_INSERT_ID()
         </selectKey>
         INSERT INTO point (
@@ -13,8 +13,8 @@
             created_time,
             modified_time)
         VALUES (
-            ${accountId},
-            ${amount},
+            ${point.accountId},
+            ${point.amount},
             DATE_FORMAT(DATE_ADD(NOW(), INTERVAL ${period} DAY), '%Y-%m-%d'),
             NOW(),
             NOW()

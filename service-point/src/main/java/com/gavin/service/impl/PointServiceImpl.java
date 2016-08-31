@@ -33,18 +33,12 @@ public class PointServiceImpl implements PointService {
     private Integer period;
 
     @Override
-    public Point searchPointByPointId(Long pointId) {
-        return pointDao.searchById(pointId);
-    }
-
-    @Override
     @Transactional
     public Point createPoint(Long accountId, Long orderId, BigDecimal amount) {
         Point point = new Point();
         point.setAccountId(accountId);
         point.setAmount(amount);
-        point.setPeriod(period);
-        pointDao.create(point);
+        pointDao.create(point, period);
 
         // 记录到积分明细表。
         PointHistory pointHistory = new PointHistory();
@@ -54,7 +48,7 @@ public class PointServiceImpl implements PointService {
         pointHistory.setAction(PointActionEnums.POINT_ACTION_REWARD.getValue());
         pointHistoryDao.create(pointHistory);
 
-        return point;
+        return pointDao.searchById(point.getId());
     }
 
     @Override
