@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ItemDao {
 
-    Long create(Item item);
+    int create(Item item);
 }

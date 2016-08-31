@@ -1,7 +1,7 @@
 package com.gavin.dao;
 
 import com.gavin.domain.order.Order;
-import com.gavin.model.response.order.OrderModel;
+import com.gavin.model.response.order.OrderDetailModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -12,9 +12,9 @@ public interface OrderDao {
 
     int create(Order order);
 
-    OrderModel searchById(@Param("orderId") Long orderId);
+    OrderDetailModel searchById(@Param("orderId") Long orderId);
 
-    List<OrderModel> searchByAccountId(@Param("accountId") Long accountId);
+    List<OrderDetailModel> searchByAccountId(@Param("accountId") Long accountId);
 
     int update(Order order);
 

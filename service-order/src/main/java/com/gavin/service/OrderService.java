@@ -2,25 +2,26 @@ package com.gavin.service;
 
 import com.gavin.domain.order.Item;
 import com.gavin.domain.order.Order;
+import com.gavin.domain.payment.Payment;
 import com.gavin.model.response.order.OrderDetailModel;
-import com.gavin.model.response.order.OrderModel;
+import com.gavin.model.response.product.ProductDetailModel;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 public interface OrderService {
 
-    OrderDetailModel reserveProducts(Item[] items);
+    List<ProductDetailModel> reserveProducts(Item[] items);
 
     Boolean reservePoints(Long accountId, Long orderId, BigDecimal amount);
 
-    Long createPayment(Long accountId, Long orderId, BigDecimal amount, Integer paymentMethod);
+    Payment createPayment(Long accountId, Long orderId, BigDecimal amount, Integer paymentMethod);
 
-    void createOrder(OrderModel orderModel);
+    void createOrder(Order order, Item[] items);
 
-    OrderModel searchOrderByOrderId(Long orderId);
+    OrderDetailModel searchOrderByOrderId(Long orderId);
 
-    List<OrderModel> searchOrdersByAccountId(Long accountId);
+    List<OrderDetailModel> searchOrdersByAccountId(Long accountId);
 
     void updateOrder(Order order);
 
