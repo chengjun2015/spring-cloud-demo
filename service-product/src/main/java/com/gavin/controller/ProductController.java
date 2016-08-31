@@ -4,8 +4,8 @@ import com.gavin.constant.ResponseCodeConsts;
 import com.gavin.domain.order.Item;
 import com.gavin.domain.product.Product;
 import com.gavin.exception.product.ProductException;
-import com.gavin.model.request.product.ReserveProductReqModel;
-import com.gavin.model.request.product.RestoreProductReqModel;
+import com.gavin.model.request.product.ReserveProductsReqModel;
+import com.gavin.model.request.product.CancelReservationReqModel;
 import com.gavin.model.response.Response;
 import com.gavin.model.response.product.ProductDetailModel;
 import com.gavin.model.response.product.ReserveProductResModel;
@@ -50,10 +50,10 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/products/reserve", method = RequestMethod.PUT)
-    public Response<ReserveProductResModel> reserve(@RequestBody ReserveProductReqModel reserveReqModel) {
+    public Response<ReserveProductResModel> reserveProducts(@RequestBody ReserveProductsReqModel model) {
         Response<ReserveProductResModel> response;
         try {
-            Item[] items = reserveReqModel.getItems();
+            Item[] items = model.getItems();
             List<ProductDetailModel> productDetails = productService.reserve(items);
             for (ProductDetailModel itemDetail : productDetails) {
                 logger.info("订购的商品" + itemDetail.getProductId() + "已确保" + itemDetail.getQuantity() + "件在库。");
@@ -73,14 +73,14 @@ public class ProductController {
         return response;
     }
 
-    @RequestMapping(value = "/products/restore", method = RequestMethod.PUT)
-    public Response restore(@RequestBody RestoreProductReqModel restoreReqModel) {
+    @RequestMapping(value = "/products/cancel", method = RequestMethod.PUT)
+    public Response cancelReservation(@RequestBody CancelReservationReqModel model) {
         Response response;
-        Item[] items = restoreReqModel.getItems();
+        Item[] items = model.getItems();
 
         try {
             productService.restore(items);
-            logger.info("由订单" + restoreReqModel.getOrderId() + "而执行的库存数锁定已全部解除。");
+            logger.info("为订单" + model.getOrderId() + "而保留的库存数已取消。");
             response = new Response(ResponseCodeConsts.CODE_PRODUCT_NORMAL);
         } catch (Exception e) {
             response = new Response(ResponseCodeConsts.CODE_ORDER_RESTORE_FAILED);

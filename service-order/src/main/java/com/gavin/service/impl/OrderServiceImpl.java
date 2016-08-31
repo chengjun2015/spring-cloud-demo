@@ -14,7 +14,7 @@ import com.gavin.enums.OrderStatusEnums;
 import com.gavin.exception.order.OrderException;
 import com.gavin.model.request.payment.CreatePaymentReqModel;
 import com.gavin.model.request.point.ReservePointReqModel;
-import com.gavin.model.request.product.ReserveProductReqModel;
+import com.gavin.model.request.product.ReserveProductsReqModel;
 import com.gavin.model.response.Response;
 import com.gavin.model.response.order.OrderDetailModel;
 import com.gavin.model.response.product.ProductDetailModel;
@@ -56,10 +56,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @HystrixCommand(fallbackMethod = "reserveProductsFallback", ignoreExceptions = {OrderException.class})
     public List<ProductDetailModel> reserveProducts(Item[] items) {
-        ReserveProductReqModel reserveReqModel = new ReserveProductReqModel();
+        ReserveProductsReqModel reserveReqModel = new ReserveProductsReqModel();
         reserveReqModel.setItems(items);
         // 调用product服务尝试锁定库存。
-        Response<ReserveProductResModel> response = productClient.reserve(reserveReqModel);
+        Response<ReserveProductResModel> response = productClient.reserveProducts(reserveReqModel);
         if (ResponseCodeConsts.CODE_PRODUCT_NORMAL.equals(response.getCode())) {
             logger.info("调用product微服务成功确保所订购商品的库存。");
             ReserveProductResModel reserveResModel = response.getData();

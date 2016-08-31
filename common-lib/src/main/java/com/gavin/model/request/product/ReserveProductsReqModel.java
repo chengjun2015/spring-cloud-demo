@@ -6,21 +6,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-public class RestoreProductReqModel implements Serializable {
-
-    private Long orderId;
+public class ReserveProductsReqModel implements Serializable {
 
     @NotNull
     @Valid
     private Item[] items;
-
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
 
     public Item[] getItems() {
         return items;

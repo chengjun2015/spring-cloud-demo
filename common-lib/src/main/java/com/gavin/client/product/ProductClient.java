@@ -1,7 +1,7 @@
 package com.gavin.client.product;
 
-import com.gavin.model.request.product.ReserveProductReqModel;
-import com.gavin.model.request.product.RestoreProductReqModel;
+import com.gavin.model.request.product.ReserveProductsReqModel;
+import com.gavin.model.request.product.CancelReservationReqModel;
 import com.gavin.model.response.Response;
 import com.gavin.model.response.product.ReserveProductResModel;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface ProductClient {
 
     @RequestMapping(value = "/products/reserve", method = RequestMethod.PUT)
-    Response<ReserveProductResModel> reserve(@RequestBody ReserveProductReqModel reserveReqModel);
+    Response<ReserveProductResModel> reserveProducts(@RequestBody ReserveProductsReqModel model);
 
-    @RequestMapping(value = "/products/restore", method = RequestMethod.PUT)
-    Response restore(@RequestBody RestoreProductReqModel restoreReqModel);
+    @RequestMapping(value = "/products/cancel", method = RequestMethod.PUT)
+    Response cancelReservation(@RequestBody CancelReservationReqModel model);
 }

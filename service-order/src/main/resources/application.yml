@@ -18,13 +18,19 @@ spring:
     port: 6379
   cache:
     type: redis
-
   sleuth:
     sampler:
       percentage: 1
+
+#eureka:
+#  instance:
+#    metadataMap:
+#      cluster: cloud-demo
 
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
 
 logging:
   config: classpath:logback-spring.xml
+
+
