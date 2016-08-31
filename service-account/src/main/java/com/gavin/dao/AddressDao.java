@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AddressDao {
 
-    Long create(Address address);
+    int create(Address address);
 }

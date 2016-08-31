@@ -4,9 +4,9 @@ import com.gavin.domain.account.Account;
 
 public interface AccountService {
 
-    boolean createAccount(Account account);
+    void createAccount(Account account);
 
-    boolean deleteAccount(Long accountId);
+    void deleteAccount(Long accountId);
 
-    Account searchAccountById(Long accountId);
+    Account searchAccountByAccountId(Long accountId);
 }

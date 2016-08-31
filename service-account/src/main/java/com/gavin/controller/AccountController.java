@@ -1,6 +1,9 @@
 package com.gavin.controller;
 
+import com.gavin.constant.ResponseCodeConsts;
 import com.gavin.domain.account.Account;
+import com.gavin.model.request.account.CreateAccountReqModel;
+import com.gavin.model.response.Response;
 import com.gavin.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +11,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 @RestController
 @RefreshScope
@@ -22,31 +26,39 @@ public class AccountController {
     private AccountService accountService;
 
     @RequestMapping(value = "/accounts", method = RequestMethod.POST)
-    public Long createAccount(@RequestParam("nick_name") String nickName,
-                              @RequestParam("password") String password,
-                              @RequestParam(value = "mobile_phone", required = false) String mobilePhone,
-                              @RequestParam(value = "email", required = false) String email) {
+    public Response<Account> createAccount(@Valid @RequestBody CreateAccountReqModel model) {
         Account account = new Account();
-        account.setNickName(nickName);
-        account.setPassword(password);
-        account.setMobilePhone(mobilePhone);
-        account.setEmail(email);
+        account.setNickName(model.getNickName());
+        account.setPassword(model.getPassword());
+        account.setMobilePhone(model.getMobilePhone());
+        account.setEmail(model.getEmail());
 
         accountService.createAccount(account);
         Long accountId = account.getId();
-        logger.info("已创建账户, 账户号: " + accountId);
-        return accountId;
+        logger.info("账号" + accountId + "已创建。");
+
+        Response<Account> response = new Response(ResponseCodeConsts.CODE_ACCOUNT_NORMAL);
+        response.setMessage("账号" + accountId + "已创建。");
+        response.setData(account);
+        return response;
     }
 
     @RequestMapping(value = "/accounts/{account_id}", method = RequestMethod.DELETE)
-    public void deleteAccount(@PathVariable("account_id") Long accountId) {
+    public Response deleteAccount(@PathVariable("account_id") Long accountId) {
         accountService.deleteAccount(accountId);
-        logger.info("已删除账户, 账户号: " + accountId);
+        logger.info("账号" + accountId + "已删除。");
+
+        Response response = new Response(ResponseCodeConsts.CODE_ACCOUNT_NORMAL);
+        response.setMessage("账号" + accountId + "已删除。");
+        return response;
     }
 
     @RequestMapping(value = "/accounts/{account_id}", method = RequestMethod.GET)
-    public Account searchAccountById(@PathVariable("account_id") Long accountId) {
-        logger.info("查询账户, 账户号: " + accountId);
-        return accountService.searchAccountById(accountId);
+    public Response<Account> searchAccountById(@PathVariable("account_id") Long accountId) {
+        Account account = accountService.searchAccountByAccountId(accountId);
+
+        Response<Account> response = new Response(ResponseCodeConsts.CODE_ACCOUNT_NORMAL);
+        response.setData(account);
+        return response;
     }
 }

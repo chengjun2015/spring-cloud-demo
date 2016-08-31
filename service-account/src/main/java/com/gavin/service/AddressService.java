@@ -4,5 +4,5 @@ import com.gavin.domain.account.Address;
 
 public interface AddressService {
 
-    Long createAddress(Address address);
+    void createAddress(Address address);
 }

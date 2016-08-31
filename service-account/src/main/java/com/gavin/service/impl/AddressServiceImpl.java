@@ -14,8 +14,7 @@ public class AddressServiceImpl implements AddressService {
     private AddressDao addressDao;
 
     @Override
-    public Long createAddress(Address address) {
+    public void createAddress(Address address) {
         addressDao.create(address);
-        return address.getId();
     }
 }

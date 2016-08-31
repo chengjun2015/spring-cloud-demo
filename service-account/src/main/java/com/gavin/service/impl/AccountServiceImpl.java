@@ -7,6 +7,7 @@ import com.gavin.service.AccountService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -17,27 +18,21 @@ public class AccountServiceImpl implements AccountService {
     private AccountDao accountDao;
 
     @Override
-    public boolean createAccount(Account account) {
-        if (accountDao.create(account) > 0) {
-            return true;
-        } else {
-            return false;
-        }
+    @Transactional
+    public void createAccount(Account account) {
+        accountDao.create(account);
     }
 
     @Override
+    @Transactional
     @CacheEvict(cacheNames = CacheNameConsts.CACHE_ACCOUNTS_BY_ID, key = "#accountId")
-    public boolean deleteAccount(Long accountId) {
-        if (accountDao.delete(accountId) > 0) {
-            return true;
-        } else {
-            return false;
-        }
+    public void deleteAccount(Long accountId) {
+        accountDao.delete(accountId);
     }
 
     @Override
     @Cacheable(cacheNames = CacheNameConsts.CACHE_ACCOUNTS_BY_ID, key = "#accountId")
-    public Account searchAccountById(Long accountId) {
+    public Account searchAccountByAccountId(Long accountId) {
         return accountDao.searchById(accountId);
     }
 }

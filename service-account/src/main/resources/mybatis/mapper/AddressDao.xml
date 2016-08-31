@@ -13,8 +13,7 @@
             province,
             city,
             zip_code,
-            address_line_1,
-            address_line_2,
+            address_line,
             default_flag,
             comment
         ) VALUE (
@@ -25,8 +24,7 @@
             "${province}",
             "${city}",
             "${zipCode}",
-            "${addressLine1}",
-            "${addressLine2}",
+            "${addressLine}",
             ${defaultFlag},
             "${comment}"
         )

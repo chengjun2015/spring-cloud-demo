@@ -50,8 +50,7 @@ CREATE TABLE `address` (
   `province` varchar(45) NOT NULL,
   `city` varchar(45) NOT NULL,
   `zip_code` varchar(10) NOT NULL,
-  `address_line_1` varchar(45) NOT NULL,
-  `address_line_2` varchar(45) NOT NULL,
+  `address_line` varchar(45) NOT NULL,
   `default_flag` tinyint(1) NOT NULL COMMENT '是否是默认收货地址。',
   `comment` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
