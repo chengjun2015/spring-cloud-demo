@@ -92,7 +92,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void restore(Item[] items) {
+    public void cancel(Item[] items) {
         for (Item item : items) {
             productDao.increaseStock(item.getProductId(), item.getQuantity());
         }

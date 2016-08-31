@@ -14,5 +14,5 @@ public interface ProductService {
 
     List<ProductDetailModel> reserve(Item[] items);
 
-    void restore(Item[] items);
+    void cancel(Item[] items);
 }

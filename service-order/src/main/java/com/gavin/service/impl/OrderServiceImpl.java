@@ -61,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
         // 调用product服务尝试锁定库存。
         Response<ReserveProductResModel> response = productClient.reserveProducts(reserveReqModel);
         if (ResponseCodeConsts.CODE_PRODUCT_NORMAL.equals(response.getCode())) {
-            logger.info("调用product微服务成功确保所订购商品的库存。");
+            logger.info("调用product微服务成功保留所订购商品的库存数。");
             ReserveProductResModel reserveResModel = response.getData();
             return reserveResModel.getProductDetails();
         } else if (ResponseCodeConsts.CODE_PRODUCT_INSUFFICIENT_STOCK.equals(response.getCode())) {

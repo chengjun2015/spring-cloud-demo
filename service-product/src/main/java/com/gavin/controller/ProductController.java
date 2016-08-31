@@ -56,7 +56,7 @@ public class ProductController {
             Item[] items = model.getItems();
             List<ProductDetailModel> productDetails = productService.reserve(items);
             for (ProductDetailModel itemDetail : productDetails) {
-                logger.info("订购的商品" + itemDetail.getProductId() + "已确保" + itemDetail.getQuantity() + "件在库。");
+                logger.info("商品" + itemDetail.getProductId() + "已保留" + itemDetail.getQuantity() + "件。");
             }
 
             ReserveProductResModel reserveResModel = new ReserveProductResModel();
@@ -79,8 +79,8 @@ public class ProductController {
         Item[] items = model.getItems();
 
         try {
-            productService.restore(items);
-            logger.info("为订单" + model.getOrderId() + "而保留的库存数已取消。");
+            productService.cancel(items);
+            logger.info("为订单" + model.getOrderId() + "的库存保留已取消。");
             response = new Response(ResponseCodeConsts.CODE_PRODUCT_NORMAL);
         } catch (Exception e) {
             response = new Response(ResponseCodeConsts.CODE_ORDER_RESTORE_FAILED);
