@@ -1,5 +1,4 @@
-package com.gavin.domain.account;
-
+package com.gavin.domain.point;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -9,20 +8,23 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PointHistory implements Serializable {
+public class Point implements Serializable {
 
     private Long id;
 
     private Long accountId;
 
-    private Long orderId;
-
     private BigDecimal amount;
 
-    private Integer action;
+    private Long lockForOrderId;
+
+    private String expireDate;
 
     @JsonFormat(pattern = "yyyy/MM/dd hh:mm:ss")
     private Date createdTime;
+
+    @JsonFormat(pattern = "yyyy/MM/dd hh:mm:ss")
+    private Date modifiedTime;
 
     public Long getId() {
         return id;
@@ -40,22 +42,6 @@ public class PointHistory implements Serializable {
         this.accountId = accountId;
     }
 
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
-    public Integer getAction() {
-        return action;
-    }
-
-    public void setAction(Integer action) {
-        this.action = action;
-    }
-
     public BigDecimal getAmount() {
         return amount;
     }
@@ -64,11 +50,35 @@ public class PointHistory implements Serializable {
         this.amount = amount;
     }
 
+    public Long getLockForOrderId() {
+        return lockForOrderId;
+    }
+
+    public void setLockForOrderId(Long lockForOrderId) {
+        this.lockForOrderId = lockForOrderId;
+    }
+
+    public String getExpireDate() {
+        return expireDate;
+    }
+
+    public void setExpireDate(String expireDate) {
+        this.expireDate = expireDate;
+    }
+
     public Date getCreatedTime() {
         return createdTime;
     }
 
     public void setCreatedTime(Date createdTime) {
         this.createdTime = createdTime;
+    }
+
+    public Date getModifiedTime() {
+        return modifiedTime;
+    }
+
+    public void setModifiedTime(Date modifiedTime) {
+        this.modifiedTime = modifiedTime;
     }
 }

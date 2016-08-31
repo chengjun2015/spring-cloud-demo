@@ -1,48 +1,31 @@
 package com.gavin.model.response.order;
 
+
+import com.gavin.domain.order.Item;
+import com.gavin.domain.order.Order;
+
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.List;
 
 public class OrderDetailModel implements Serializable {
 
-    private List<ItemDetailModel> itemDetailModels;
+    private Order order;
 
-    private BigDecimal rewardPoints;
+    private List<Item> items;
 
-    private BigDecimal totalPrice;
-
-    private String message;
-
-    public List<ItemDetailModel> getItemDetailModels() {
-        return itemDetailModels;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setItemDetailModels(List<ItemDetailModel> itemDetailModels) {
-        this.itemDetailModels = itemDetailModels;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
-    public BigDecimal getRewardPoints() {
-        return rewardPoints;
+    public List<Item> getItems() {
+        return items;
     }
 
-    public void setRewardPoints(BigDecimal rewardPoints) {
-        this.rewardPoints = rewardPoints;
-    }
-
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 }
