@@ -9,11 +9,11 @@ import java.util.List;
 @Repository
 public interface DeliveryDao {
 
-    Long create(Delivery delivery);
+    int create(Delivery delivery);
 
-    List<Delivery> searchByOrderId(@Param("orderId") Long orderId);
+    Delivery searchByOrderId(@Param("orderId") Long orderId);
 
-    void updateCarrierInfo(Delivery delivery);
+    int updateCarrierInfo(Delivery delivery);
 
-    void updateStatus(Delivery delivery);
+    int updateStatus(@Param("delivery") Delivery delivery, @Param("receivedStatus") Integer receivedStatus);
 }

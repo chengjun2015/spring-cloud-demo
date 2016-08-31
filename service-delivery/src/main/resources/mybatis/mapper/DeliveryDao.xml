@@ -13,8 +13,8 @@
             ${orderId},
             ${accountId},
             ${status},
-            now(),
-            now()
+            NOW(),
+            NOW()
         )
     </insert>
 
@@ -36,18 +36,18 @@
         SET carrier_id      = ${carrierId},
             tracking_number = ${trackingNumber},
             status          = ${status},
-            modified_time   = now()
+            modified_time   = NOW()
         WHERE order_id = ${orderId}
     </update>
 
     <update id="updateStatus" parameterType="com.gavin.domain.delivery.Delivery">
         UPDATE delivery
-        SET status = ${status},
-        <if test="status == 3">
-            receipt_time = now(),
+        SET status = ${delivery.status},
+        <if test="delivery.status == receivedStatus ">
+            receipt_time = NOW(),
         </if>
-            modified_time = now()
-        WHERE order_id = ${orderId}
+        modified_time = NOW()
+        WHERE order_id = ${delivery.orderId}
     </update>
 
 </mapper>

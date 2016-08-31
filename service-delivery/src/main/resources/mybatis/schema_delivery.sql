@@ -32,7 +32,7 @@ CREATE TABLE `delivery` (
   `modified_time` datetime NOT NULL,
   `receipt_time` datetime DEFAULT NULL,
   PRIMARY KEY (`order_id`),
-  KEY `order_id_fk_idx` (`order_id`)
+  UNIQUE KEY `order_id_UNIQUE` (`order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -45,4 +45,4 @@ CREATE TABLE `delivery` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-29 16:24:33
+-- Dump completed on 2016-08-31 22:40:03
