@@ -1,6 +1,10 @@
 package com.gavin.controller;
 
+import com.gavin.constant.ResponseCodeConsts;
 import com.gavin.domain.payment.Payment;
+import com.gavin.domain.point.Point;
+import com.gavin.model.request.payment.CreatePaymentReqModel;
+import com.gavin.model.response.Response;
 import com.gavin.service.PaymentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +12,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.math.BigDecimal;
 
 @RestController
@@ -20,32 +25,28 @@ public class PaymentController {
     private PaymentService paymentService;
 
     @RequestMapping(value = "/payments", method = RequestMethod.POST)
-    public Long createPayment(@RequestParam("account_id") Long accountId,
-                              @RequestParam("order_id") Long orderId,
-                              @RequestParam("amount") BigDecimal amount,
-                              @RequestParam("payment_method") Integer paymentMethod) {
-        Long paymentId = null;
-
+    public Response<Payment> createPayment(@Valid @RequestBody CreatePaymentReqModel model) {
         Payment payment = new Payment();
-        payment.setOrderId(orderId);
-        payment.setAccountId(accountId);
-        payment.setAmount(amount);
-        payment.setPaymentMethod(paymentMethod);
+        payment.setOrderId(model.getOrderId());
+        payment.setAccountId(model.getAccountId());
+        payment.setAmount(model.getAmount());
+        payment.setPaymentMethod(model.getPaymentMethod());
 
-        try {
-            paymentService.createPayment(payment);
-            paymentId = payment.getId();
-            logger.info("账单" + paymentId + "已创建成功。");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        paymentService.createPayment(payment);
+        logger.info("账单" + payment.getId() + "已创建。");
 
-        return paymentId;
+        Response<Payment> response = new Response<>(ResponseCodeConsts.CODE_PAYMENT_NORMAL);
+        response.setData(payment);
+        return response;
     }
 
     @RequestMapping(value = "/payments/{payment_id}", method = RequestMethod.GET)
-    public Payment searchPaymentByPaymentId(@PathVariable("payment_id") Long paymentId) {
-        return paymentService.searchPaymentById(paymentId);
+    public Response<Payment> searchPaymentByPaymentId(@PathVariable("payment_id") Long paymentId) {
+        Payment payment = paymentService.searchPaymentById(paymentId);
+
+        Response<Payment> response = new Response<>(ResponseCodeConsts.CODE_PAYMENT_NORMAL);
+        response.setData(payment);
+        return response;
     }
 
     @RequestMapping(value = "/payments/{payment_id}/paid", method = RequestMethod.PUT)
@@ -57,4 +58,5 @@ public class PaymentController {
             paymentService.succeedInPayment(paymentId);
         }
     }
+
 }

@@ -1,6 +1,5 @@
 package com.gavin.service.impl;
 
-
 import com.gavin.constant.CacheNameConsts;
 import com.gavin.constant.ExchangeNameConsts;
 import com.gavin.constant.RoutingKeyConsts;

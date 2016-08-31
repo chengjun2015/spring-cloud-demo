@@ -5,7 +5,6 @@
         <selectKey resultType="java.lang.Long" keyProperty="id">
             SELECT LAST_INSERT_ID()
         </selectKey>
-
         INSERT INTO payment (
             order_id,
             account_id,
@@ -20,16 +19,16 @@
             ${amount},
             ${paymentMethod},
             0,
-            now(),
-            now()
+            NOW(),
+            NOW()
         )
     </insert>
 
     <update id="updatePaidFlag">
         UPDATE payment
         SET paid_flag     = 1,
-            paid_time     = now(),
-            modified_time = now()
+            paid_time     = NOW(),
+            modified_time = NOW()
         WHERE id = ${paymentId}
     </update>
 
