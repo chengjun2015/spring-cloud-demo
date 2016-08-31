@@ -23,24 +23,14 @@
             <artifactId>spring-cloud-starter-eureka</artifactId>
         </dependency>
 
-        <!-- turbine不能和turbine-stream共存,否则会产生下述异常
-        java.lang.ClassNotFoundException: com.netflix.turbine.aggregator.InstanceKey
-        -->
-
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-turbine</artifactId>
-        </dependency>
-
-        <!--<dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-turbine-stream</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
-        </dependency>-->
-
+        </dependency>
     </dependencies>
 
     <build>

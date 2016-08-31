@@ -1,6 +1,9 @@
 server:
   port: 8989
 
+#management:
+#  port: 8990
+
 spring:
   rabbitmq:
     host: ${RABBITMQ_HOST:localhost}
@@ -8,7 +11,11 @@ spring:
     username: guest
     password: guest
 
-turbine:
-  app-config: order-service
-  clusterNameExpression: new String("default")
+
+ # clusterNameExpression: new String("default")
   # clusterNameExpression: 'default'
+
+#turbine:
+#  aggregator:
+#    clusterConfig: cloud-demo
+#  clusterNameExpression: metadata['cluster']
