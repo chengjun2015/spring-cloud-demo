@@ -1,15 +1,21 @@
 package com.gavin.controller;
 
+import com.gavin.constant.ResponseCodeConsts;
 import com.gavin.domain.order.Item;
 import com.gavin.domain.product.Product;
-import com.gavin.exception.order.OrderException;
-import com.gavin.model.response.order.OrderDetailModel;
+import com.gavin.exception.product.ProductException;
+import com.gavin.model.request.product.ReserveProductReqModel;
+import com.gavin.model.request.product.RestoreProductReqModel;
+import com.gavin.model.response.Response;
+import com.gavin.model.response.product.ProductDetailModel;
+import com.gavin.model.response.product.ReserveProductResModel;
 import com.gavin.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 public class ProductController {
@@ -20,18 +26,22 @@ public class ProductController {
     private ProductService productService;
 
     @RequestMapping(value = "/products", method = RequestMethod.POST)
-    public Long createProduct(@RequestParam(value = "title") String title,
-                              @RequestParam(value = "category_id") Long categoryId,
-                              @RequestParam(value = "price") Float price,
-                              @RequestParam(value = "stock", required = false, defaultValue = "0") Integer stock,
-                              @RequestParam(value = "comment", required = false) String comment) {
+    public Response<Product> createProduct(@RequestParam(value = "title") String title,
+                                           @RequestParam(value = "category_id") Long categoryId,
+                                           @RequestParam(value = "price") Float price,
+                                           @RequestParam(value = "stock", required = false, defaultValue = "0") Integer stock,
+                                           @RequestParam(value = "comment", required = false) String comment) {
         Product product = new Product();
         product.setTitle(title);
         product.setCategoryId(categoryId);
         product.setPrice(price);
         product.setStock(stock);
         product.setComment(comment);
-        return productService.createProduct(product);
+        productService.createProduct(product);
+
+        Response<Product> response = new Response(ResponseCodeConsts.CODE_PRODUCT_NORMAL);
+        response.setData(product);
+        return response;
     }
 
     @RequestMapping(value = "/products/{product_id}", method = RequestMethod.GET)
@@ -40,28 +50,42 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/products/reserve", method = RequestMethod.PUT)
-    public OrderDetailModel reserve(@RequestBody Item[] items) {
-        OrderDetailModel orderDetail = null;
+    public Response<ReserveProductResModel> reserve(@RequestBody ReserveProductReqModel reserveReqModel) {
+        Response<ReserveProductResModel> response;
         try {
-            orderDetail = productService.reserve(items);
-            logger.info("订购商品的库存已暂时确保。");
-        } catch (OrderException exception) {
+            Item[] items = reserveReqModel.getItems();
+            List<ProductDetailModel> productDetails = productService.reserve(items);
+            for (ProductDetailModel itemDetail : productDetails) {
+                logger.info("订购的商品" + itemDetail.getProductId() + "已确保" + itemDetail.getQuantity() + "件在库。");
+            }
+
+            ReserveProductResModel reserveResModel = new ReserveProductResModel();
+            reserveResModel.setProductDetails(productDetails);
+
+            response = new Response(ResponseCodeConsts.CODE_PRODUCT_NORMAL);
+            response.setData(reserveResModel);
+        } catch (ProductException exception) {
             logger.warn(exception.getMessage());
+            response = new Response(ResponseCodeConsts.CODE_PRODUCT_INSUFFICIENT_STOCK);
+            response.setMessage(exception.getMessage());
         }
-        return orderDetail;
+
+        return response;
     }
 
     @RequestMapping(value = "/products/restore", method = RequestMethod.PUT)
-    public Boolean restore(@RequestBody Item[] items) {
-        boolean result = false;
+    public Response restore(@RequestBody RestoreProductReqModel restoreReqModel) {
+        Response response;
+        Item[] items = restoreReqModel.getItems();
+
         try {
             productService.restore(items);
-            result = true;
-            logger.info("订购商品锁定的库存数已复原。");
+            logger.info("由订单" + restoreReqModel.getOrderId() + "而执行的库存数锁定已全部解除。");
+            response = new Response(ResponseCodeConsts.CODE_PRODUCT_NORMAL);
         } catch (Exception e) {
-            e.printStackTrace();
+            response = new Response(ResponseCodeConsts.CODE_ORDER_RESTORE_FAILED);
         }
-        return result;
+        return response;
     }
 
 }

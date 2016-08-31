@@ -5,17 +5,16 @@ import com.gavin.dao.ProductDao;
 import com.gavin.domain.order.Item;
 import com.gavin.domain.product.PointRewardPlan;
 import com.gavin.domain.product.Product;
-import com.gavin.exception.order.OrderException;
-import com.gavin.model.response.order.ItemDetailModel;
-import com.gavin.model.response.order.OrderDetailModel;
+import com.gavin.exception.product.ProductException;
+import com.gavin.model.response.product.ProductDetailModel;
 import com.gavin.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,9 +33,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Long createProduct(Product product) {
+    public void createProduct(Product product) {
         productDao.create(product);
-        return product.getId();
     }
 
     @Override
@@ -46,11 +44,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public OrderDetailModel reserve(Item[] items) {
-
-        OrderDetailModel orderDetail = new OrderDetailModel();
-        List<ItemDetailModel> itemDetails = new ArrayList<>();
-
+    public List<ProductDetailModel> reserve(Item[] items) {
         Long[] productIds = new Long[items.length];
         for (int i = 0; i < items.length; i++) {
             productIds[i] = items[i].getProductId();
@@ -63,48 +57,37 @@ public class ProductServiceImpl implements ProductService {
             productMap.put(product.getId(), product);
         }
 
-        BigDecimal totalPricePerOrder = new BigDecimal("0");
-        BigDecimal totalPointsPerOrder = new BigDecimal("0");
+        List<ProductDetailModel> productDetails = new ArrayList<>();
 
         for (Item item : items) {
             Long productId = item.getProductId();
             Product product = productMap.get(productId);
 
-            // 订单中此商品的订购数超过库存
+            // 订单中此商品的订购数超过库存。
             if (item.getQuantity() > product.getStock()) {
                 logger.info("订单中商品: " + product.getTitle() + "的订购数: " + item.getQuantity() + ",库存数: " + product.getStock() + "。");
-                throw new OrderException(product.getTitle() + "库存不足");
+                throw new ProductException(product.getTitle() + "库存不足。");
             }
 
             // 从该商品的库存中冻结与订单相应的数目。
             productDao.decreaseStock(item.getProductId(), item.getQuantity());
 
-            ItemDetailModel itemDetail = new ItemDetailModel();
-            itemDetail.setItem(item);
+            ProductDetailModel itemDetail = new ProductDetailModel();
 
-            // 计算该商品的总金额。
-            BigDecimal totalPricePerItem = new BigDecimal(product.getPrice() * item.getQuantity());
-            itemDetail.setTotalPrice(totalPricePerItem);
+            BeanUtils.copyProperties(item, itemDetail);
 
-            // 计算该商品可获得的积分数。
-            BigDecimal totalPointsPerItem = new BigDecimal("0");
+            itemDetail.setPrice(product.getPrice());
+
+            // 查找该商品是否有处于有效期内的返点计划。
             PointRewardPlan pointRewardPlan = pointRewardPlanDao.searchApplicativeByProductId(productId);
-            if (pointRewardPlan != null) {
-                totalPointsPerItem = totalPricePerItem.multiply(new BigDecimal(pointRewardPlan.getRatio())).setScale(0, BigDecimal.ROUND_HALF_UP);
+            if (null != pointRewardPlan) {
+                itemDetail.setRatio(pointRewardPlan.getRatio());
             }
 
-            itemDetail.setRewardPoints(totalPointsPerItem);
-
-            itemDetails.add(itemDetail);
-
-            totalPricePerOrder = totalPricePerOrder.add(totalPricePerItem);
-            totalPointsPerOrder = totalPricePerOrder.add(totalPointsPerItem);
+            productDetails.add(itemDetail);
         }
 
-        orderDetail.setItemDetailModels(itemDetails);
-        orderDetail.setTotalPrice(totalPricePerOrder);
-        orderDetail.setRewardPoints(totalPointsPerOrder);
-        return orderDetail;
+        return productDetails;
     }
 
     @Override
