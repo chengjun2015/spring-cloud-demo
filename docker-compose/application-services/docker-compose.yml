@@ -68,6 +68,15 @@ services:
       - eureka-server
     restart: always
 
+  hystrix-server:
+    image: 192.168.1.88:5000/server-hystrix
+    networks:
+      - demo-net
+    ports:
+      - 8989:8989
+      - 8990:8990
+    restart: always
+
   account-service:
     image: 192.168.1.88:5000/service-account
     networks:
@@ -158,10 +167,20 @@ services:
       - queue-server
     restart: always
 
-  hystrix-dashboard-ui:
-    image: 192.168.1.88:5000/ui-hystrix-dashboard
+  point-service:
+    image: 192.168.1.88:5000/service-point
     networks:
       - demo-net
     ports:
-      - 11001:11001
+      - 10160:10160
+    environment:
+      - RABBITMQ_HOST=192.168.1.88
+      - MYSQL_HOST=192.168.1.88
+      - REDIS_HOST=192.168.1.88
+      - LOGSTASH_HOST=192.168.1.88
+      - EUREKA_HOST=eureka-server
+    depends_on:
+      - eureka-server
+      - config-server
+      - queue-server
     restart: always
