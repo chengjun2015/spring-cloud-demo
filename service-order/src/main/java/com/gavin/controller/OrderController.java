@@ -4,6 +4,7 @@ import com.gavin.constant.ResponseCodeConsts;
 import com.gavin.domain.order.Item;
 import com.gavin.domain.order.Order;
 import com.gavin.domain.payment.Payment;
+import com.gavin.enums.OrderStatusEnums;
 import com.gavin.model.request.order.CreateOrderReqModel;
 import com.gavin.model.request.order.PayOrderReqModel;
 import com.gavin.model.response.Response;
@@ -145,6 +146,7 @@ public class OrderController {
         Order order = orderDetail.getOrder();
         order.setRedeemPoints(redeemPoints);
         order.setCash(cash);
+        order.setStatus(OrderStatusEnums.ORDER_STATUS_WAIT_FOR_PAY.getValue());
         orderService.updateOrder(order);
 
         Response<Payment> response = new Response(ResponseCodeConsts.CODE_ORDER_NORMAL);
@@ -157,7 +159,6 @@ public class OrderController {
             if (null != payment) {
                 logger.info("账单生成成功,将跳转到第三方支付平台进行支付。");
                 // 调用第三方支付平台的接口。
-
                 response.setData(payment);
             }
         }

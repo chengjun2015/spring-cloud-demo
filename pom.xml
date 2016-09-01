@@ -21,7 +21,7 @@
         <module>server-config</module>
         <module>server-zuul</module>
         <module>server-zipkin</module>
-        <module>server-turbine</module>
+        <module>server-hystrix</module>
         <module>server-queue</module>
         <module>service-account</module>
         <module>service-product</module>
@@ -29,7 +29,6 @@
         <module>service-payment</module>
         <module>service-delivery</module>
         <module>service-point</module>
-        <module>ui-hystrix-dashboard</module>
     </modules>
 
     <properties>
