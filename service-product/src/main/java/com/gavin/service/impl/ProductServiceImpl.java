@@ -35,6 +35,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public void createProduct(Product product) {
         productDao.create(product);
+        product = productDao.searchById(product.getId());
     }
 
     @Override
