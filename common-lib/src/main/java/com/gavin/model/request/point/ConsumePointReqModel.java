@@ -10,6 +10,10 @@ import java.math.BigDecimal;
 
 public class ConsumePointReqModel implements Serializable {
 
+    @JsonProperty("account_id")
+    @NotNull(message = "account_id不能为空")
+    private Long accountId;
+
     @JsonProperty("order_id")
     @NotNull(message = "order_id不能为空。")
     private Long orderId;
@@ -18,6 +22,14 @@ public class ConsumePointReqModel implements Serializable {
     @NotNull(message = "amount不能为空。")
     @DecimalMin(value = "1", message = "amount不能小于1。")
     private BigDecimal amount;
+
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
 
     public Long getOrderId() {
         return orderId;

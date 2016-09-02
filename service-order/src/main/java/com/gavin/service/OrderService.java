@@ -3,6 +3,7 @@ package com.gavin.service;
 import com.gavin.domain.order.Item;
 import com.gavin.domain.order.Order;
 import com.gavin.domain.payment.Payment;
+import com.gavin.model.RestResult;
 import com.gavin.model.response.order.OrderDetailModel;
 import com.gavin.model.response.product.ProductDetailModel;
 
@@ -11,11 +12,11 @@ import java.util.List;
 
 public interface OrderService {
 
-    List<ProductDetailModel> reserveProducts(Item[] items);
+    RestResult<List<ProductDetailModel>> reserveProducts(Item[] items);
 
-    Boolean reservePoints(Long accountId, Long orderId, BigDecimal amount);
+    RestResult<Boolean> reservePoints(Long accountId, Long orderId, BigDecimal amount);
 
-    Payment createPayment(Long accountId, Long orderId, BigDecimal amount, Integer paymentMethod);
+    RestResult<Payment> createPayment(Long accountId, Long orderId, BigDecimal amount, Integer paymentMethod);
 
     void createOrder(Order order, Item[] items);
 

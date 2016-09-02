@@ -4,5 +4,20 @@ server:
 zuul:
   routes:
     account-service:
-      path: /account/**
+      path: /accounts/**
       service-id: account-service
+    product-service:
+      path: /products/**
+      service-id: product-service
+    order-service:
+      path: /orders/**
+      service-id: order-service
+    payment-service:
+      path: /payments/**
+      service-id: payment-service
+    delivery-service:
+      path: /deliveries/**
+      service-id: delivery-service
+    point-service:
+      path: /points/**
+      service-id: point-service

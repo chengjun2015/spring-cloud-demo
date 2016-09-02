@@ -16,7 +16,6 @@ public interface ResponseCodeConsts {
     String CODE_ORDER_NORMAL = "code.order.normal";
     String CODE_ORDER_EXCEPTION = "code.order.exception";
     String CODE_ORDER_RESERVE_FAILED = "code.order.reserve.failed";
-    String CODE_ORDER_RESTORE_FAILED = "code.order.restore.failed";
 
     String CODE_PAYMENT_NORMAL = "code.payment.normal";
     String CODE_PAYMENT_EXCEPTION = "code.payment.exception";

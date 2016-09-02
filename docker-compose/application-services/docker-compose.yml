@@ -30,24 +30,12 @@ services:
       - eureka-server
     restart: always
 
-  zuul-server:
-    image: 192.168.1.88:5000/server-zuul
-    networks:
-      - demo-net
-    ports:
-      - 8000:8000
-    environment:
-      - EUREKA_HOST=eureka-server
-    depends_on:
-      - eureka-server
-    restart: always
-
   queue-server:
     image: 192.168.1.88:5000/server-queue
     networks:
       - demo-net
     ports:
-      - 9300:9300
+      - 5680:5680
     environment:
       - RABBITMQ_HOST=192.168.1.88
       - EUREKA_HOST=eureka-server
@@ -183,4 +171,23 @@ services:
       - eureka-server
       - config-server
       - queue-server
+    restart: always
+
+  zuul-server:
+    image: 192.168.1.88:5000/server-zuul
+    networks:
+      - demo-net
+    ports:
+      - 8000:8000
+    environment:
+      - EUREKA_HOST=eureka-server
+    depends_on:
+      - eureka-server
+      - config-server
+      - account-service
+      - product-service
+      - order-service
+      - payment-service
+      - delivery-service
+      - point-service
     restart: always

@@ -1,3 +1,6 @@
+server:
+  port: 8888
+
 spring:
 #  profiles:
 #    active: native
@@ -16,6 +19,3 @@ spring:
     port: 5672
     username: guest
     password: guest
-
-server:
-  port: 8888

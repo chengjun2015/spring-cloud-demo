@@ -9,6 +9,10 @@ import java.io.Serializable;
 
 public class CreateOrderReqModel implements Serializable {
 
+    @JsonProperty("account_id")
+    @NotNull(message = "account_id不能为空。")
+    Long accountId;
+
     @JsonProperty("address_id")
     @NotNull(message = "address_id不能为空。")
     private Long addressId;
@@ -16,6 +20,14 @@ public class CreateOrderReqModel implements Serializable {
     @NotNull
     @Valid
     private Item[] items;
+
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
 
     public Long getAddressId() {
         return addressId;

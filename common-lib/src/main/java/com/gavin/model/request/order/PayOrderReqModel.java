@@ -9,6 +9,10 @@ import java.math.BigDecimal;
 
 public class PayOrderReqModel implements Serializable {
 
+    @JsonProperty("account_id")
+    @NotNull(message = "account_id不能为空。")
+    Long accountId;
+
     @JsonProperty("payment_method")
     @NotNull(message = "payment_method不能为空")
     private Integer paymentMethod;
@@ -16,6 +20,14 @@ public class PayOrderReqModel implements Serializable {
     @JsonProperty("redeem_points")
     @DecimalMin(value = "1", message = "redeem_points不能小于1。")
     private BigDecimal redeemPoints;
+
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
 
     public Integer getPaymentMethod() {
         return paymentMethod;

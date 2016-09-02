@@ -23,8 +23,8 @@ public class DeliveryController {
     @Resource
     private DeliveryService deliveryService;
 
-    @RequestMapping(value = "/deliveries/{order_id}", method = RequestMethod.GET)
-    public Response<Delivery> searchDeliveryByOrderId(@PathVariable("order_id") Long orderId) {
+    @RequestMapping(value = "/deliveries/search", method = RequestMethod.GET)
+    public Response<Delivery> searchDeliveryByOrderId(@RequestParam("order_id") Long orderId) {
         Delivery delivery = deliveryService.searchDeliveryByOrderId(orderId);
 
         Response<Delivery> response = new Response(ResponseCodeConsts.CODE_DELIVERY_NORMAL);
@@ -32,13 +32,12 @@ public class DeliveryController {
         return response;
     }
 
-    @RequestMapping(value = "/deliveries/{order_id}/assign", method = RequestMethod.PUT)
-    public Response<Delivery> assignCarrier(@PathVariable("order_id") Long orderId,
-                                            @Valid @RequestBody AssignCarrierReqModel model) {
-        logger.info("订单" + orderId + "已由快递公司" + model.getCarrierId() + "负责配送, 快递单号: " + model.getTrackingNumber() + "。");
+    @RequestMapping(value = "/deliveries/assign", method = RequestMethod.PUT)
+    public Response<Delivery> assignCarrier(@Valid @RequestBody AssignCarrierReqModel model) {
+        logger.info("订单" + model.getOrderId() + "已由快递公司" + model.getCarrierId() + "负责配送, 快递单号: " + model.getTrackingNumber() + "。");
 
         Delivery delivery = new Delivery();
-        delivery.setOrderId(orderId);
+        delivery.setOrderId(model.getOrderId());
         delivery.setCarrierId(model.getCarrierId());
         delivery.setTrackingNumber(model.getTrackingNumber());
 
