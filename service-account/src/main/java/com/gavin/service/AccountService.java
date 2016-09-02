@@ -1,6 +1,9 @@
 package com.gavin.service;
 
 import com.gavin.domain.account.Account;
+import com.gavin.model.RestResult;
+
+import java.math.BigDecimal;
 
 public interface AccountService {
 
@@ -9,4 +12,6 @@ public interface AccountService {
     void deleteAccount(Long accountId);
 
     Account searchAccountByAccountId(Long accountId);
+
+    RestResult<BigDecimal> queryBalance(Long accountId);
 }
