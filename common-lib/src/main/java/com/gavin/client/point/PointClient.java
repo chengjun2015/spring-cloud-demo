@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 @FeignClient("point-service")
 public interface PointClient {
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     Response<Point> createPoints(@RequestBody CreatePointReqModel model);
 
     @RequestMapping(value = "/balance", method = RequestMethod.GET)

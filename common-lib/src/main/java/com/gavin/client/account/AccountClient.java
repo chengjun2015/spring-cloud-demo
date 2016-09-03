@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient("account-service")
 public interface AccountClient {
 
-    @RequestMapping(value = "/accounts/{account_id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{account_id}", method = RequestMethod.GET)
     Account searchAccountById(@PathVariable("account_id") Long accountId);
 
-    @RequestMapping(value = "/accounts/{account_id}/deposit", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{account_id}/deposit", method = RequestMethod.PUT)
     Boolean deposit(@PathVariable("account_id") Long accountId, @RequestParam("amount") Float amount);
 
-    @RequestMapping(value = "/accounts/{account_id}/pay", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{account_id}/pay", method = RequestMethod.PUT)
     Boolean pay(@PathVariable("account_id") Long accountId, @RequestParam("amount") Float amount);
 }
