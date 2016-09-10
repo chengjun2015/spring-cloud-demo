@@ -1,2 +1,30 @@
 server:
-  port: 10000
+  port: 9999
+  context-path: /uaa
+
+security:
+  user:
+    name: gavin
+    password: gavin
+  sessions: if_required
+  oauth2:
+    client:
+      client-id: acme
+      client-secret: acmesecret
+      authorized-grant-types: authorization_code,refresh_token,password,client_credentials
+      scope: server
+
+spring:
+  datasource:
+    type: org.apache.commons.dbcp2.BasicDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/schema_user
+    username: root
+    password: root
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+
+logging:
+  level:
+    org.springframework.security: DEBUG
