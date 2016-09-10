@@ -22,13 +22,18 @@ spring:
     sampler:
       percentage: 1
 
-#eureka:
-#  instance:
-#    metadataMap:
-#      cluster: cloud-demo
-
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
+
+security:
+  oauth2:
+    client:
+      access-token-uri: http://localhost:9999/uaa/oauth/token
+      user-authorization-uri: http://localhost:9999/uaa/oauth/authorize
+      client-id: acme
+      client-secret: acmesecret
+    resource:
+      user-info-uri: http://localhost:9999/uaa/user
 
 logging:
   config: classpath:logback-spring.xml

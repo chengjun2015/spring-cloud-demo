@@ -30,6 +30,19 @@ services:
       - eureka-server
     restart: always
 
+  zuul-server:
+    image: 192.168.1.88:5000/server-zuul
+    networks:
+      - demo-net
+    ports:
+      - 8000:8000
+    environment:
+      - EUREKA_HOST=eureka-server
+    depends_on:
+      - eureka-server
+      - config-server
+    restart: always
+
   queue-server:
     image: 192.168.1.88:5000/server-queue
     networks:
@@ -173,21 +186,3 @@ services:
       - queue-server
     restart: always
 
-  zuul-server:
-    image: 192.168.1.88:5000/server-zuul
-    networks:
-      - demo-net
-    ports:
-      - 8000:8000
-    environment:
-      - EUREKA_HOST=eureka-server
-    depends_on:
-      - eureka-server
-      - config-server
-      - account-service
-      - product-service
-      - order-service
-      - payment-service
-      - delivery-service
-      - point-service
-    restart: always

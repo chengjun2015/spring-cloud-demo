@@ -25,5 +25,10 @@ spring:
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
 
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://localhost:9999/uaa/user
+
 logging:
   config: classpath:logback-spring.xml
