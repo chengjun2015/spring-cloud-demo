@@ -3,6 +3,9 @@ server:
 
 zuul:
   routes:
+    user:
+      path: /user/**
+      url: http://localhost:9999/uaa/user
     account-service:
       path: /accounts/**
       service-id: account-service
@@ -21,3 +24,21 @@ zuul:
     point-service:
       path: /points/**
       service-id: point-service
+
+security:
+  oauth2:
+    client:
+      client-id: acme
+      client-secret: acmesecret
+      access-token-uri: http://localhost:9999/uaa/oauth/token
+      user-authorization-uri: http://localhost:9999/uaa/oauth/authorize
+    resource:
+      user-info-uri: http://localhost:9999/uaa/user
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+
+spring:
+  aop:
+    proxy-target-class: true
