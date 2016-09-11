@@ -43,6 +43,13 @@ services:
       - config-server
     restart: always
 
+  oauth-server:
+    image: 192.168.1.88:5000/server-oauth
+    networks:
+      - demo-net
+    ports:
+      - 9999:9999
+
   queue-server:
     image: 192.168.1.88:5000/server-queue
     networks:
@@ -76,6 +83,19 @@ services:
     ports:
       - 8989:8989
       - 8990:8990
+    restart: always
+
+  workflow-service:
+    image: 192.168.1.88:5000/service-workflow
+    networks:
+      - demo-net
+    ports:
+      - 10100:10100
+    environment:
+      - MYSQL_HOST=192.168.1.88
+    depends_on:
+      - eureka-server
+      - config-server
     restart: always
 
   account-service:
