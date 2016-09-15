@@ -1,7 +1,8 @@
 package com.gavin.controller;
 
 import com.gavin.constant.ResponseCodeConsts;
-import com.gavin.domain.account.Address;
+
+import com.gavin.entity.Address;
 import com.gavin.model.request.account.CreateAddressReqModel;
 import com.gavin.model.response.Response;
 import com.gavin.service.AddressService;
@@ -28,7 +29,7 @@ public class AddressController {
     @RequestMapping(value = "/addresses", method = RequestMethod.POST)
     public Response<Address> createAddress(@Valid @RequestBody CreateAddressReqModel model) {
         Address address = new Address();
-        address.setAccountId(model.getAccountId());
+        address.setId(model.getAccountId());
         address.setConsignee(model.getConsignee());
         address.setPhoneNumber(model.getPhoneNumber());
         address.setCountry(model.getCountry());
@@ -36,7 +37,7 @@ public class AddressController {
         address.setCity(model.getCity());
         address.setZipCode(model.getZipCode());
         address.setAddressLine(model.getAddressLine());
-        address.setDefaultFlag(model.getDefaultFlag());
+        address.setDefaultFlag(1);
         address.setComment(model.getComment());
 
         addressService.createAddress(address);

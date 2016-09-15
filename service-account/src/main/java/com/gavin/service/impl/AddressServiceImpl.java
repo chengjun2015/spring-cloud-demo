@@ -1,20 +1,20 @@
 package com.gavin.service.impl;
 
-import com.gavin.dao.AddressDao;
-import com.gavin.domain.account.Address;
+import com.gavin.entity.Address;
+import com.gavin.repository.AddressRepository;
 import com.gavin.service.AddressService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
-@Service("addressService")
+@Service
 public class AddressServiceImpl implements AddressService {
 
     @Resource
-    private AddressDao addressDao;
+    private AddressRepository addressRepository;
 
     @Override
     public void createAddress(Address address) {
-        addressDao.create(address);
+        addressRepository.save(address);
     }
 }

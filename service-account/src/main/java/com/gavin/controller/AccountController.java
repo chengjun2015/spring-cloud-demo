@@ -1,7 +1,7 @@
 package com.gavin.controller;
 
 import com.gavin.constant.ResponseCodeConsts;
-import com.gavin.domain.account.Account;
+import com.gavin.entity.Account;
 import com.gavin.model.RestResult;
 import com.gavin.model.request.account.CreateAccountReqModel;
 import com.gavin.model.response.Response;
@@ -57,12 +57,17 @@ public class AccountController {
         return response;
     }
 
+    //    @ApiOperation(value = "根据账户ID查询账户信息", response = Response.class)
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(paramType = "path", name = "account_id", dataType = "Long", required = true, value = "账户ID")
+//    })
     @RequestMapping(value = "/{account_id}", method = RequestMethod.GET)
     public Response<Account> searchAccountById(@PathVariable("account_id") Long accountId) {
         Account account = accountService.searchAccountByAccountId(accountId);
 
         Response<Account> response = new Response(ResponseCodeConsts.CODE_ACCOUNT_NORMAL);
         response.setData(account);
+
         return response;
     }
 
@@ -71,7 +76,7 @@ public class AccountController {
         Account account = accountService.searchAccountByAccountId(accountId);
 
         AccountDetailModel model = new AccountDetailModel();
-        model.setAccount(account);
+        //model.setAccount(account);
 
         RestResult<BigDecimal> restResult = accountService.queryBalance(accountId);
         if (restResult.isFallback()) {

@@ -21,9 +21,19 @@ spring:
   sleuth:
     sampler:
       percentage: 1
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
 
-mybatis:
-  mapper-locations: classpath:mybatis/mapper/*.xml
+#mybatis:
+#  mapper-locations: classpath:mybatis/mapper/*.xml
 
 security:
   oauth2:

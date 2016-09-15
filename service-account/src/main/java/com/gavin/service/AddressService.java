@@ -1,6 +1,6 @@
 package com.gavin.service;
 
-import com.gavin.domain.account.Address;
+import com.gavin.entity.Address;
 
 public interface AddressService {
 
