@@ -7,12 +7,12 @@ security:
     name: gavin
     password: gavin
   sessions: if_required
-  oauth2:
-    client:
-      client-id: acme
-      client-secret: acmesecret
-      authorized-grant-types: authorization_code,refresh_token,password,client_credentials
-      scope: server
+#  oauth2:
+#    client:
+#      client-id: acme
+#      client-secret: acmesecret
+#      authorized-grant-types: authorization_code,refresh_token,password,client_credentials
+#      scope: server
 
 spring:
   datasource:
