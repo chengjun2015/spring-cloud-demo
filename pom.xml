@@ -13,7 +13,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.4.0.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
 
     <modules>
@@ -24,6 +24,7 @@
         <module>server-queue</module>
         <module>server-zipkin</module>
         <module>server-hystrix</module>
+        <module>service-workflow</module>
         <module>service-account</module>
         <module>service-product</module>
         <module>service-order</module>
@@ -41,6 +42,9 @@
         <hibernate.validator.version>5.2.4.Final</hibernate.validator.version>
         <logstash.version>4.7</logstash.version>
         <spotify.version>0.4.11</spotify.version>
+        <activiti.version>5.21.0</activiti.version>
+        <swagger.version>2.5.0</swagger.version>
+        <lombok.version>1.16.10</lombok.version>
 
         <registry.host>192.168.1.88</registry.host>
         <registry.port>5000</registry.port>
