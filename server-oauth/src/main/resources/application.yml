@@ -1,12 +1,12 @@
 server:
   port: 9999
-  context-path: /uaa
+#  context-path: /uaa
 
-security:
-  user:
-    name: gavin
-    password: gavin
-  sessions: if_required
+#security:
+#  user:
+#    name: gavin
+#    password: gavin
+#
 #  oauth2:
 #    client:
 #      client-id: acme
@@ -18,12 +18,9 @@ spring:
   datasource:
     type: org.apache.commons.dbcp2.BasicDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/schema_user
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/schema_auth
     username: root
     password: root
-
-mybatis:
-  mapper-locations: classpath:mybatis/mapper/*.xml
 
 logging:
   level:
