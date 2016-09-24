@@ -23,6 +23,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.antMatcher("/**").authorizeRequests() // all requests are protected by default
                 .antMatchers("/", "/login**", "/webjars/**").permitAll() // the home page and login endpoints are explicitly excluded
                 .anyRequest().authenticated() // all other endpoints require an authenticated user
+                .and()
+                .csrf().disable()
         ;
     }
 

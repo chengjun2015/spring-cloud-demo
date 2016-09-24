@@ -19,10 +19,8 @@ public class DemoUserDetails implements UserDetails {
 
     public DemoUserDetails(User user) {
         this.user = user;
-        user.getAuthorities().forEach(
-                authority -> {
-                    this.grantedAuthorities.add(new SimpleGrantedAuthority(authority.getAuthority()));
-                }
+        user.getUserAuthorities().forEach(
+                authority -> this.grantedAuthorities.add(new SimpleGrantedAuthority(authority.getAuthority().name()))
         );
     }
 

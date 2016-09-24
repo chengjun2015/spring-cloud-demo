@@ -3,10 +3,12 @@ package com.gavin.entity;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,6 +21,7 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "user_name")
@@ -33,8 +36,8 @@ public class User implements Serializable {
     @Column(name = "mobile_phone")
     private String mobilePhone;
 
-    @OneToMany(mappedBy = "user")
-    private List<Authority> authorities;
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<UserAuthority> userAuthorities;
 
     @Column(name = "created_time")
     private Timestamp createdTime;
@@ -45,18 +48,25 @@ public class User implements Serializable {
     public User() {
     }
 
-    public Authority addAuthority(Authority authority) {
-        getAuthorities().add(authority);
-        authority.setUser(this);
+    public UserAuthority addUserAuthority(UserAuthority userAuthority) {
+        if (CollectionUtils.isEmpty(userAuthorities)) {
+            userAuthorities = new ArrayList<>();
+        }
+        getUserAuthorities().add(userAuthority);
+        userAuthority.setUser(this);
 
-        return authority;
+        return userAuthority;
     }
 
-    public Authority removeAuthority(Authority authority) {
-        getAuthorities().remove(authority);
-        authority.setUser(null);
+    public UserAuthority removeUserAuthority(UserAuthority userAuthority) {
+        getUserAuthorities().remove(userAuthority);
+        userAuthority.setUser(null);
 
-        return authority;
+        return userAuthority;
     }
 
+    @Override
+    public String toString() {
+        return userName;
+    }
 }
