@@ -20,8 +20,7 @@ public class UserController {
 
     @RequestMapping("/user")
     public String user(Principal principal) {
-        System.out.println(principal.getName());
-        System.out.println(principal.getClass());
+        System.out.println("--------" + principal.getName());
         return principal.getName();
     }
 

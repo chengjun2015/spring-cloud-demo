@@ -3,11 +3,9 @@ package com.gavin.service.impl;
 import com.gavin.entity.User;
 import com.gavin.entity.UserAuthority;
 import com.gavin.enums.AuthorityEnums;
+import com.gavin.exception.UsernameExistedException;
 import com.gavin.repository.UserRepository;
-import com.gavin.security.DemoUserDetails;
 import com.gavin.service.UserService;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,18 +18,12 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        System.out.println("searching user");
-        User user = userRepository.findByUserName(username).orElseThrow(
-                () -> new UsernameNotFoundException(username));
-
-        return new DemoUserDetails(user);
-    }
-
-    @Override
     @Transactional
     public void createUser(User user) {
+        if (null == userRepository.findByUserName(user.getUserName())) {
+            throw new UsernameExistedException("user name " + user.getUserName() + "is already existing. ");
+        }
+
         UserAuthority userAuthority = new UserAuthority();
         userAuthority.setAuthority(AuthorityEnums.AUTH_USER_WRITE);
         user.addUserAuthority(userAuthority);
