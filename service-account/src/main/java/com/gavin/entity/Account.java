@@ -1,6 +1,8 @@
 package com.gavin.entity;
 
+import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,6 +12,8 @@ import java.sql.Timestamp;
 @Table(name = "account")
 @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a")
 @DynamicInsert
+@DynamicUpdate
+@Data
 public class Account implements Serializable {
 
     @Id

@@ -3,6 +3,7 @@ package com.gavin.model.response.account;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gavin.domain.account.Account;
 
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 

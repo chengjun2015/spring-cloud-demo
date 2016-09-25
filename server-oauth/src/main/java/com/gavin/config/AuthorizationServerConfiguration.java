@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
@@ -81,12 +82,12 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         ;
     }
 
-//    @Override
-//    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-//        security
-//                .tokenKeyAccess("permitAll()")
-//                .checkTokenAccess("isAuthenticated()");
-//    }
+    @Override
+    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+        security
+                .tokenKeyAccess("permitAll()")
+                .checkTokenAccess("isAuthenticated()");
+    }
 
     @Bean
     public TokenStore tokenStore() {
@@ -108,6 +109,4 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     public AuthorizationCodeServices authorizationCodeServices() {
         return new JdbcAuthorizationCodeServices(dataSource);
     }
-
-
 }

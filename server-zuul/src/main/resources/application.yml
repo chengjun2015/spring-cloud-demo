@@ -3,9 +3,6 @@ server:
 
 zuul:
   routes:
-    user:
-      path: /user/**
-      url: http://localhost:9999/uaa/user
     account-service:
       path: /accounts/**
       service-id: account-service
@@ -28,12 +25,13 @@ zuul:
 security:
   oauth2:
     client:
+      access-token-uri: http://localhost:9999/oauth/token
+      user-authorization-uri: http://localhost:9999/oauth/authorize
       client-id: acme
       client-secret: acmesecret
-      access-token-uri: http://localhost:9999/uaa/oauth/token
-      user-authorization-uri: http://localhost:9999/uaa/oauth/authorize
     resource:
-      user-info-uri: http://localhost:9999/uaa/user
+      token-info-uri: http://localhost:9999/oauth/check_token
+      prefer-token-info: true
 
 logging:
   level:

@@ -1,4 +1,4 @@
-package com.gavin.security;
+package com.gavin.domain;
 
 import com.gavin.entity.User;
 import lombok.Data;

@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableRabbit
 @EnableCaching
-@EnableCircuitBreaker
 @EnableResourceServer
 @MapperScan("com.gavin.dao")
 public class ServiceDeliveryApplication {

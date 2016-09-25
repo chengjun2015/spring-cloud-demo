@@ -1,4 +1,4 @@
-FROM java:8
+FROM anapsix/alpine-java:8
 VOLUME /tmp
 ADD service-product-0.0.1-SNAPSHOT.jar app.jar
 RUN bash -c 'touch /app.jar'

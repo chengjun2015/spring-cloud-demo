@@ -10,19 +10,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.security.Principal;
 
 @RestController
 public class UserController {
 
     @Resource
     private UserService userService;
-
-    @RequestMapping("/user")
-    public String user(Principal principal) {
-        System.out.println("--------" + principal.getName());
-        return principal.getName();
-    }
 
     @PreAuthorize(value = "hasAuthority('AUTH_USER_WRITE')")
     @RequestMapping(value = "/users", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)

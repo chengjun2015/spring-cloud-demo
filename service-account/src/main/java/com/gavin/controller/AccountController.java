@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -30,6 +31,7 @@ public class AccountController {
     private AccountService accountService;
 
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PreAuthorize(value = "hasAuthority('AUTH_USER_WRITE')")
     public Response<Account> createAccount(@Valid @RequestBody CreateAccountReqModel model) {
         Account account = new Account();
         account.setNickName(model.getNickName());
@@ -57,11 +59,8 @@ public class AccountController {
         return response;
     }
 
-    //    @ApiOperation(value = "根据账户ID查询账户信息", response = Response.class)
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(paramType = "path", name = "account_id", dataType = "Long", required = true, value = "账户ID")
-//    })
     @RequestMapping(value = "/{account_id}", method = RequestMethod.GET)
+    @PreAuthorize(value = "hasAuthority('AUTH_USER_READ')")
     public Response<Account> searchAccountById(@PathVariable("account_id") Long accountId) {
         Account account = accountService.searchAccountByAccountId(accountId);
 

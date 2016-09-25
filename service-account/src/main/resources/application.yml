@@ -32,18 +32,25 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
 
-#mybatis:
-#  mapper-locations: classpath:mybatis/mapper/*.xml
-
 security:
   oauth2:
     client:
-      access-token-uri: http://localhost:9999/uaa/oauth/token
-      user-authorization-uri: http://localhost:9999/uaa/oauth/authorize
+      access-token-uri: http://localhost:9999/oauth/token
+      user-authorization-uri: http://localhost:9999/oauth/authorize
       client-id: acme
       client-secret: acmesecret
     resource:
-      user-info-uri: http://localhost:9999/uaa/user
+      #user-info-uri: http://localhost:9999/user
+      token-info-uri: http://localhost:9999/oauth/check_token
+      prefer-token-info: true
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
 
 logging:
   config: classpath:logback-spring.xml

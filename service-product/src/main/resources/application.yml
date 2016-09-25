@@ -32,3 +32,9 @@ security:
 
 logging:
   config: classpath:logback-spring.xml
+
+ribbon:
+  eureka:
+    enabled: true
+  ConnectTimeout: 600000
+  ReadTimeout: 600000

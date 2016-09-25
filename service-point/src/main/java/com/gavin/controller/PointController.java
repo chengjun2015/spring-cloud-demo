@@ -1,18 +1,19 @@
 package com.gavin.controller;
 
 import com.gavin.constant.ResponseCodeConsts;
-import com.gavin.domain.point.Point;
 import com.gavin.exception.account.PointException;
 import com.gavin.model.request.point.ConsumePointReqModel;
 import com.gavin.model.request.point.CreatePointReqModel;
 import com.gavin.model.request.point.FreezePointReqModel;
 import com.gavin.model.request.point.UnfreezePointReqModel;
 import com.gavin.model.response.Response;
+import com.gavin.domain.point.Point;
 import com.gavin.service.PointService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -43,6 +44,7 @@ public class PointController {
     }
 
     @RequestMapping(value = "/balance", method = RequestMethod.GET)
+    @PreAuthorize(value = "hasAuthority('AUTH_USER_READ')")
     public Response<BigDecimal> queryUsablePoints(@RequestParam("account_id") Long accountId) {
         BigDecimal pointsSum = pointService.calculateUsablePoints(accountId);
         logger.info("账户" + accountId + "内目前可用积分: " + pointsSum + "。");
