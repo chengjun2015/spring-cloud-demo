@@ -33,8 +33,20 @@ security:
       client-id: acme
       client-secret: acmesecret
     resource:
-      token-info-uri: http://localhost:9999/oauth/check_token
-      prefer-token-info: true
+      #user-info-uri: http://localhost:9999/user
+      #token-info-uri: http://localhost:9999/oauth/check_token
+      #prefer-token-info: true
+      jwt:
+        key-value:
+          -----BEGIN PUBLIC KEY-----
+          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA95D+tHhkjB9lrW4KA5yn
+          Lx68k0ouXWrlxkkRGzygk4eokMpZ2rZs0VzxQwhW5Pv+ag/uK9P4+8AjdW/WCld+
+          xgDwizl/yIQb6BrRA27LsFjgO3x8jfZI8/M4k0MFkDrOxG8tDTTEJPwV9U+dU8qh
+          r9QVqMPY/ZHogB9BrzDAMikFT9qqyNIy1f2CHTR6qXOFET62fh0Vzn25+w93tuZu
+          1r/rJxW3lWPnfLW+sqRhqf6hyOwqBH7X8tPkWsxss4G3RcWqjBLOgCRRZnHi1koJ
+          +Ai+sk2hdwmHNgcKcGYXCMzzjUgK7F54qvX1LpjG9wBbw72TDpo8wqNwRWif+Vw7
+          5QIDAQAB
+          -----END PUBLIC KEY-----
 
 logging:
   config: classpath:logback-spring.xml
