@@ -1,18 +1,9 @@
 server:
   port: 9999
-#  context-path: /uaa
+  context-path: /uaa # 此处必须设定，否则无法获得token。
 
 #security:
-#  user:
-#    name: gavin
-#    password: gavin
-#
-#  oauth2:
-#    client:
-#      client-id: acme
-#      client-secret: acmesecret
-#      authorized-grant-types: authorization_code,refresh_token,password,client_credentials
-#      scope: server
+#  ignored: /css/**,/js/**,/favicon.ico,/webjars/**
 
 spring:
   datasource:
@@ -21,6 +12,8 @@ spring:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/schema_auth
     username: root
     password: root
+  thymeleaf:
+    check-template-location: true
 
 logging:
   level:

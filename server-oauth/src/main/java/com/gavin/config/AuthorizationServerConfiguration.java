@@ -13,13 +13,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.approval.ApprovalStore;
-import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
@@ -34,11 +30,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     private DataSource dataSource;
 
     @Autowired
-    @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private TokenStore tokenStore;
 
     @Autowired
     @Qualifier("userDetailsService")
@@ -48,13 +40,16 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     private ClientDetailsService clientDetailsService;
 
     @Resource
-    private ApprovalStore approvalStore;
-
-    @Resource
     private AuthorizationCodeServices authorizationCodeServices;
 
     @Resource
     private JwtAccessTokenConverter jwtAccessTokenConverter;
+
+//    @Resource
+//    private ApprovalStore approvalStore;
+//
+//    @Autowired
+//    private TokenStore tokenStore;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -67,11 +62,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 //                .withClient("account-service")
 //                .secret("gavin")
 //                .authorizedGrantTypes("client_credentials", "refresh_token")
-//                .scopes("server")
-//                .and()
-//                .withClient("point-service")
-//                .secret("gavin")
-//                .authorizedGrantTypes("client_credentials", "refresh_token")
 //                .scopes("server");
 
         clients.withClientDetails(clientDetailsService);
@@ -80,12 +70,12 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
-                //.tokenStore(tokenStore)
                 .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService)
-                .approvalStore(approvalStore)
                 .authorizationCodeServices(authorizationCodeServices)
                 .accessTokenConverter(jwtAccessTokenConverter)
+//                .approvalStore(approvalStore)
+//                .tokenStore(tokenStore)
         ;
     }
 
@@ -96,20 +86,10 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .checkTokenAccess("isAuthenticated()");
     }
 
-    @Bean
-    public TokenStore tokenStore() {
-//        return new InMemoryTokenStore();
-        return new JdbcTokenStore(dataSource);
-    }
 
     @Bean
     public ClientDetailsService clientDetailsService() {
         return new JdbcClientDetailsService(dataSource);
-    }
-
-    @Bean
-    public ApprovalStore approvalStore() {
-        return new JdbcApprovalStore(dataSource);
     }
 
     @Bean
@@ -125,4 +105,16 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         converter.setKeyPair(keyStoreKeyFactory.getKeyPair("jwt"));
         return converter;
     }
+
+//    @Bean
+//    public TokenStore tokenStore() {
+//        return new InMemoryTokenStore();
+//        return new JdbcTokenStore(dataSource);
+//    }
+//
+//    @Bean
+//    public ApprovalStore approvalStore() {
+//        return new JdbcApprovalStore(dataSource);
+//    }
+
 }
