@@ -31,18 +31,12 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
 
 security:
   oauth2:
-    client:
-      access-token-uri: http://localhost:9999/oauth/token
-      user-authorization-uri: http://localhost:9999/oauth/authorize
-      client-id: acme
-      client-secret: acmesecret
     resource:
-      #user-info-uri: http://localhost:9999/user
-      #token-info-uri: http://localhost:9999/oauth/check_token
-      #prefer-token-info: true
       jwt:
         key-value:
           -----BEGIN PUBLIC KEY-----
