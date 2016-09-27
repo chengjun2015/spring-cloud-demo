@@ -3,14 +3,16 @@ package com.gavin.service.impl;
 import com.gavin.client.point.PointClient;
 import com.gavin.constant.CacheNameConsts;
 import com.gavin.constant.ResponseCodeConsts;
-import com.gavin.entity.Account;
+import com.gavin.entity.AccountEntity;
 import com.gavin.model.RestResult;
+import com.gavin.model.domain.account.AccountModel;
 import com.gavin.model.response.Response;
 import com.gavin.repository.AccountRepository;
 import com.gavin.service.AccountService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -32,8 +34,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public void createAccount(Account account) {
-        accountRepository.save(account);
+    public AccountEntity createAccount(AccountModel accountModel) {
+        AccountEntity accountEntity = new AccountEntity();
+        BeanUtils.copyProperties(accountModel, accountEntity);
+        return accountRepository.save(accountEntity);
     }
 
     @Override
@@ -45,9 +49,11 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Cacheable(cacheNames = CacheNameConsts.CACHE_ACCOUNTS_BY_ID, key = "#accountId")
-    public Account searchAccountByAccountId(Long accountId) {
-        Account account = accountRepository.findOne(accountId);
-        return account;
+    public AccountModel searchAccountByAccountId(Long accountId) {
+        AccountEntity accountEntity = accountRepository.findOne(accountId);
+        AccountModel accountModel = new AccountModel();
+        BeanUtils.copyProperties(accountEntity, accountModel);
+        return accountModel;
     }
 
     @Override

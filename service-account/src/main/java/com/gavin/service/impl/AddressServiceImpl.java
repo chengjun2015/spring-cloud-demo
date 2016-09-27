@@ -1,8 +1,10 @@
 package com.gavin.service.impl;
 
-import com.gavin.entity.Address;
+import com.gavin.entity.AddressEntity;
+import com.gavin.model.domain.account.AddressModel;
 import com.gavin.repository.AddressRepository;
 import com.gavin.service.AddressService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,7 +16,9 @@ public class AddressServiceImpl implements AddressService {
     private AddressRepository addressRepository;
 
     @Override
-    public void createAddress(Address address) {
-        addressRepository.save(address);
+    public AddressEntity createAddress(AddressModel addressModel) {
+        AddressEntity addressEntity = new AddressEntity();
+        BeanUtils.copyProperties(addressModel, addressEntity);
+        return addressRepository.save(addressEntity);
     }
 }

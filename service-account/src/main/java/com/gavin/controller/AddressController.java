@@ -1,51 +1,40 @@
 package com.gavin.controller;
 
 import com.gavin.constant.ResponseCodeConsts;
-
-import com.gavin.entity.Address;
-import com.gavin.model.request.account.CreateAddressReqModel;
+import com.gavin.entity.AddressEntity;
+import com.gavin.model.domain.account.AddressModel;
 import com.gavin.model.response.Response;
 import com.gavin.service.AddressService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 
 @RestController
 @RefreshScope
+@Slf4j
 public class AddressController {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    @Resource
+    @Autowired
     private AddressService addressService;
 
     @RequestMapping(value = "/addresses", method = RequestMethod.POST)
-    public Response<Address> createAddress(@Valid @RequestBody CreateAddressReqModel model) {
-        Address address = new Address();
-        address.setId(model.getAccountId());
-        address.setConsignee(model.getConsignee());
-        address.setPhoneNumber(model.getPhoneNumber());
-        address.setCountry(model.getCountry());
-        address.setProvince(model.getProvince());
-        address.setCity(model.getCity());
-        address.setZipCode(model.getZipCode());
-        address.setAddressLine(model.getAddressLine());
-        address.setDefaultFlag(1);
-        address.setComment(model.getComment());
+    public Response<AddressModel> createAddress(@Valid @RequestBody AddressModel model) {
+        AddressEntity addressEntity = addressService.createAddress(model);
+        log.info("地址信息登录成功: {}。" + model.getAddressLine());
 
-        addressService.createAddress(address);
-        logger.info("地址信息登录成功: " + address.getAddressLine() + "。");
+        AddressModel addressModel = new AddressModel();
+        BeanUtils.copyProperties(addressEntity, addressModel);
 
-        Response<Address> response = new Response(ResponseCodeConsts.CODE_ACCOUNT_NORMAL);
-        response.setMessage("地址" + address.getId() + "已创建。");
-        response.setData(address);
+        Response<AddressModel> response = new Response(ResponseCodeConsts.CODE_ACCOUNT_NORMAL);
+        response.setMessage("地址" + model.getId() + "已创建。");
+        response.setData(addressModel);
         return response;
     }
 }

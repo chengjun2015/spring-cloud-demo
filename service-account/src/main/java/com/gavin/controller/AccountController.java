@@ -1,58 +1,55 @@
 package com.gavin.controller;
 
 import com.gavin.constant.ResponseCodeConsts;
-import com.gavin.entity.Account;
+import com.gavin.entity.AccountEntity;
 import com.gavin.model.RestResult;
-import com.gavin.model.request.account.CreateAccountReqModel;
+import com.gavin.model.domain.account.AccountDetailModel;
+import com.gavin.model.domain.account.AccountModel;
 import com.gavin.model.response.Response;
-import com.gavin.model.response.account.AccountDetailModel;
 import com.gavin.service.AccountService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 
 @RestController
 @RefreshScope
+@Slf4j
 public class AccountController {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 //    @Value("${account.service.admin}")
 //    private String adminUser;
 
-    @Resource
+    @Autowired
     private AccountService accountService;
 
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize(value = "hasAuthority('AUTH_USER_WRITE')")
-    public Response<Account> createAccount(@Valid @RequestBody CreateAccountReqModel model) {
-        Account account = new Account();
-        account.setNickName(model.getNickName());
-        account.setPassword(model.getPassword());
-        account.setMobilePhone(model.getMobilePhone());
-        account.setEmail(model.getEmail());
+    public Response<AccountModel> createAccount(@Valid @RequestBody AccountModel model) {
 
-        accountService.createAccount(account);
-        Long accountId = account.getId();
-        logger.info("账号" + accountId + "已创建。");
+        AccountEntity accountEntity = accountService.createAccount(model);
+        Long accountId = accountEntity.getId();
+        log.info("帐号{}已创建。", accountId);
 
-        Response<Account> response = new Response(ResponseCodeConsts.CODE_ACCOUNT_NORMAL);
+        AccountModel accountModel = new AccountModel();
+        BeanUtils.copyProperties(accountEntity, accountModel);
+
+        Response<AccountModel> response = new Response(ResponseCodeConsts.CODE_ACCOUNT_NORMAL);
         response.setMessage("账号" + accountId + "已创建。");
-        response.setData(account);
+        response.setData(accountModel);
         return response;
     }
 
     @RequestMapping(value = "/{account_id}", method = RequestMethod.DELETE)
     public Response deleteAccount(@PathVariable("account_id") Long accountId) {
         accountService.deleteAccount(accountId);
-        logger.info("账号" + accountId + "已删除。");
+        log.info("帐号{}已删除。", accountId);
 
         Response response = new Response(ResponseCodeConsts.CODE_ACCOUNT_NORMAL);
         response.setMessage("账号" + accountId + "已删除。");
@@ -61,25 +58,25 @@ public class AccountController {
 
     @RequestMapping(value = "/{account_id}", method = RequestMethod.GET)
     @PreAuthorize(value = "hasAuthority('AUTH_USER_READ')")
-    public Response<Account> searchAccountById(@PathVariable("account_id") Long accountId) {
-        Account account = accountService.searchAccountByAccountId(accountId);
+    public Response<AccountModel> searchAccountById(@PathVariable("account_id") Long accountId) {
+        AccountModel accountModel = accountService.searchAccountByAccountId(accountId);
 
-        Response<Account> response = new Response(ResponseCodeConsts.CODE_ACCOUNT_NORMAL);
-        response.setData(account);
+        Response<AccountModel> response = new Response(ResponseCodeConsts.CODE_ACCOUNT_NORMAL);
+        response.setData(accountModel);
 
         return response;
     }
 
     @RequestMapping(value = "/{account_id}/detail", method = RequestMethod.GET)
     public Response<AccountDetailModel> queryAccountDetailById(@PathVariable("account_id") Long accountId) {
-        Account account = accountService.searchAccountByAccountId(accountId);
+        AccountModel accountModel = accountService.searchAccountByAccountId(accountId);
 
         AccountDetailModel model = new AccountDetailModel();
-        //model.setAccount(account);
+        model.setAccountModel(accountModel);
 
         RestResult<BigDecimal> restResult = accountService.queryBalance(accountId);
         if (restResult.isFallback()) {
-            logger.warn("调用point微服务失败。");
+            log.warn("调用point微服务失败。");
         } else {
             model.setPointsBalance(restResult.getData());
         }

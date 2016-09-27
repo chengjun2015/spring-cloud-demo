@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `account`
+-- Table structure for table `accountEntity`
 --
 
-DROP TABLE IF EXISTS `account`;
+DROP TABLE IF EXISTS `accountEntity`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `account` (
+CREATE TABLE `accountEntity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nick_name` varchar(10) NOT NULL,
   `password` varchar(45) NOT NULL,
@@ -35,13 +35,13 @@ CREATE TABLE `account` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `address`
+-- Table structure for table `addressEntity`
 --
 
-DROP TABLE IF EXISTS `address`;
+DROP TABLE IF EXISTS `addressEntity`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `address` (
+CREATE TABLE `addressEntity` (
   `id` bigint(11) NOT NULL AUTO_INCREMENT,
   `account_id` bigint(11) NOT NULL,
   `consignee` varchar(45) NOT NULL COMMENT '收货人姓名。',

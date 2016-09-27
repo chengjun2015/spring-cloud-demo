@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gavin.dao.AccountDao">
 
-    <insert id="create" parameterType="com.gavin.domain.account.Account">
+    <insert id="create" parameterType="com.gavin.model.domain.accountEntity.AccountModel">
         <selectKey resultType="java.lang.Long" keyProperty="id">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        INSERT INTO account (
+        INSERT INTO accountEntity (
             nick_name,
             password,
             mobile_phone,
@@ -24,11 +24,11 @@
     </insert>
 
     <delete id="delete" parameterType="java.lang.Long">
-        DELETE FROM account
+        DELETE FROM accountEntity
         WHERE id = ${accountId}
     </delete>
 
-    <select id="searchById" parameterType="java.lang.Long" resultType="com.gavin.domain.account.Account">
+    <select id="searchById" parameterType="java.lang.Long" resultType="com.gavin.model.domain.accountEntity.AccountModel">
         SELECT
             id            AS id,
             nick_name     AS nickName,
@@ -37,8 +37,8 @@
             email         AS email,
             created_time  AS createdTime,
             modified_time AS modifiedTime
-        FROM account
-        WHERE account.id = ${accountId}
+        FROM accountEntity
+        WHERE accountEntity.id = ${accountId}
     </select>
 
 </mapper>
