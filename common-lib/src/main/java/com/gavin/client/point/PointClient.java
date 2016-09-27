@@ -18,18 +18,18 @@ import java.math.BigDecimal;
 @FeignClient("point-service")
 public interface PointClient {
 
-    @RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/points", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     Response<Point> createPoints(@RequestBody CreatePointReqModel model);
 
-    @RequestMapping(value = "/balance", method = RequestMethod.GET)
+    @RequestMapping(value = "/points/balance", method = RequestMethod.GET)
     Response<BigDecimal> queryUsablePoints(@RequestParam("account_id") Long accountId);
 
-    @RequestMapping(value = "/freeze", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/points/freeze", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     Response reservePoints(@RequestBody FreezePointReqModel model);
 
-    @RequestMapping(value = "/unfreeze", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/points/unfreeze", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     Response unfreezePoints(@RequestBody UnfreezePointReqModel model);
 
-    @RequestMapping(value = "/consume", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/points/consume", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     Response consumePoints(@RequestBody ConsumePointReqModel model);
 }
