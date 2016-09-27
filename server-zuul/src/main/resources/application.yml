@@ -3,34 +3,39 @@ server:
 
 zuul:
   routes:
-    account-service:
+    accountEntity-service:
       path: /accounts/**
       service-id: account-service
+      strip-prefix: false
     product-service:
       path: /products/**
       service-id: product-service
+      strip-prefix: false
     order-service:
       path: /orders/**
       service-id: order-service
+      strip-prefix: false
     payment-service:
       path: /payments/**
       service-id: payment-service
+      strip-prefix: false
     delivery-service:
       path: /deliveries/**
       service-id: delivery-service
+      strip-prefix: false
     point-service:
       path: /points/**
       service-id: point-service
+      strip-prefix: false
 
 security:
-  basic:
-    enabled: false
   oauth2:
     client:
       client-id: acme
       client-secret: acmesecret
       access-token-uri: http://localhost:9999/uaa/oauth/token
       user-authorization-uri: http://localhost:9999/uaa/oauth/authorize
+      authentication-scheme: form
     resource:
       #user-info-uri: http://localhost:9999/user
       #token-info-uri: http://localhost:9999/oauth/check_token
