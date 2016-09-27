@@ -1,8 +1,8 @@
 package com.gavin.model.response.order;
 
 
-import com.gavin.domain.order.Item;
-import com.gavin.domain.order.Order;
+import com.gavin.model.domain.order.Item;
+import com.gavin.model.domain.order.Order;
 
 import java.io.Serializable;
 import java.util.List;

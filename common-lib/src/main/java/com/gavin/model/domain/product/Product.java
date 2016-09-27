@@ -1,4 +1,4 @@
-package com.gavin.domain.account;
+package com.gavin.model.domain.product;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -7,17 +7,19 @@ import java.io.Serializable;
 import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Account implements Serializable {
+public class Product implements Serializable {
 
     private Long id;
 
-    private String nickName;
+    private String title;
 
-    private String password;
+    private Long categoryId;
 
-    private String mobilePhone;
+    private Float price;
 
-    private String email;
+    private Integer stock;
+
+    private String comment;
 
     @JsonFormat(pattern = "yyyy/MM/dd hh:mm:ss")
     private Date createdTime;
@@ -33,36 +35,44 @@ public class Account implements Serializable {
         this.id = id;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getTitle() {
+        return title;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getPassword() {
-        return password;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public String getMobilePhone() {
-        return mobilePhone;
+    public Float getPrice() {
+        return price;
     }
 
-    public void setMobilePhone(String mobilePhone) {
-        this.mobilePhone = mobilePhone;
+    public void setPrice(Float price) {
+        this.price = price;
     }
 
-    public String getEmail() {
-        return email;
+    public Integer getStock() {
+        return stock;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public Date getCreatedTime() {

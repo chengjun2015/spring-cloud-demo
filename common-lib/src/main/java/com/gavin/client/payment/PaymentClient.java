@@ -1,6 +1,6 @@
 package com.gavin.client.payment;
 
-import com.gavin.domain.payment.Payment;
+import com.gavin.model.domain.payment.Payment;
 import com.gavin.model.request.payment.CreatePaymentReqModel;
 import com.gavin.model.response.Response;
 import org.springframework.cloud.netflix.feign.FeignClient;

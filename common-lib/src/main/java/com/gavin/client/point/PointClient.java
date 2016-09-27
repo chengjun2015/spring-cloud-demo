@@ -1,6 +1,6 @@
 package com.gavin.client.point;
 
-import com.gavin.domain.point.Point;
+import com.gavin.model.domain.point.Point;
 import com.gavin.model.request.point.ConsumePointReqModel;
 import com.gavin.model.request.point.CreatePointReqModel;
 import com.gavin.model.request.point.FreezePointReqModel;

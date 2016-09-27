@@ -1,4 +1,4 @@
-package com.gavin.domain.point;
+package com.gavin.model.domain.point;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;

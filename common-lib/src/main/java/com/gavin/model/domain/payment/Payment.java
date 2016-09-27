@@ -1,25 +1,27 @@
-package com.gavin.domain.delivery;
+package com.gavin.model.domain.payment;
+
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Delivery implements Serializable {
+public class Payment implements Serializable {
+
+    private Long id;
 
     private Long orderId;
 
     private Long accountId;
 
-    private Long addressId;
+    private BigDecimal amount;
 
-    private Integer status;
+    private Integer paymentMethod;
 
-    private Long carrierId;
-
-    private String trackingNumber;
+    private Boolean paidFlag;
 
     @JsonFormat(pattern = "yyyy/MM/dd hh:mm:ss")
     private Date createdTime;
@@ -28,7 +30,15 @@ public class Delivery implements Serializable {
     private Date modifiedTime;
 
     @JsonFormat(pattern = "yyyy/MM/dd hh:mm:ss")
-    private Date receiptTime;
+    private Date paidTime;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getOrderId() {
         return orderId;
@@ -46,36 +56,28 @@ public class Delivery implements Serializable {
         this.accountId = accountId;
     }
 
-    public Long getAddressId() {
-        return addressId;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public void setAddressId(Long addressId) {
-        this.addressId = addressId;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setPaymentMethod(Integer paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
-    public Long getCarrierId() {
-        return carrierId;
+    public Boolean getPaidFlag() {
+        return paidFlag;
     }
 
-    public void setCarrierId(Long carrierId) {
-        this.carrierId = carrierId;
-    }
-
-    public String getTrackingNumber() {
-        return trackingNumber;
-    }
-
-    public void setTrackingNumber(String trackingNumber) {
-        this.trackingNumber = trackingNumber;
+    public void setPaidFlag(Boolean paidFlag) {
+        this.paidFlag = paidFlag;
     }
 
     public Date getCreatedTime() {
@@ -94,11 +96,11 @@ public class Delivery implements Serializable {
         this.modifiedTime = modifiedTime;
     }
 
-    public Date getReceiptTime() {
-        return receiptTime;
+    public Date getPaidTime() {
+        return paidTime;
     }
 
-    public void setReceiptTime(Date receiptTime) {
-        this.receiptTime = receiptTime;
+    public void setPaidTime(Date paidTime) {
+        this.paidTime = paidTime;
     }
 }

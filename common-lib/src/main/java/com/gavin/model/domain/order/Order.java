@@ -1,4 +1,4 @@
-package com.gavin.domain.order;
+package com.gavin.model.domain.order;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;

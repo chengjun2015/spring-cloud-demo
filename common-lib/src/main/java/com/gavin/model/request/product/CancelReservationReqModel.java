@@ -1,7 +1,7 @@
 package com.gavin.model.request.product;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.gavin.domain.order.Item;
+import com.gavin.model.domain.order.Item;
 import lombok.Data;
 
 import javax.validation.Valid;

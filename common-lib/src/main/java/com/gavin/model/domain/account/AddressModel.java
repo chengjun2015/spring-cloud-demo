@@ -1,13 +1,17 @@
-package com.gavin.model.request.account;
+package com.gavin.model.domain.account;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
-public class CreateAddressReqModel implements Serializable {
+public class AddressModel implements Serializable {
+
+    private Long id;
 
     @JsonProperty("account_id")
     @NotNull(message = "account_id不能为空")
