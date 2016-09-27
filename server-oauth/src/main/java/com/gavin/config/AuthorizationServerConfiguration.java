@@ -13,6 +13,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.approval.ApprovalStore;
+import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
@@ -45,9 +47,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Resource
     private JwtAccessTokenConverter jwtAccessTokenConverter;
 
-//    @Resource
-//    private ApprovalStore approvalStore;
-//
+    @Resource
+    private ApprovalStore approvalStore;
+
 //    @Autowired
 //    private TokenStore tokenStore;
 
@@ -86,7 +88,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .checkTokenAccess("isAuthenticated()");
     }
 
-
     @Bean
     public ClientDetailsService clientDetailsService() {
         return new JdbcClientDetailsService(dataSource);
@@ -106,15 +107,15 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         return converter;
     }
 
-//    @Bean
+    //    @Bean
 //    public TokenStore tokenStore() {
 //        return new InMemoryTokenStore();
 //        return new JdbcTokenStore(dataSource);
 //    }
-//
-//    @Bean
-//    public ApprovalStore approvalStore() {
-//        return new JdbcApprovalStore(dataSource);
-//    }
+
+    @Bean
+    public ApprovalStore approvalStore() {
+        return new JdbcApprovalStore(dataSource);
+    }
 
 }

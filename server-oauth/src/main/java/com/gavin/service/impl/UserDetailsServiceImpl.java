@@ -1,8 +1,8 @@
 package com.gavin.service.impl;
 
+import com.gavin.domain.DemoUserDetails;
 import com.gavin.entity.User;
 import com.gavin.repository.UserRepository;
-import com.gavin.domain.DemoUserDetails;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
