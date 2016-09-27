@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gavin.dao.PointHistoryDao">
 
-    <insert id="create" parameterType="com.gavin.domain.point.PointHistory">
+    <insert id="create" parameterType="com.gavin.model.domain.point.PointHistory">
         <selectKey resultType="java.lang.Long" keyProperty="id">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -21,7 +21,7 @@
         )
     </insert>
 
-    <select id="searchByAccountId" resultType="com.gavin.domain.point.PointHistory">
+    <select id="searchByAccountId" resultType="com.gavin.model.domain.point.PointHistory">
         SELECT
             account_id   AS accountId,
             order_id     AS orderId,

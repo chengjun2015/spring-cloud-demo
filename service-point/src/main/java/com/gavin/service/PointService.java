@@ -1,6 +1,6 @@
 package com.gavin.service;
 
-import com.gavin.domain.point.Point;
+import com.gavin.model.domain.point.Point;
 
 import java.math.BigDecimal;
 

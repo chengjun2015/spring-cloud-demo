@@ -1,6 +1,6 @@
 package com.gavin.dao;
 
-import com.gavin.domain.point.Point;
+import com.gavin.model.domain.point.Point;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

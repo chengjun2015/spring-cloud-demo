@@ -2,8 +2,8 @@ package com.gavin.service.impl;
 
 import com.gavin.dao.PointDao;
 import com.gavin.dao.PointHistoryDao;
-import com.gavin.domain.point.Point;
-import com.gavin.domain.point.PointHistory;
+import com.gavin.model.domain.point.Point;
+import com.gavin.model.domain.point.PointHistory;
 import com.gavin.enums.PointActionEnums;
 import com.gavin.exception.account.PointException;
 import com.gavin.service.PointService;
