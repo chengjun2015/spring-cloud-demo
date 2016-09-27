@@ -29,7 +29,7 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/accounts", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize(value = "hasAuthority('AUTH_USER_WRITE')")
     public Response<AccountModel> createAccount(@Valid @RequestBody AccountModel model) {
 
@@ -46,7 +46,7 @@ public class AccountController {
         return response;
     }
 
-    @RequestMapping(value = "/{account_id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/accounts/{account_id}", method = RequestMethod.DELETE)
     public Response deleteAccount(@PathVariable("account_id") Long accountId) {
         accountService.deleteAccount(accountId);
         log.info("帐号{}已删除。", accountId);
@@ -56,7 +56,7 @@ public class AccountController {
         return response;
     }
 
-    @RequestMapping(value = "/{account_id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/accounts/{account_id}", method = RequestMethod.GET)
     @PreAuthorize(value = "hasAuthority('AUTH_USER_READ')")
     public Response<AccountModel> searchAccountById(@PathVariable("account_id") Long accountId) {
         AccountModel accountModel = accountService.searchAccountByAccountId(accountId);
@@ -67,7 +67,7 @@ public class AccountController {
         return response;
     }
 
-    @RequestMapping(value = "/{account_id}/detail", method = RequestMethod.GET)
+    @RequestMapping(value = "/accounts/{account_id}/detail", method = RequestMethod.GET)
     public Response<AccountDetailModel> queryAccountDetailById(@PathVariable("account_id") Long accountId) {
         AccountModel accountModel = accountService.searchAccountByAccountId(accountId);
 
